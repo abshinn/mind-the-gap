@@ -1,0 +1,4 @@
+*.csv
+*.zip
+*.py[co]
+*.sw[po]
