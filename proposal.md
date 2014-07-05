@@ -1,13 +1,13 @@
 Donors Choose Project Proposal
 ==============================
 
-Adam Shinn __July 1st, 2014__
+Adam Shinn __July 4th, 2014__
 
-### Supply gap modeling
+#### Supply gap modeling
 - One way to define project-supply-gap: period without any projects for a given school
 - Possible gap metric: Projects per month (or year) for a given school or district
 
-### Ideas
+#### Ideas
 - Which projects are most sucessful in areas with the highest poverty, and how does it compare to areas with little to no poverty?
 - Perform topic modeling on DonorsChoose project proposals to find phrases which are most successful.
 - Obtain school district revanues and state budget data, categorically describe schools by income need.
@@ -15,11 +15,13 @@ Adam Shinn __July 1st, 2014__
 
 ### High-level description
 
-[Donors Choose](http://donorschoose.org) is an organization that enables educators to crowdsource funds for classroom projects, helping to provide essential and enriching classroom projects for students all over the country.
+[Donors Choose](http://donorschoose.org) is an organization that enables educators to crowdsource funds for classroom projects, helping to provide essential and enriching classroom projects for students all over the country. The overaching goal of the project is to help provide insight and guidance to Donors Choose so that they may most effectively focus their resources on guiding teachers to create successfully-funded projects.
 
 </br>
 
 ### How are you presenting your work?
+
+In depth analysis will be presented in a well-formatted ipython notebook, and will be available on github. Additionally, I would like to visualize a subset of the findings in an interactive javascript D3 visualization.
 
 </br>
 
@@ -32,9 +34,7 @@ Adam Shinn __July 1st, 2014__
 DonorsChoose internal database, historical DonorsChoose data, as well as census and regional governmental data.
 
 </br>
-
-
-_____________________________
+</br>
 
 ## __From Zipfian Proposal Repo__:
 
