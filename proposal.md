@@ -1,17 +1,24 @@
 Donors Choose Project Proposal
 ==============================
 
-Adam Shinn __July 4th, 2014__
+Adam Shinn __July 5th, 2014__
 
-#### Supply gap modeling
-- One way to define project-supply-gap: period without any projects for a given school
-- Possible gap metric: Projects per month (or year) for a given school or district
+#### Supply gap modeling approaches
+- One way to define project-supply-gap: period without any projects for a given school.
+- Possible gap metric: Projects per month (or year) for a given school or district.
+- Time series analysis: `gap = True` if the number of projects is below its yearly moving-window-average.
 
-#### Ideas
+#### Thoughts
 - Which projects are most sucessful in areas with the highest poverty, and how does it compare to areas with little to no poverty?
 - Perform topic modeling on DonorsChoose project proposals to find phrases which are most successful.
 - Obtain school district revanues and state budget data, categorically describe schools by income need.
 - Compare distribution of essesntial versus enrichment projects from location to location.
+- How many schools still have yet to use DonorsChoose? Can we predict whether or not an area could use DonorsChoose in the future?
+- How has DonorsChoose evolved over time? -- In terms of project costs, donation size, success rate, school type, etc...
+- Is more data available on Teach For America teachers?
+- Do wealthier areas give more than impoverished areas?
+- Topic modeling on donor reason-for-giving description.
+- How has DonorsChoose been advertising? How can they advertise smarter?
 
 ### High-level description
 
@@ -31,8 +38,9 @@ In depth analysis will be presented in a well-formatted ipython notebook, and wi
 
 ### What are your data sources?
 
-DonorsChoose internal database, historical DonorsChoose data, as well as census and regional governmental data.
+The data sources include the DonorsChoose internal database, the National Center for Education Statistics (NCES), and census data. I have been given access to the DonorsChoose internal database which contains both current data as well as data from their thirteen-year history. The data from NCES contains state and federal financial information on each school and district.
 
+</br>
 </br>
 </br>
 
