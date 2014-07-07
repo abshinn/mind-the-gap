@@ -1,5 +1,6 @@
 DonorsChoose.org Project #1
 ===========================
+
 ### _Time-series Supply Analysis_ 
 
 Adam Shinn, July 6th, 2014 -- _preliminary proposal_
@@ -10,7 +11,7 @@ Adam Shinn, July 6th, 2014 -- _preliminary proposal_
 
 [Donors Choose](http://donorschoose.org) is an organization that enables educators to crowdsource funds for classroom projects, helping to provide essential and enriching classroom projects for students all over the country. The overaching goal of the project is to help provide insight and guidance to DonorsChoose.org so that they will be most effective when guiding teachers to create successfully-funded projects. DonorsChoose.org has been helping teachers for thirteen years. Their data contains information about donors as well as the project details proposed by the educators.
 
-The idea for project idea #1 is to use time-series analysis to indicate when there is a gap in the supply of projects, or when the amount of project proposals for a given school or district is below a rolling mean. Once these periods of low-activity are flagged as gaps in supply, I could then explore the following questions:
+The idea for project idea #1 is to use time-series analysis to indicate when there is a gap in the supply of projects, or when the amount of project proposals for a given school or district is below a rolling-mean. Once these periods of low-activity are flagged as gaps in supply, I could then explore the following questions:
 
 - When are teachers least likely to propose a project on DonorsChoose.org?
 - When are teachers most likely to propose projects, and do these times co-inside with school breaks or national holidays?
@@ -18,7 +19,7 @@ The idea for project idea #1 is to use time-series analysis to indicate when the
 - Is there a certain time of year when donors give the most?
 - Is there a difference in the supply of essential projects versus enrichment projects?
 - Is there a correlation between the supply of projects for a school district, and governmental revenue?
-- Given all the available data, is it possible to predict project supply gaps?
+- Given all the available data, is it possible to reasonably predict project supply gaps?
 
 </br>
 

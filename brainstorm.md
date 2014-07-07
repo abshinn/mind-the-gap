@@ -18,6 +18,11 @@ DonorsChoose.org Project Brainstorm
 - Topic modeling on donor reason-for-giving description.
 - How has DonorsChoose been advertising? How can they advertise smarter?
 
+</br>
+</br>
+
+________
+
 ## __From Zipfian Proposal Repo__:
 
 #### Preliminary-proposal
