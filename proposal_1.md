@@ -1,7 +1,10 @@
-DonorsChoose.org Project #1 _Time-series Supply Analysis_ 
+DonorsChoose.org Project #1
 ===========================
+### _Time-series Supply Analysis_ 
 
-Adam Shinn, _July 6th, 2014_ (_preliminary proposal_)
+Adam Shinn, July 6th, 2014 -- _preliminary proposal_
+
+</br>
 
 ### Description (high-level)
 
