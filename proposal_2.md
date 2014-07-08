@@ -7,7 +7,7 @@ Adam Shinn, July 6th, 2014 -- _preliminary proposal_
 
 </br>
 
-### Description (high-level)
+#### Description (high-level)
 
 [Donors Choose](http://donorschoose.org) is an organization that enables educators to crowdsource funds for classroom projects, helping to provide essential and enriching classroom projects for students all over the country. The overaching goal of the project is to help provide insight and guidance to DonorsChoose.org so that they will be most effective when guiding teachers to create successfully-funded projects. DonorsChoose.org has been helping teachers for thirteen years. Their data spans their thirteen-year history and contains information about donors as well as the project details proposed by the educators.
 
@@ -23,13 +23,13 @@ This tool could be also be used as outreach to target both current DonorsChoose 
 
 </br>
 
-### Presentation (how are you presenting your work?)
+#### Presentation (how are you presenting your work?)
 
 The analyses can be presented piece-wise in personal blog posts and in ipython notebooks available on github. Additionally, I would like to emphasize an interesting finding in an interactive javascript D3 plot. Or, if possible, I would like to create an infographic describing the differences between types of schools with the goal of informing DonorsChoose and educators to aid with project creation. Furthermore, DonorsChoose.org has a [blog](http://data.donorschoose.org/) in which I can showcase my findings.
 
 </br>
 
-### Approach (what is your next step?)
+#### Approach (what is your next step?)
 
 - Combine DonorsChoose, NCES, and Census data on schools and their communities.
 - Compute school cosine-similarity.
@@ -41,6 +41,6 @@ The analyses can be presented piece-wise in personal blog posts and in ipython n
 
 </br>
 
-### Data Sources
+#### Data Sources
 
 The data sources include the DonorsChoose internal database, the National Center for Education Statistics (NCES), and census data. I have been given access to the DonorsChoose internal database which contains both current data as well as data from their thirteen-year history. The data from NCES contains state and federal financial information on each school and district. United States Census data will add city-level demographic information to help further characterize the schools for a cosine similarity calculation.
