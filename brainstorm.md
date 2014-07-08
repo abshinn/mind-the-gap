@@ -1,12 +1,16 @@
 DonorsChoose.org Project Brainstorm
 ===================================
 
-#### Supply gap modeling approaches
+#### Supply Gap: Thoughts
 - One way to define project-supply-gap: period without any projects for a given school.
 - Possible gap metric: Projects per month (or year) for a given school or district.
 - Time series analysis: `gap = True` if the number of projects is below its yearly moving-window-average.
 
-#### Thoughts
+#### Recommender Project: Thoughts
+- Topic modeling on donor reason-for-giving description.
+- Be able to describe the local community for a given school.
+
+#### Random Thoughts
 - Which projects are most sucessful in areas with the highest poverty, and how does it compare to areas with little to no poverty?
 - Perform topic modeling on DonorsChoose project proposals to find phrases which are most successful.
 - Obtain school district revanues and state budget data, categorically describe schools by income need.
@@ -15,8 +19,9 @@ DonorsChoose.org Project Brainstorm
 - How has DonorsChoose evolved over time? -- In terms of project costs, donation size, success rate, school type, etc...
 - Is more data available on Teach For America teachers?
 - Do wealthier areas give more than impoverished areas?
-- Topic modeling on donor reason-for-giving description.
-- How has DonorsChoose been advertising? How can they advertise smarter?
+- How has DonorsChoose been advertising or conducting email outreach?
+- Project recommender for donors who want to help, but do not know where to help.
+- Local project recommender for donors: recommend projects to previous donors based on their donation history and proximity to schools in need. 
 
 </br>
 </br>
