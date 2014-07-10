@@ -22,6 +22,12 @@ DonorsChoose.org Project Brainstorm
 - How has DonorsChoose been advertising or conducting email outreach?
 - Project recommender for donors who want to help, but do not know where to help.
 - Local project recommender for donors: recommend projects to previous donors based on their donation history and proximity to schools in need. 
+- Time series: critical threshold before DonorsChoose becomes popular in a certain area
+- Project types per geographic region
+- Find communities by donation
+- Create measure of community spread for each school
+
+- See Carlo: can you be a data scientist
 
 </br>
 </br>
