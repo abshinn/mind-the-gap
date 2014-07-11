@@ -54,5 +54,5 @@ For the final proposal, you will pick one of your initial ideas and elaborate on
 1. Describe your techniques: break the data pipeline into portions and describe each one.
 2. Can you anticipate problems, what are they, do you need to overcome them now? How do you overcome them?
 3. How far do you anticipate to take the project in the allotted time frame? 
-4. Any other repos, libraries and other tools that you're considering using? Are you citing them? Are you acknowledging them for their contribution?
+4. Any other repos, libraries and other tools that you''re considering using? Are you citing them? Are you acknowledging them for their contribution?
 5. Do you have the dataset already? If not, what is involved in obtaining it?
