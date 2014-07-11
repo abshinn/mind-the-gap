@@ -20,7 +20,7 @@ Modular project, high-level details
    - Label schools as having a supply gap if their activity metric is below the mean, or some threshold.
 
 2) Explore whether there are any distinguishing factors that lead to a gap in the supply of projects
-   - Georgraphic location
+   - Geographic location
    - State/Federal funding
    - percent of students getting free or reduced lunch
 
@@ -46,19 +46,19 @@ Ideally, I would like to use an interactive js.d3 heat map to show gap locations
 
 #### Approach
 
-general plan:
+General plan:
 - flag a school as having a supply gap by having only a small amount of activity with DonorsChoose
 - how do I define activity, amount of proposed projects per year?
 - label as being a gap school if it is less than the mean, or first quartile of projects/year for all schools?
 - what biases will I be introducing if I just arbitrarily decide which schools have a gap in supply or not?
 - characterize schools that have supply gaps to those that do not with the following features:
-    * school reveneue
+    * school revenue
     * federal aid, e.g., free lunches
     * student body size
     * geographic location
 - how do these supply gap characteristics change over time?
 
-detailed plan:
+Detailed plan:
 - Combine DonorsChoose, NCES, and Census data on schools and their communities.
 - Compute school cosine-similarity.
 < perhaps use NMF? >
