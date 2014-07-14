@@ -2,4 +2,5 @@
 *.zip
 *.py[co]
 *.sw[po]
-data
+.ipynb_checkpoints/
+data/
