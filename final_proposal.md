@@ -3,7 +3,7 @@ Project Proposal: DonorsChoose.org
 
 </br>
 
-### _Mind the Supply Gap_
+### _Mind the Supply-Gap_
 
 Adam Shinn, July 10th, 2014
 
@@ -14,7 +14,7 @@ Adam Shinn, July 10th, 2014
 
 DonorsChoose.org has been helping teachers for thirteen years. Their data spans their thirteen-year history and contains information on donor transactions as well as the project details proposed by the educators.
 
-The plan for this project is to perform series of analyses to better understand why there are gaps in supply of projects to DonorsChoose and to present them in quantitatively meaningful ways. Based on the data compiled for the analyses, I hope to produce a data product that produces useful characteristics for any given school along with a D3 visualization that either highlights an interesting finding or showcases the data.
+The plan for this project is to perform a series of analyses to better understand why there are gaps in the supply of projects to DonorsChoose. Or, in other words, to determine whether there are any factors that contribute to a school being inactive on DonorsChoose. Based on the data compiled for the analyses, I hope to produce a data product that produces useful characteristics for any given school along with a D3 visualization that either highlights an interesting finding or showcases the data.
 
 ##### The question I will attempt to answer:
 How do school districts with a relatively low supply of projects differ from active DonorsChoose districts? Do they differ by:
@@ -26,8 +26,6 @@ How do school districts with a relatively low supply of projects differ from act
 - percent of Teach For America educators?
 - percent of essential versus enrichment projects?
 - type of projects?
-
-In other words, I am attempting to determine any limiting factors that contribute to the growth of DonorsChoose for any given school.
 
 </br>
 
@@ -72,11 +70,13 @@ I intend to present this project modularly, creating a series of personal blog p
 This project is not constrained by lack of data, or difficulty of obtaining data, but could fall victim to inconclusive findings. However, uninteresting or inconclusive analyses may still be of use to DonorsChoose and will still be a presentable and worthwhile project.
 
 ##### Time Constraint
-I plan to start with simple analyses and add complexity as time goes on. Worst case scenario, I will be able to present some kind of in-depth analysis and highlight on-going work at the end of two weeks.
+I plan to start with simple analyses and add complexity as time goes on. Worst case scenario, I will be able to present in-depth analysis and highlight on-going work at the end of two weeks.
 
 </br>
 
 ### Bias and Assumptions
-It is possible that arbitrarily choosing a threshold with which to determine a school has having a supply-gap may introduce unwanted bias. I will need to run the analyses with a range of thresholds to determine whether bias is introduced.
+For this project I make the assumption that there must be some socio-economic or financial reason as to why a school is inactive on DonorsChoose. If I find no correlation with DonorsChoose inactivity, then I can either explore other reasons why there are supply-gaps, or I can use descriptive statistics to characterize the activity of schools using DonorsChoose.
+
+It is possible that arbitrarily choosing a threshold with which to determine supply-gap schools may introduce unwanted bias. I will need to repeat the analysis using a range of different thresholds and check to see if results vary significantly.
 
 </br>
