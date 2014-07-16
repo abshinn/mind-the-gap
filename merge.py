@@ -9,7 +9,8 @@ import pdb
 def get_NCES_data(ids, columns=None):
     """step through NCES data and grab school stats for every Donors Choose NCESid"""
 
-    schooldf = pd.read_csv("data/school/sc111a_supp.txt", sep='\t', low_memory=False)
+    schooldf = pd.read_csv("data/school/sc111a_supp.txt", sep='\t', low_memory=False,
+                           na_values = [-1, -2, -9])
     schooldf.index = schooldf.pop("NCESSCH")
 
     outdf = schooldf.loc[ids].copy()
