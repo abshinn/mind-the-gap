@@ -1,23 +1,44 @@
 Project Checklist
 ===
 
+
 ### Week 1
 
+#### Monday
 - [x] Obtain Data
 - [x] Find state-level NCES financial statistics
 - [x] Find school-level NCES statistics and financial data
+
+#### Tuesday
 - [x] Merge DonorsChoose data with National Center for Education Statistics
+- [x] Try and recover schools that have been dropped for not having an _NCESid
+      * not an issue for 2011 at least: keep this in mind for using other years
 
-- [ ] Try and recover schools that have been dropped for not having an _NCESid
-      * not an issue for 2011 at least
-- [ ] 2011: Feature importance for school projects
+##### _assumptions introduced_
+- Grouping projects into year bins based on posted_data: Would it instead be better to go by school year?
 
+#### Wednesday and Thursday
+- [ ] 2011 School data:
+      * additional feature: school/district income?
+      * additional feature: median household income?
+      * compile matrix to train on
+      * look at correlations and scatterplot matrix
+      * regress on projects/school/teachers; determine most important features
+      * separate active schools versus inactive and re-run feature importance analysis 
+- [ ] State data:
+      * rank DonorsChoose success by state
+      * regress on success, find most important features
+
+##### _other blurbs_
 - [ ] Use a statistical argument for determining whether a school has a supply-gap or not
 - [ ] EDA of school activity on DonorsChoose
       * proportional to projects/teachers/year/school
-      * compare school groups that are one and two std below the yearly mean/metric
-      * Matplotlib US Map of supply gap locations
+      * compare school groups that are one and two standard deviations below the yearly mean/metric
+      * matplotlib US Map of supply gap locations
+
+#### Friday
 - [ ] Preliminary presentation
+
 
 ### Week 2
 
