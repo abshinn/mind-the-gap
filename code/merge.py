@@ -1,26 +1,50 @@
 #!/usr/bin/env python
-"""MERGE NCES DATA WITH DONORS CHOOSE"""
+"""Pull pertinent data from NCES tab delimited files"""
 
 import pandas as pd
 import numpy as np
-import pdb
+# import pdb
+
+
+def NCES_boolean(x):
+    if x == 1:
+        return True
+    elif x == 2:
+        return False
+    else:
+        return np.nan
 
 
 def get_NCES_schools(ids, columns=None):
-    """step through NCES data and grab school stats for every Donors Choose NCESid"""
+    """step through NCES CCD school data and grab school stats for every Donors Choose NCESid"""
 
+    # hard-code boolean columns
+    boolcolumns = ["STATUS", "TYPE", "RECONSTF", "CHARTR", "MAGNET", "TITLEI", "STITLI"]
+
+    # load-in NCES school data
     schooldf = pd.read_csv("data/school/sc111a_supp.txt", sep='\t', low_memory=False,
-                           na_values = [-1, -2, -9])
+                           na_values=[-1, -2, -9, 'M', 'N'])
+
     schooldf.index = schooldf.pop("NCESSCH")
 
-    outdf = schooldf.loc[ids].copy()
-    del schooldf # free from memory
-
     if columns:
-        return outdf[columns]
+        outdf = schooldf[columns].loc[ids].copy()
+        boolcolumns = [col for col in boolcolumns if col in columns]
     else:
-        return outdf
+        outdf = schooldf.loc[ids].copy()
 
+    # free from memory
+    # (this is step is probably unnecessary b/c it is already cleared from mem by exiting the namesapce)
+    del schooldf
+
+    for col in boolcolumns:
+        outdf[col] = outdf[col].apply(NCES_boolean)
+
+    return outdf
+
+
+def get_NCES_states():
+    pass
 
 # def merge():
 #     """output NCES school data for a given Donors Choose project data set"""
