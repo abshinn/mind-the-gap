@@ -15,8 +15,8 @@ def NCES_boolean(x):
         return np.nan
 
 
-def get_NCES_schools(ids, columns=None):
-    """step through NCES CCD school data and grab school stats for every Donors Choose NCESid"""
+def get_NCES_schools(_schoolids, columns=None):
+    """step through NCES CCD school data and grab school stats for every Donors Choose NCES school id"""
 
     # hard-code boolean columns
     boolcolumns = ["STATUS", "TYPE", "RECONSTF", "CHARTR", "MAGNET", "TITLEI", "STITLI"]
@@ -28,10 +28,10 @@ def get_NCES_schools(ids, columns=None):
     schooldf.index = schooldf.pop("NCESSCH")
 
     if columns:
-        outdf = schooldf[columns].loc[ids].copy()
+        outdf = schooldf[columns].loc[_schoolids].copy()
         boolcolumns = [col for col in boolcolumns if col in columns]
     else:
-        outdf = schooldf.loc[ids].copy()
+        outdf = schooldf.loc[_schoolids].copy()
 
     # free from memory
     # (this is step is probably unnecessary b/c it is already cleared from mem by exiting the namesapce)
@@ -43,8 +43,24 @@ def get_NCES_schools(ids, columns=None):
     return outdf
 
 
-def get_NCES_states():
-    pass
+def get_NCES_districts(_LEAids, columns=None):
+    """step through NCES CCD district data and grab school stats for every DonorsChoose NCES local education agency id (LEAid)"""
+
+    # hard-code boolean columns
+#     boolcolumns = ["STATUS", "TYPE", "RECONSTF", "CHARTR", "MAGNET", "TITLEI", "STITLI"]
+
+    # load-in NCES school data
+    districtdf = pd.read_csv("data/district/sdf11_1a.txt", index_col=0, sep='\t',
+                             na_values=[-1, -2, -9, 'M', 'N'])
+
+    if columns:
+        outdf = districtdf[columns].loc[_LEAids].copy()
+    else:
+        outdf = districtdf.loc[_LEAids].copy()
+
+    outdf = outdf.reset_index()
+    outdf.index = _LEAids.index
+    return outdf
 
 # def merge():
 #     """output NCES school data for a given Donors Choose project data set"""
