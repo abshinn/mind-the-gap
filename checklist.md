@@ -16,15 +16,16 @@ Project Checklist
 
 ##### _assumptions introduced_
 - Grouping projects into year bins based on posted_data: Would it instead be better to go by school year?
+  (Be careful with the distinction between fiscal and school years.)
 
 #### Wednesday and Thursday
 - [ ] 2011 School data:
-      * additional feature: school/district income?
-      * additional feature: median household income?
-      * compile matrix to train on
-      * look at correlations and scatterplot matrix
-      * regress on projects/school/teachers; determine most important features
-      * separate active schools versus inactive and re-run feature importance analysis 
+      * [x] additional feature: school/district income?
+      * [x] additional feature: median household income?
+      * [x] compile matrix to train on
+      * [x] look at correlations and scatterplot matrix
+      * [ ] regress on projects/school/teachers; determine most important features
+      * [ ] separate active schools versus inactive and re-run feature importance analysis 
 - [ ] State data:
       * rank DonorsChoose success by state
       * regress on success, find most important features
