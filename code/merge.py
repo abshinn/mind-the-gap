@@ -53,11 +53,16 @@ def get_NCES_districts(_LEAids, columns=None):
     districtdf = pd.read_csv("../data/district/sdf11_1a.txt", index_col=0, sep='\t',
                              low_memory=False, na_values=[-1, -2, -9, 'M', 'N'])
 
+
+    # make sure LEAIDs are integer values
+    districtdf.index = districtdf.index.astype(np.int)
+
     if columns:
         outdf = districtdf[columns].loc[_LEAids].copy()
     else:
         outdf = districtdf.loc[_LEAids].copy()
 
-    outdf = outdf.reset_index()
+#     outdf = districtdf[columns].loc[_LEAids].copy()
     outdf.index = _LEAids.index
+
     return outdf
