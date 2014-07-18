@@ -1,3 +1,5 @@
+eda/
+*.ipynb
 *.csv
 *.zip
 *.py[co]
