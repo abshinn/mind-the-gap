@@ -1,6 +1,9 @@
 Zipfian Capstone Project
 ===
 
+#### _current project direction_
+The idea is to be able to determine schools, districts, and US regions that can most benefit from DonorsChoose by creating a rating that describes schools as being most similar to the most active DonorsChoose schools.
+
 ## Project Checklist
 
 ### _Week 1_
@@ -24,19 +27,17 @@ Zipfian Capstone Project
       * [x] choose arbitrary labels with which to use a decision tree classifier to find most important features
       * [x] implement decision tree classifier to determine most important features
 
-#### Thursday-morning: feature importance
+#### Thursday
 - [x] 2011 School data
       * [x] run feature importance on a variety of different 'activity' thresholds
-- [x] Acquire district-level demographics
+- [x] Acquire district-level demographics (California)
+- [x] Make a modular pipeline for merging data sources
 
-#### Thursday-afternoon: similarity and recommendations
-The idea is to be able to determine schools, districts, and US regions that can most benefit from DonorsChoose by creating a rating that describes schools as being most similar to the most active DonorsChoose schools.
+#### Friday
 - [ ] Use entire NCES school data set with DonorsChoose project data to compute school similarity
       * similarity can be used to recommend new schools that are most similar to schools/areas with the highest activity
       * if not on the school level, perhaps on the district level, leveraging census demographic data
 - [ ] Put together slides on progress
-
-#### Friday
 - [ ] State-level data
       * [ ] rank DonorsChoose success by state
       * [ ] run classification and feature importance using wide range of financial data available
