@@ -34,7 +34,7 @@ The idea is to be able to determine schools, districts, and US regions that can 
 - [x] Make a modular pipeline for merging data sources
 
 #### Friday
-- [ ] Practice presentation, slides:
+- [x] Practice presentation, slides:
       * 1 slide: title
       * 1 slide: what is DonorsChoose?
       * 3 slides: project goal 
