@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python2.7 -B
 """ find most important feautures when classifying DonorsChoose activity """
 
 import pandas as pd
