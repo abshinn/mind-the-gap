@@ -34,15 +34,32 @@ The idea is to be able to determine schools, districts, and US regions that can 
 - [x] Make a modular pipeline for merging data sources
 
 #### Friday
+- [ ] Practice presentation, slides:
+      * 1 slide: title
+      * 1 slide: what is DonorsChoose?
+      * 3 slides: project goal 
+          - overarching goal
+          - histogram of projects/school
+          - specific goals
+      * 1 slide: what does the data look like?
+          - DonorsChoose project data
+          - NCES school demographics and federal aid programs
+          - NCES school district state, local and federal revenue
+          - NCES school expenditures
+          - Census demographic/economic information by school district
+      * 1 slide: methods
+          - cosine-similarity
+          - clustering?
+      * 1 slide: results
+          - find potential super-schools
+          - consequence: schools like you!
 - [ ] Use entire NCES school data set with DonorsChoose project data to compute school similarity
       * similarity can be used to recommend new schools that are most similar to schools/areas with the highest activity
       * if not on the school level, perhaps on the district level, leveraging census demographic data
-- [ ] Put together slides on progress
 - [ ] State-level data
       * [ ] rank DonorsChoose success by state
       * [ ] run classification and feature importance using wide range of financial data available
       * [ ] additional feature: median household income
-- [ ] Preliminary presentation
 
 
 ### _Week 2_
