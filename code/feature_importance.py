@@ -64,16 +64,25 @@ class Activity(object):
         # get NCES school data, choose columns
         NCES_schools = merge.get_NCES_schools(schools.index, 
                                               columns=["SURVYEAR", "LEAID",
-                                                       "FRELCH", "REDLCH", "TOTFRL", 
-                                                       "FTE", "ULOCAL", 
-                                                       "STATUS", "TYPE",
+#                                                        "FRELCH", "REDLCH",
+                                                       "TOTFRL", 
+                                                       "FTE",
+#                                                        "ULOCAL", 
+#                                                        "STATUS", "TYPE",
 #                                                        "RECONSTY", "RECONSTF", 
 #                                                        "CHARTR", "MAGNET",
-                                                       "MAGNET",
-                                                       "TITLEI", "STITLI", 
+#                                                        "MAGNET",
+#                                                        "TITLEI", "STITLI", 
                                                        "MEMBER", "TOTETH", 
                                                        "WHITE", "BLACK",
                                                         ])
+
+        NCES_schools["STratio"] = NCES_schools.MEMBER/NCES_schools.FTE
+
+        # turn student counts into percentages
+        NCES_schools["WHITE"] = NCES_schools.WHITE.astype(np.float)/NCES_schools.MEMBER
+        NCES_schools["BLACK"] = NCES_schools.BLACK.astype(np.float)/NCES_schools.MEMBER
+        NCES_schools["ETHpercent"] = NCES_schools.TOTETH.astype(np.float)/NCES_schools.MEMBER
 
         # get NCES district finance data                                                
         # note: there will be multiple entries for districts
@@ -92,19 +101,14 @@ class Activity(object):
         # merge all three datasets                                           
         data = pd.concat([schools, NCES_schools, NCES_districts], axis=1)
         length = len(data)
-        pdb.set_trace()
         data = data.dropna()
         print "\n[NaNs: dropped {} rows]".format(length - len(data))
 
-#         self.projects = data.pop("projects")
         self.data = data
 
-        # debug issue: column named index?
-        # debug issue: district data full of NaNs
 
-
-    def define_label(self, n_projects=1):
-        self.label = self.data.projects <= n_projects 
+    def define_label(self, n_projects=3):
+        self.label = self.data.projects >= n_projects 
         del self.data["projects"]
 
 
@@ -113,12 +117,19 @@ class Activity(object):
         print "\n[pearson coeffs...]"
 
         columns = ["percent_funded", "total_donations", "students_reached",
-                   "TOTFRL", "FRELCH", "REDLCH", "FTE", "TOTETH", 
+                   "TOTFRL", "STratio", "ETHpercent",
+#                    "FRELCH", "REDLCH", 
+                   "FTE", "TOTETH", 
                    "WHITE", "BLACK", "TOTALREV", "TSTREV", "TLOCREV", 
                    "TCAPOUT", "TOTALEXP"]
         temp = self.data[["projects", "MEMBER"] + columns].dropna()
+
+        pearson_list = []
         for column in columns:
-            print "[{:>8}] {:5.2f}".format( column, np.corrcoef(temp.projects, temp[column]/temp.MEMBER)[0,1] )
+            pearson_list.append(  ( np.corrcoef(temp.projects, temp[column]/temp.MEMBER)[0,1], column )  )
+
+        for p, name in sorted(pearson_list, key=lambda (p, name): p):
+            print "[{:5.2f}] {}".format(p, name)
 
 
     def importance(self):
