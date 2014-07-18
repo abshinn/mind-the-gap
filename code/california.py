@@ -92,7 +92,7 @@ def grab_census(LEA_id, columns=None):
 
 def combine_data():
     """ combine DonorsChoose, NCES, and census data """
-    print "[combine data...]"
+    print "[merging data...]"
 
     projects = grab_dcProjects()
     NCES = grab_NCES(projects.index)
@@ -104,7 +104,7 @@ def combine_data():
 
     census = grab_census(data.LEAID)
 
-    census.reset_index()
+    census = census.reset_index()
     # delete a few columns?
 
     data = pd.concat([data, census], axis=1)
