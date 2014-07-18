@@ -1,14 +1,16 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python2.7 -B
+""" explore area/school/district recommendation using California as a subset """
 
 import pandas as pd
 import numpy as np
 import pdb
 
-import merge # user-defined
+import merge
 
-def combine_data(self):
-    """ combine DonorsChoose project data, NCES district finance data, and census data """
-    print "[combining data...]"
+
+def grab_dcProjects(state = 'CA', year = 2011):
+    """ grab DonorsChoose Project data and return dataframe of schools """ 
+    print "[grab DonorsChoose data...]"
 
     # replace default column names with hard-coded short-names 
     columns = [u'essay_title', u'_projectid', u'date_completed', u'date_expired', u'funding_status', 
@@ -24,9 +26,8 @@ def combine_data(self):
     year_posted = df.date_posted.apply(lambda date: date.year)
     df["year_posted"] = year_posted
 
-    # only look at CA data from 2010
-    df = df[df.year_posted == 2010]
-    df2010 = df[df.state == 'CA'].copy()
+    df = df[df.year_posted == year]
+    df2010 = df[df.state == state].copy()
 
     # free from memory 
     del df
@@ -47,52 +48,71 @@ def combine_data(self):
     del schools['poverty_level']
     schools = pd.concat([schools, binary_poverty], axis=1)
 
-    # get NCES school data, choose columns
-    NCES_schools = merge.get_NCES_schools(schools.index, 
-                                          columns=["SURVYEAR", "LEAID",
-                                                   "FRELCH", "REDLCH",
-                                                   "TOTFRL", 
-#                                                    "FTE",
-#                                                      "ULOCAL", 
-#                                                      "STATUS", "TYPE",
-#                                                      "RECONSTY", "RECONSTF", 
-#                                                      "CHARTR", "MAGNET",
-#                                                      "MAGNET",
-#                                                      "TITLEI", "STITLI", 
-#                                                    "MEMBER", "TOTETH", 
-#                                                    "WHITE", "BLACK",
-                                                    ])
+    return schools
 
+
+def grab_NCES(school_ids):
+    """ grab NCES school information and NCES district finance data """
+    print "[grab NCES data...]"
+
+    NCES_schools = merge.get_NCES_schools(school_ids, columns=["SURVYEAR", "LEAID", "FTE", "FRELCH", "REDLCH", "TOTFRL", "MEMBER"])
+
+    # student-teacher ratio
     NCES_schools["STratio"] = NCES_schools.MEMBER/NCES_schools.FTE
 
-    # turn student counts into percentages
-    NCES_schools["WHITE"] = NCES_schools.WHITE.astype(np.float)/NCES_schools.MEMBER
-    NCES_schools["BLACK"] = NCES_schools.BLACK.astype(np.float)/NCES_schools.MEMBER
-    NCES_schools["ETHpercent"] = NCES_schools.TOTETH.astype(np.float)/NCES_schools.MEMBER
-
-    # get NCES district finance data                                                
+    # get NCES district revenue data                                                
     # note: there will be multiple entries for districts
-    NCES_districts = merge.get_NCES_districts(NCES_schools.LEAID, 
-                                              columns=["TOTALREV", "TFEDREV", 
-                                                       "TSTREV", "TLOCREV", 
-                                                       "TOTALEXP", "TCURSSVC",
-                                                       "TCAPOUT",
-                                                       "HR1", "HE1", "HE2",
-                                                       ])
+#     NCES_districts = merge.get_NCES_districts(NCES_schools.LEAID, 
+#                                               columns=["TOTALREV", "TFEDREV", 
+#                                                        "TSTREV", "TLOCREV", 
+#                                                        "TOTALEXP", "TCURSSVC",
+#                                                        "TCAPOUT",
+#                                                        "HR1", "HE1", "HE2",
+#                                                        ])
 
-    # remove unwanted columns for classification
-#     del NCES_schools["LEAID"]
-#     del NCES_schools["SURVYEAR"]
 
-    # merge all three datasets                                           
-    data = pd.concat([schools, NCES_schools, NCES_districts], axis=1)
-#     length = len(data)
-#     data = data.dropna()
-#     print "\n[NaNs: dropped {} rows]".format(length - len(data))
-# 
-#     self.data = data
-    pdb.set_trace() 
+#     NCESdf = pd.concat([NCES_schools, NCES_districts], axis=1)
+    NCESdf = NCES_schools
+
+    return NCESdf
+
+
+def grab_census(LEA_id, columns=None):
+    """ grab California census-by-district data """
+    print "[grab California census data...]"
+
     censusdf = pd.read_csv("../data/district/SDDS_School_Districts_California_Jul-17-2014.csv")
+    censusdf.index = censusdf.pop("NCES ID")
+
+    return censusdf.loc[LEA_id]
+
+    # drop the few schools who do not have a district id
+#     data = data.loc[data.LEAID.dropna().index]
+
+
+def combine_data():
+    """ combine DonorsChoose, NCES, and census data """
+    print "[combine data...]"
+
+    projects = grab_dcProjects()
+    NCES = grab_NCES(projects.index)
+
+    data = pd.concat([projects, NCES], axis = 1)
+
+    # drop rows without local education agency (school district) id
+    data = data.loc[data.LEAID.dropna().index]
+
+    census = grab_census(data.LEAID)
+
+    census.reset_index()
+    # delete a few columns?
+
+    data = pd.concat([data, census], axis=1)
+
+#     pdb.set_trace()
+
+    return data
+
 
 if __name__ == "__main__":
     combine_data()
