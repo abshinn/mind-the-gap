@@ -1,6 +1,9 @@
 #!/usr/bin/env python2.7 -B
 """Pull pertinent data from NCES tab delimited files"""
 
+import sys
+sys.dont_write_bytecode = True
+
 import pandas as pd
 import numpy as np
 # import pdb
