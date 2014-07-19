@@ -20,8 +20,7 @@ The idea is to be able to determine schools, districts, and US regions that can 
 
 #### Wednesday
 - [x] 2011 School data
-      * [x] additional feature: school/district income?
-      * [ ] additional feature: median household income from census?
+      * [x] get additional feature: school district revenue and expenditures
       * [x] compile matrix to train on
       * [x] look at correlations and scatterplot matrix
       * [x] choose arbitrary labels with which to use a decision tree classifier to find most important features
@@ -53,9 +52,12 @@ The idea is to be able to determine schools, districts, and US regions that can 
       * 1 slide: results
           - find potential super-schools
           - consequence: schools like you!
+
+#### Saturday
 - [ ] Use entire NCES school data set with DonorsChoose project data to compute school similarity
       * similarity can be used to recommend new schools that are most similar to schools/areas with the highest activity
       * if not on the school level, perhaps on the district level, leveraging census demographic data
+      * if time permits, recommend projects as well
 - [ ] State-level data
       * [ ] rank DonorsChoose success by state
       * [ ] run classification and feature importance using wide range of financial data available
