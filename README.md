@@ -54,13 +54,20 @@ The idea is to be able to determine schools, districts, and US regions that can 
           - consequence: schools like you!
 
 #### Saturday
-- [ ] Clean up data merging code
-- [ ] Prepare merged data for similarity calculation
-- [ ] Use DonorsChoose project data, NCES data, and Census data to compute school similarity of schools
+- [x] Clean up data merging code
+- [x] Prepare project data, NCES data, and Census data for cosine-similarity calculation
+- [x] Compute school cosine-similarity
       * start with California
+- [ ] Develop tools that check if the similarity calculation is working 
+- [ ] Kmeans clustering of schools
+
+
+##### _similarity brainstorm_
       * similarity can be used to recommend new schools that are most similar to schools/areas with the highest activity
       * if not on the school level, perhaps on the district level, leveraging census demographic data
       * if time permits, recommend projects as well
+      * how does the district-level data affect the similarity/cosine calculation
+
 
 #### Sunday
 - [ ] State-level data
