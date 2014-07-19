@@ -54,17 +54,24 @@ The idea is to be able to determine schools, districts, and US regions that can 
           - consequence: schools like you!
 
 #### Saturday
-- [ ] Use entire NCES school data set with DonorsChoose project data to compute school similarity
+- [ ] Clean up data merging code
+- [ ] Prepare merged data for similarity calculation
+- [ ] Use DonorsChoose project data, NCES data, and Census data to compute school similarity of schools
+      * start with California
       * similarity can be used to recommend new schools that are most similar to schools/areas with the highest activity
       * if not on the school level, perhaps on the district level, leveraging census demographic data
       * if time permits, recommend projects as well
+
+#### Sunday
 - [ ] State-level data
       * [ ] rank DonorsChoose success by state
       * [ ] run classification and feature importance using wide range of financial data available
       * [ ] additional feature: median household income
+- [ ] Rename repo to make it easier for Ryan to find on the Zipfian fork
 
 
 ### _Week 2_
 
 - [ ] Make pretty plots
+- [ ] ?
 - [ ] Profit
