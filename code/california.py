@@ -1,6 +1,9 @@
 #!/usr/bin/env python2.7 -B
 """ explore area/school/district recommendation using California as a subset """
 
+import sys
+sys.dont_write_bytecode = True
+
 import pandas as pd
 import numpy as np
 import pdb
@@ -20,9 +23,9 @@ def grab_dcProjects(state = 'CA', year = 2011):
                u'longitude', u'teach_for_america', u'_teacherid', u'zip', u'_NCESid', u'resource_type', u'county']
 
     df = pd.read_csv("../data/looker_completed_projects_7_14_14.csv", skiprows=1, names=columns,
-                     parse_dates = ["date_posted", "date_completed", "date_expired"], low_memory=False,
+                     parse_dates=["date_posted", "date_completed", "date_expired"], low_memory=False,
                      true_values="Yes", false_values="No")
-
+    
     year_posted = df.date_posted.apply(lambda date: date.year)
     df["year_posted"] = year_posted
 
@@ -55,7 +58,7 @@ def grab_NCES(school_ids):
     """ grab NCES school information and NCES district finance data """
     print "[grab NCES data...]"
 
-    NCES_schools = merge.get_NCES_schools(school_ids, columns=["SURVYEAR", "LEAID", "FTE", "FRELCH", "REDLCH", "TOTFRL", "MEMBER"])
+    NCES_schools = merge.get_NCES_schools(school_ids, columns=["SURVYEAR", "LEAID", "FTE", "TOTFRL", "MEMBER"])
 
     # student-teacher ratio
     NCES_schools["STratio"] = NCES_schools.MEMBER/NCES_schools.FTE
@@ -69,7 +72,7 @@ def grab_NCES(school_ids):
 #                                                        "TCAPOUT",
 #                                                        "HR1", "HE1", "HE2",
 #                                                        ])
-
+ 
 
 #     NCESdf = pd.concat([NCES_schools, NCES_districts], axis=1)
     NCESdf = NCES_schools
@@ -86,30 +89,28 @@ def grab_census(LEA_id, columns=None):
 
     return censusdf.loc[LEA_id]
 
-    # drop the few schools who do not have a district id
-#     data = data.loc[data.LEAID.dropna().index]
-
 
 def combine_data():
     """ combine DonorsChoose, NCES, and census data """
-    print "[merging data...]"
+    print "merging data..."
 
     projects = grab_dcProjects()
     NCES = grab_NCES(projects.index)
 
     data = pd.concat([projects, NCES], axis = 1)
+    n_records = len(data)
 
     # drop rows without local education agency (school district) id
     data = data.loc[data.LEAID.dropna().index]
+    print "NaN indices: dropped {} schools".format(n_records - len(data))
 
     census = grab_census(data.LEAID)
 
     census = census.reset_index()
+    census.index = data.index
     # delete a few columns?
-
+   
     data = pd.concat([data, census], axis=1)
-
-#     pdb.set_trace()
 
     return data
 
