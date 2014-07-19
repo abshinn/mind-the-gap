@@ -9,11 +9,16 @@ import numpy as np
 import pdb
 
 import merge
+import similarity
 
+def grab_projects(state = "CA", year = 2011):
+    """
+    INPUT: kwargs state and year
+    OUTPUT: pandas dataframe
 
-def grab_dcProjects(state = 'CA', year = 2011):
-    """ grab DonorsChoose Project data and return dataframe of schools """ 
-    print "[grab DonorsChoose data...]"
+    grab DonorsChoose Project data and return dataframe of schools
+    """ 
+    print "[grab DonorsChoose project data...]"
 
     # replace default column names with hard-coded short-names 
     columns = [u'essay_title', u'_projectid', u'date_completed', u'date_expired', u'funding_status', 
@@ -55,7 +60,12 @@ def grab_dcProjects(state = 'CA', year = 2011):
 
 
 def grab_NCES(school_ids):
-    """ grab NCES school information and NCES district finance data """
+    """
+    INPUT: pandas series of NCES school ids
+    OUTPUT: pandas dataframe with index as the given series of school ids
+
+    grab NCES school information and NCES district finance data
+    """
     print "[grab NCES data...]"
 
     NCES_schools = merge.get_NCES_schools(school_ids, columns=["SURVYEAR", "LEAID", "FTE", "TOTFRL", "MEMBER"])
@@ -64,37 +74,46 @@ def grab_NCES(school_ids):
     NCES_schools["STratio"] = NCES_schools.MEMBER/NCES_schools.FTE
 
     # get NCES district revenue data                                                
-    # note: there will be multiple entries for districts
-#     NCES_districts = merge.get_NCES_districts(NCES_schools.LEAID, 
-#                                               columns=["TOTALREV", "TFEDREV", 
-#                                                        "TSTREV", "TLOCREV", 
-#                                                        "TOTALEXP", "TCURSSVC",
-#                                                        "TCAPOUT",
-#                                                        "HR1", "HE1", "HE2",
-#                                                        ])
+    NCES_districts = merge.get_NCES_districts(NCES_schools.LEAID, 
+                                              columns=["TOTALREV", "TFEDREV", 
+                                                       "TSTREV", "TLOCREV", 
+                                                       "TOTALEXP", "TCURSSVC",
+                                                       "TCAPOUT",
+                                                       "HR1", "HE1", "HE2",
+                                                       ])
  
 
-#     NCESdf = pd.concat([NCES_schools, NCES_districts], axis=1)
-    NCESdf = NCES_schools
+    NCESdf = pd.concat([NCES_schools, NCES_districts], axis=1)
 
     return NCESdf
 
 
 def grab_census(LEA_id, columns=None):
-    """ grab California census-by-district data """
+    """
+    INPUT: pandas series of local education agency ids
+    OUTPUT: pandas dataframe of census data with index as given series of LEA ids
+
+    grab California census-by-district data
+    """
     print "[grab California census data...]"
 
-    censusdf = pd.read_csv("../data/district/SDDS_School_Districts_California_Jul-17-2014.csv")
+    censusdf = pd.read_csv("../data/district/SDDS_School_Districts_California_Jul-17-2014.csv", na_values = ['null'])
     censusdf.index = censusdf.pop("NCES ID")
+
 
     return censusdf.loc[LEA_id]
 
 
 def combine_data():
-    """ combine DonorsChoose, NCES, and census data """
+    """
+    INPUT: None
+    OUTPUT: pandas dataframe
+
+    combine DonorsChoose, NCES, and census data
+    """
     print "merging data..."
 
-    projects = grab_dcProjects()
+    projects = grab_projects()
     NCES = grab_NCES(projects.index)
 
     data = pd.concat([projects, NCES], axis = 1)
@@ -102,11 +121,12 @@ def combine_data():
 
     # drop rows without local education agency (school district) id
     data = data.loc[data.LEAID.dropna().index]
-    print "NaN indices: dropped {} schools".format(n_records - len(data))
+    print "\tNaN indices: dropped {} schools".format(n_records - len(data))
 
     census = grab_census(data.LEAID)
 
     census = census.reset_index()
+    del census["index"]
     census.index = data.index
     # delete a few columns?
    
@@ -115,5 +135,18 @@ def combine_data():
     return data
 
 
+def main():
+    """
+    """
+    data = combine_data()
+
+    # prepare data for similarity calc
+    data.drop(["District Name", "State"], axis=1, inplace=True)
+    data[np.isnan(data)] = -1
+
+    sim = similarity.cos(data)
+    pdb.set_trace()
+
+
 if __name__ == "__main__":
-    combine_data()
+    main()
