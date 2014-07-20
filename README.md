@@ -58,8 +58,7 @@ The idea is to be able to determine schools, districts, and US regions that can 
 - [x] Prepare project data, NCES data, and Census data for cosine-similarity calculation
 - [x] Compute school cosine-similarity
   * start with California
-- [ ] Develop tools that check if the similarity calculation is working 
-- [ ] Kmeans clustering of schools
+- [x] Start to develop tools that check if the similarity calculation is working 
 
 
 ##### _similarity brainstorm_
@@ -68,12 +67,11 @@ The idea is to be able to determine schools, districts, and US regions that can 
   * if time permits, recommend projects as well
   * how does the district-level data affect the similarity/cosine calculation
 
-
 #### Sunday
+- [ ] Kmeans clustering of schools
 - [ ] State-level data
-  * [ ] rank DonorsChoose success by state
-  * [ ] run classification and feature importance using wide range of financial data available
-  * [ ] additional feature: median household income
+  * rank DonorsChoose success by state
+  * run classification and feature importance using wide range of financial data available
 - [ ] Rename repo to make it easier for Ryan to find on the Zipfian fork
 
 
