@@ -1,13 +1,10 @@
 """ calculate distance-similarity """
 
-import sys
-sys.dont_write_bytecode = True
-
 import pandas as pd
 import numpy as np
-# import pdb
 
 from scipy.spatial.distance import cosine
+
 
 def cos(dataframe):
     """
