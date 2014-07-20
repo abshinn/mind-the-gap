@@ -16,64 +16,64 @@ The idea is to be able to determine schools, districts, and US regions that can 
 #### Tuesday
 - [x] Merge DonorsChoose data with National Center for Education Statistics
 - [x] Try and recover schools that have been dropped for not having an \_NCESid
-      * not an issue for 2011 at least: keep this in mind for using other years
+  * not an issue for 2011 at least: keep this in mind for using other years
 
 #### Wednesday
 - [x] 2011 School data
-      * [x] get additional feature: school district revenue and expenditures
-      * [x] compile matrix to train on
-      * [x] look at correlations and scatterplot matrix
-      * [x] choose arbitrary labels with which to use a decision tree classifier to find most important features
-      * [x] implement decision tree classifier to determine most important features
+  * [x] get additional feature: school district revenue and expenditures
+  * [x] compile matrix to train on
+  * [x] look at correlations and scatterplot matrix
+  * [x] choose arbitrary labels with which to use a decision tree classifier to find most important features
+  * [x] implement decision tree classifier to determine most important features
 
 #### Thursday
 - [x] 2011 School data
-      * [x] run feature importance on a variety of different 'activity' thresholds
+  * [x] run feature importance on a variety of different 'activity' thresholds
 - [x] Acquire district-level demographics (California)
 - [x] Make a modular pipeline for merging data sources
 
 #### Friday
 - [x] Practice presentation, slides:
-      * 1 slide: title
-      * 1 slide: what is DonorsChoose?
-      * 3 slides: project goal 
-          - overarching goal
-          - histogram of projects/school
-          - specific goals
-      * 1 slide: what does the data look like?
-          - DonorsChoose project data
-          - NCES school demographics and federal aid programs
-          - NCES school district state, local and federal revenue
-          - NCES school expenditures
-          - Census demographic/economic information by school district
-      * 1 slide: methods
-          - cosine-similarity
-          - clustering?
-      * 1 slide: results
-          - find potential super-schools
-          - consequence: schools like you!
+  * 1 slide: title
+  * 1 slide: what is DonorsChoose?
+  * 3 slides: project goal 
+      - overarching goal
+      - histogram of projects/school
+      - specific goals
+  * 1 slide: what does the data look like?
+      - DonorsChoose project data
+      - NCES school demographics and federal aid programs
+      - NCES school district state, local and federal revenue
+      - NCES school expenditures
+      - Census demographic/economic information by school district
+  * 1 slide: methods
+      - cosine-similarity
+      - clustering?
+  * 1 slide: results
+      - find potential super-schools
+      - consequence: schools like you!
 
 #### Saturday
 - [x] Clean up data merging code
 - [x] Prepare project data, NCES data, and Census data for cosine-similarity calculation
 - [x] Compute school cosine-similarity
-      * start with California
+  * start with California
 - [ ] Develop tools that check if the similarity calculation is working 
 - [ ] Kmeans clustering of schools
 
 
 ##### _similarity brainstorm_
-      * similarity can be used to recommend new schools that are most similar to schools/areas with the highest activity
-      * if not on the school level, perhaps on the district level, leveraging census demographic data
-      * if time permits, recommend projects as well
-      * how does the district-level data affect the similarity/cosine calculation
+  * similarity can be used to recommend new schools that are most similar to schools/areas with the highest activity
+  * if not on the school level, perhaps on the district level, leveraging census demographic data
+  * if time permits, recommend projects as well
+  * how does the district-level data affect the similarity/cosine calculation
 
 
 #### Sunday
 - [ ] State-level data
-      * [ ] rank DonorsChoose success by state
-      * [ ] run classification and feature importance using wide range of financial data available
-      * [ ] additional feature: median household income
+  * [ ] rank DonorsChoose success by state
+  * [ ] run classification and feature importance using wide range of financial data available
+  * [ ] additional feature: median household income
 - [ ] Rename repo to make it easier for Ryan to find on the Zipfian fork
 
 
