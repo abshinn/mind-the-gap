@@ -2,7 +2,7 @@ Zipfian Capstone Project
 ===
 
 #### _current project direction_
-The idea is to be able to determine schools, districts, and US regions that can most benefit from DonorsChoose by creating a rating that describes schools as being most similar to the most active DonorsChoose schools.
+Determine which schools, districts, and US regions that can most benefit from DonorsChoose by creating a rating that describes schools as being most similar to the most active DonorsChoose schools.
 
 ## Project Checklist
 
@@ -37,42 +37,45 @@ The idea is to be able to determine schools, districts, and US regions that can 
   * 1 slide: title
   * 1 slide: what is DonorsChoose?
   * 3 slides: project goal 
-      - overarching goal
-      - histogram of projects/school
-      - specific goals
+    * overarching goal
+    * histogram of projects/school
+    * specific goals
   * 1 slide: what does the data look like?
-      - DonorsChoose project data
-      - NCES school demographics and federal aid programs
-      - NCES school district state, local and federal revenue
-      - NCES school expenditures
-      - Census demographic/economic information by school district
+    * DonorsChoose project data
+    * NCES school demographics and federal aid programs
+    * NCES school district state, local and federal revenue
+    * NCES school expenditures
+    * Census demographic/economic information by school district
   * 1 slide: methods
-      - cosine-similarity
-      - clustering?
+    * cosine-similarity
+    * clustering?
   * 1 slide: results
-      - find potential super-schools
-      - consequence: schools like you!
+    * find potential super-schools
+    * consequence: schools like you!
 
 #### Saturday
 - [x] Clean up data merging code
 - [x] Prepare project data, NCES data, and Census data for cosine-similarity calculation
-- [x] Compute school cosine-similarity
-  * start with California
-- [x] Start to develop tools that check if the similarity calculation is working 
-
-
-##### _similarity brainstorm_
-  * similarity can be used to recommend new schools that are most similar to schools/areas with the highest activity
-  * if not on the school level, perhaps on the district level, leveraging census demographic data
-  * if time permits, recommend projects as well
-  * how does the district-level data affect the similarity/cosine calculation
+- [x] Starting with California, compute school cosine-similarity
 
 #### Sunday
+- [ ] Write code that takes a school id or name and lists the most similar schools
+- [ ] Make-sense checks:
+  * Pick an arbitrary school, list most similar schools 
+  * Are active schools similar to one-another?
 - [ ] Kmeans clustering of schools
 - [ ] State-level data
   * rank DonorsChoose success by state
   * run classification and feature importance using wide range of financial data available
 - [ ] Rename repo to make it easier for Ryan to find on the Zipfian fork
+
+</br>
+###### _similarity brainstorm_
+- similarity can be used to recommend new schools that are most similar to schools/areas with the highest activity
+- if not on the school level, perhaps on the district level, leveraging census demographic data
+- if time permits, recommend projects as well
+- how does the district-level data affect the similarity/cosine calculation
+</br>
 
 
 ### _Week 2_
