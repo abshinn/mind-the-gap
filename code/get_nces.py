@@ -73,3 +73,23 @@ def districts(lea_ids, columns=None):
     outdf.index = lea_ids.index
 
     return outdf
+
+
+def all(school_ids):
+    """
+    INPUT: pandas series of NCES school ids
+    OUTPUT: pandas dataframe with index as the given series of school ids
+
+    grab both NCES school demographics and NCES district finance data
+    """
+    print "[grab NCES data...]"
+
+    columns = ["SCHNAM", "SURVYEAR", "LEAID", "FTE", "TOTFRL", "MEMBER", "ST_ratio"]
+    NCES_schools = get_nces.schools(school_ids, columns=columns)
+
+    columns = ["TOTALREV", "TFEDREV", "TSTREV", "TLOCREV", "TOTALEXP", "TCURSSVC", "TCAPOUT", "HR1", "HE1", "HE2"]
+    NCES_districts = get_nces.districts(NCES_schools.LEAID, columns=columns)
+
+    NCESdf = pd.concat([NCES_schools, NCES_districts], axis=1)
+
+    return NCESdf
