@@ -59,15 +59,24 @@ Determine which schools, districts, and US regions that can most benefit from Do
 - [x] Starting with California, compute school cosine-similarity
 
 #### Sunday
-- [ ] Write code that takes a school id or name and lists the most similar schools
-- [ ] Make-sense checks:
+- [x] Write code that takes a school id or name and lists the most similar schools
+- [x] Make-sense checks:
   * Pick an arbitrary school, list most similar schools 
   * Are active schools similar to one-another?
+- [x] Rename repo to make it easier to find forked repo on Zipfian github
+- [x] Create class to store similarity matrix with methods that operate on the matrix
+
+
+### _Week 2_
+
+#### Montag
 - [ ] Kmeans clustering of schools
 - [ ] State-level data
   * rank DonorsChoose success by state
   * run classification and feature importance using wide range of financial data available
-- [ ] Rename repo to make it easier for Ryan to find on the Zipfian fork
+- [ ] Make pretty plots
+- [ ] ?
+- [ ] Profit
 
 </br>
 ###### _similarity brainstorm_
@@ -75,11 +84,3 @@ Determine which schools, districts, and US regions that can most benefit from Do
 - if not on the school level, perhaps on the district level, leveraging census demographic data
 - if time permits, recommend projects as well
 - how does the district-level data affect the similarity/cosine calculation
-</br>
-
-
-### _Week 2_
-
-- [ ] Make pretty plots
-- [ ] ?
-- [ ] Profit
