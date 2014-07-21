@@ -11,17 +11,14 @@ import get_nces
 import get_census
 
 
-def combine_data():
+def data_prep():
     """
-    INPUT: None
-    OUTPUT: pandas dataframe
-
-    combine DonorsChoose, NCES, and census data
+    combine DonorsChoose, NCES, and census data for some data crunching
     """
     print "combine DonorsChoose, NCES, and Census data..."
 
     schools = get_donorschoose.schools()
-    NCES = get_NCES.all(schools.index)
+    NCES = get_nces.schools_and_districts(schools.index)
 
     data = pd.concat([schools, NCES], axis=1)
     n_records = len(data)
@@ -38,14 +35,16 @@ def combine_data():
    
     data = pd.concat([data, census], axis=1)
 
-    return data
+    # prepare data for similarity calc
+#     lookup = data[["SCHNAM", "District Name", "State"]].copy()
+#     data.drop(["SCHNAM", "District Name", "State", "SURVYEAR", "LEAID"], axis=1, inplace=True)
+    data.drop(["SURVYEAR", "LEAID"], axis=1, inplace=True)
+#     data[np.isnan(data)] = -1
+
+    return data 
 
 
 if __name__ == "__main__":
-    data = combine_data()
-
-    # prepare data for similarity calc
-    data.drop(["SCHNAM", "District Name", "State"], axis=1, inplace=True)
-    data[np.isnan(data)] = -1
-
-    sim = similarity.cos(data)
+    data = data_prep()
+    sim = similarity.simSchools(data, ref_columns=["SCHNAM", "District Name", "State"])
+    sim.most_similar(62271003323)
