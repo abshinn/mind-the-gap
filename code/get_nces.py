@@ -75,7 +75,7 @@ def districts(lea_ids, columns=None):
     return outdf
 
 
-def all(school_ids):
+def schools_and_districts(school_ids):
     """
     INPUT: pandas series of NCES school ids
     OUTPUT: pandas dataframe with index as the given series of school ids
@@ -85,10 +85,10 @@ def all(school_ids):
     print "[grab NCES data...]"
 
     columns = ["SCHNAM", "SURVYEAR", "LEAID", "FTE", "TOTFRL", "MEMBER", "ST_ratio"]
-    NCES_schools = get_nces.schools(school_ids, columns=columns)
+    NCES_schools = schools(school_ids, columns=columns)
 
     columns = ["TOTALREV", "TFEDREV", "TSTREV", "TLOCREV", "TOTALEXP", "TCURSSVC", "TCAPOUT", "HR1", "HE1", "HE2"]
-    NCES_districts = get_nces.districts(NCES_schools.LEAID, columns=columns)
+    NCES_districts = districts(NCES_schools.LEAID, columns=columns)
 
     NCESdf = pd.concat([NCES_schools, NCES_districts], axis=1)
 
