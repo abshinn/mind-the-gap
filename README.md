@@ -70,16 +70,26 @@ Determine which schools, districts, and US regions that can most benefit from Do
 ### _Week 2_
 
 #### Montag
-- [ ] Kmeans clustering of schools
-- [ ] State-level data
+- [ ] Use a measure of 'closeness' for each school and its most similar schools
+- [ ] Create a similarity matrix of DonorsChoose schools alone
+- [ ] Try creating a similarity matrix with NCES data alone - all schools in the US 
+- [ ] Find NCES poverty level metric
+- [ ] K-means clustering of schools
+- [ ] State-level data: an analysis notebook
   * rank DonorsChoose success by state
   * run classification and feature importance using wide range of financial data available
+  * most similar states
 - [ ] Make pretty plots
 - [ ] ?
 - [ ] Profit
 
 </br>
 ###### _similarity brainstorm_
+- recommendation goals:
+  * overall: recommend schools that would be most successful on DonorsChoose
+  * LDA on project essays for a given set of similar schools -or- list common project types?
+  * filter by schools who are already active
+  * filter by schools that need the most help
 - similarity can be used to recommend new schools that are most similar to schools/areas with the highest activity
 - if not on the school level, perhaps on the district level, leveraging census demographic data
 - if time permits, recommend projects as well
