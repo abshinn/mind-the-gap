@@ -33,7 +33,7 @@ def schools(_schoolids=None, columns=None):
     schooldf = pd.read_csv("../data/school/sc111a_supp.txt", sep='\t', 
                            low_memory=False,
 #                            na_values=[-1, -2, -9, 'M', 'N'])
-                           na_values=['M', 'N'])
+                           na_values=['M', 'N', 'R'])
 
     schooldf.index = schooldf.pop("NCESSCH")
 
@@ -54,9 +54,9 @@ def schools(_schoolids=None, columns=None):
     return outdf
 
 
-def districts(lea_ids, columns=None):
+def districts(lea_ids=None, columns=[]):
     """
-    INPUT: pandas series of local education agency ids indexed by NCES school ids
+    INPUT: pandas series of local education agency ids indexed by NCES school ids (optional)
            specific column names to include (optional)
     OUTPUT: pandas dataframe
 
@@ -65,19 +65,28 @@ def districts(lea_ids, columns=None):
 
     # load-in NCES school data
     districtdf = pd.read_csv("../data/district/sdf11_1a.txt", index_col=0, sep='\t',
-                             low_memory=False, na_values=[-1, -2, -9, 'M', 'N'])
+#                              low_memory=False, na_values=[-1, -2, -9, 'M', 'N', 'R'])
+                             low_memory=False, na_values=['M', 'N'])
 
+    # perhaps binarize GSLO and GSHI with pd.get_dummies
 
     # make sure LEAIDs are integer values
     districtdf.index = districtdf.index.astype(np.int)
 
-    if columns:
-        outdf = districtdf[columns].loc[lea_ids].copy()
-    else:
-        outdf = districtdf.loc[lea_ids].copy()
+    if lea_ids:
+        if columns:
+            outdf = districtdf[columns].loc[lea_ids].copy()
+        else:
+            outdf = districtdf.loc[lea_ids].copy()
 
-    # index by school_ids instead of lea_ids
-    outdf.index = lea_ids.index
+        # index by school_ids instead of lea_ids
+        outdf.index = lea_ids.index
+    else:
+        if columns:
+            outdf = districtdf[columns].copy()
+        else:
+            outdf = districtdf.copy()
+
 
     return outdf
 
