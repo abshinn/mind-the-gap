@@ -74,17 +74,21 @@ Determine which schools, districts, and US regions that can most benefit from Do
 ### _Week 2_
 
 #### Montag
-- [x] Determine the 'closest' features to two similar schools
+- [x] Determine the closest features to two similar schools by taking the difference of two normalized examples
 - [x] Create a similarity matrix of DonorsChoose schools alone
 - [x] Try creating a similarity matrix with NCES data alone - all schools in the US 
 
 #### Dienstag
+- [ ] Generalize feature importance code
+- [ ] Compute cosine similarity of NCES school districts using revenue features
+- [ ] Are the most successful DonorsChoose districts similar?
 - [ ] Find NCES poverty level metric
 - [ ] K-means clustering of schools
-- [ ] State-level data: an analysis notebook
+- [ ] State-level analysis notebook:
   * rank DonorsChoose success by state
   * run classification and feature importance using wide range of financial data available
-  * most similar states
+  * most financially similar states
+  * are most successful DonorsChoose states financially similar?
 
 #### Mittwoch
 #### Donnerstag
