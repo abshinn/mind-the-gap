@@ -80,7 +80,10 @@ Determine which schools, districts, and US regions that can most benefit from Do
 
 #### Dienstag
 _school/district recommendation_
-- [ ] Generalize feature importance code
+- [x] Generalize feature importance code
+- [ ] Normalize and replace NaNs with mean before cosine-similarity calculation
+- [ ] NCES data -- change datatypes to integer when appropriate
+- [ ] Look into NCES district CCDNF field and how that affects merging with NCES school data
 - [ ] Compute cosine similarity of NCES school districts using revenue features
 - [ ] Are the most successful DonorsChoose districts similar?
 - [ ] Find NCES poverty level metric
