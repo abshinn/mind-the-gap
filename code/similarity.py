@@ -2,6 +2,7 @@
 
 import pandas as pd
 import numpy as np
+import datetime as dt
 
 from scipy.spatial.distance import cosine
 
@@ -39,7 +40,7 @@ def matmultcos(dataframe):
     data = dataframe.values
 
     # base similarity matrix (all dot products)
-    # replace this with A.dot(A.T).todense() for sparse representation
+    # replace this with data.dot(data.T).todense() if sparce
     similar = np.dot(data, data.T)
     
     # squared magnitude of preference vectors (number of occurrences)
@@ -70,20 +71,36 @@ class simSchools(object):
     ref_columns -- list of column names to use for reference
     """
 
-    def __init__(self, data, ref_columns):
-        data["ref"] = np.arange( len(data) )
+    def __init__(self, data, ref_columns=[]):
+        data["ref"] = np.arange( len(data))
         ref_columns.append("ref")
         self.data = data
       
         calcdata = data.drop(ref_columns, axis=1)._get_numeric_data()
-        calcdata[np.isnan(calcdata)] = -1 # try keeping the NaNs at some point
+#         calcdata[np.isnan(calcdata)] = -1 # try keeping the NaNs at some point
+        self.numeric_data = calcdata
         self.sim = matmultcos( calcdata )
+
+    def closest_features(self, nces_ids):
+        """Given two school ids, determine the features that are most similar.
+        INPUT: list of two nces_ids of schools to compare closeness
+        OUTPUT:
+        """
+        data = self.numeric_data
+        norm = data/data.std(axis=0)
+        diff = (norm.loc[nces_ids[0]] - norm.loc[nces_ids[1]]).abs()
+        same = data.columns[diff.values == 0].values
+        diff = diff.dropna()
+        close = sorted(zip(diff.index, diff), key=lambda (col, sim): sim)
+        close = filter(lambda (col, sim): sim, close)
+        return same, close
 
     def lookup_index(self, nces_id):
         return self.data.loc[nces_id].ref
 
     def most_similar(self, nces_id, n=10):
-        most_sim_index = np.argsort(self.sim[self.lookup_index(nces_id),1:n+1])
+        most_sim_index = np.argsort(self.sim[self.lookup_index(nces_id),:])[0:n]
+#         print np.sort(self.sim[self.lookup_index(nces_id),:])[0:n]
         return self.data.iloc[most_sim_index]
 
     def __str__(self):
