@@ -79,20 +79,22 @@ Determine which schools, districts, and US regions that can most benefit from Do
 - [x] Try creating a similarity matrix with NCES data alone - all schools in the US 
 
 #### Dienstag
+_school/district recommendation_
 - [ ] Generalize feature importance code
 - [ ] Compute cosine similarity of NCES school districts using revenue features
 - [ ] Are the most successful DonorsChoose districts similar?
 - [ ] Find NCES poverty level metric
 - [ ] K-means clustering of schools
+
 - [ ] State-level analysis notebook:
   * rank DonorsChoose success by state
   * run classification and feature importance using wide range of financial data available
   * most financially similar states
   * are most successful DonorsChoose states financially similar?
 
-#### Mittwoch
-#### Donnerstag
-#### Freitag
+#### Mittwoch...
+#### Donnerstag...
+#### Freitag...
 
 </br>
 ###### _similarity brainstorm_
