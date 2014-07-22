@@ -1,6 +1,10 @@
 Zipfian Capstone Project
 ===
 
+- [x] Do data science
+- [ ] ?
+- [ ] Profit
+
 #### _current project direction_
 Determine which schools, districts, and US regions that can most benefit from DonorsChoose by creating a rating that describes schools as being most similar to the most active DonorsChoose schools.
 
@@ -70,18 +74,21 @@ Determine which schools, districts, and US regions that can most benefit from Do
 ### _Week 2_
 
 #### Montag
-- [ ] Use a measure of 'closeness' for each school and its most similar schools
-- [ ] Create a similarity matrix of DonorsChoose schools alone
-- [ ] Try creating a similarity matrix with NCES data alone - all schools in the US 
+- [x] Determine the 'closest' features to two similar schools
+- [x] Create a similarity matrix of DonorsChoose schools alone
+- [x] Try creating a similarity matrix with NCES data alone - all schools in the US 
+
+#### Dienstag
 - [ ] Find NCES poverty level metric
 - [ ] K-means clustering of schools
 - [ ] State-level data: an analysis notebook
   * rank DonorsChoose success by state
   * run classification and feature importance using wide range of financial data available
   * most similar states
-- [ ] Make pretty plots
-- [ ] ?
-- [ ] Profit
+
+#### Mittwoch
+#### Donnerstag
+#### Freitag
 
 </br>
 ###### _similarity brainstorm_
