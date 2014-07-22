@@ -14,7 +14,7 @@ def NCES_boolean(x):
         return np.nan
 
 
-def schools(_schoolids, columns=None):
+def schools(_schoolids=None, columns=None):
     """
     INPUT: pandas series of NCES school ids
            specific column names (optional)
@@ -24,25 +24,32 @@ def schools(_schoolids, columns=None):
     """
 
     # hard-code boolean columns
-    boolcolumns = ["STATUS", "TYPE", "RECONSTF", "CHARTR", "MAGNET", "TITLEI", "STITLI"]
+#     boolcolumns = ["BIES", "RECONSTF", "ISMEMPUP", "ISFTEPUP", "ISFTEPUP", "ISPFEMALE", "ISPWHITE", "ISPELM",
+#                    "PKOFFRD", "KGOFFRD", "G01OFFRD", "G02OFFRD", "G03OFFRD", "G04OFFRD", "G05OFFRD", "G06OFFRD", 
+#                    "G07OFFRD", "G08OFFRD", "G09OFFRD", "G10OFFRD", "G11OFFRD", "G12OFFRD", "UGOFFRD",
+#                    "CHARTR", "MAGNET", "TITLEI", "STITLI"]
 
     # load-in NCES school data 
     schooldf = pd.read_csv("../data/school/sc111a_supp.txt", sep='\t', 
                            low_memory=False,
-                           na_values=[-1, -2, -9, 'M', 'N'])
+#                            na_values=[-1, -2, -9, 'M', 'N'])
+                           na_values=['M', 'N'])
 
     schooldf.index = schooldf.pop("NCESSCH")
 
     # student-teacher ratio
     schooldf["ST_ratio"] = schooldf.MEMBER/schooldf.FTE
 
-    for column in boolcolumns:
-        schooldf[column] = schooldf[column].apply(NCES_boolean)
+#     for column in boolcolumns:
+#         schooldf[column] = schooldf[column].apply(NCES_boolean)
 
-    if columns:
-        outdf = schooldf[columns].loc[_schoolids].copy()
+    if _schoolids:
+        if columns:
+            outdf = schooldf[columns].loc[_schoolids].copy()
+        else:
+            outdf = schooldf.loc[_schoolids].copy()
     else:
-        outdf = schooldf.loc[_schoolids].copy()
+        outdf = schooldf.copy()
 
     return outdf
 
