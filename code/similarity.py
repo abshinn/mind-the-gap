@@ -5,6 +5,7 @@ import numpy as np
 import datetime as dt
 
 from scipy.spatial.distance import cosine
+from sklearn.preprocessing import normalize
 
 
 def cos(dataframe):
@@ -37,7 +38,9 @@ def matmultcos(dataframe):
 
     matrix multiplcation version of cosine similarity
     """
-    data = dataframe.values
+
+#     data = normalize(dataframe.values)
+    data = (dataframe.values - dataframe.values.mean(axis=0))/dataframe.values.std(axis=0)
 
     # base similarity matrix (all dot products)
     # replace this with data.dot(data.T).todense() if sparce
@@ -84,7 +87,9 @@ class simSchools(object):
     def closest_features(self, nces_ids):
         """Given two school ids, determine the features that are most similar.
         INPUT: list of two nces_ids of schools to compare closeness
-        OUTPUT:
+        OUTPUT: tuple
+                 same -- list of columns which are the same
+                close -- list of tuples of columns and their respective arbirtrary column-similarity metric
         """
         data = self.numeric_data
         norm = data/data.std(axis=0)
@@ -98,7 +103,7 @@ class simSchools(object):
     def lookup_index(self, nces_id):
         return self.data.loc[nces_id].ref
 
-    def most_similar(self, nces_id, n=10):
+    def most_similar(self, nces_id, n=None):
         most_sim_index = np.argsort(self.sim[self.lookup_index(nces_id),:])[0:n]
 #         print np.sort(self.sim[self.lookup_index(nces_id),:])[0:n]
         return self.data.iloc[most_sim_index]
