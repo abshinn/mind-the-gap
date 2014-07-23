@@ -14,7 +14,7 @@ def NCES_boolean(x):
         return np.nan
 
 
-def schools(_schoolids=None, columns=[]):
+def schools(_schoolids=None, columns=[], nonneg=False):
     """
     INPUT: pandas series of NCES school ids
            specific column names (optional)
@@ -29,11 +29,14 @@ def schools(_schoolids=None, columns=[]):
 #                    "G07OFFRD", "G08OFFRD", "G09OFFRD", "G10OFFRD", "G11OFFRD", "G12OFFRD", "UGOFFRD",
 #                    "CHARTR", "MAGNET", "TITLEI", "STITLI"]
 
+    na_values = ['M', 'N', 'R']
+
+    if nonneg:
+        na_values.extend([-1, -2, -9])
+
     # load-in NCES school data 
     schooldf = pd.read_csv("../data/school/sc111a_supp.txt", sep='\t', 
-                           low_memory=False,
-#                            na_values=[-1, -2, -9, 'M', 'N'])
-                           na_values=['M', 'N', 'R'])
+                           low_memory=False, na_values=na_values)
 
     schooldf.index = schooldf.pop("NCESSCH")
 
@@ -57,7 +60,7 @@ def schools(_schoolids=None, columns=[]):
     return outdf
 
 
-def districts(lea_ids=None, columns=[], state="", dropna=False):
+def districts(lea_ids=[], columns=[], state="", dropna=False, nonneg=False):
     """
     INPUT: pandas series of local education agency ids indexed by NCES school ids (optional)
            specific column names to include (optional)
@@ -66,10 +69,14 @@ def districts(lea_ids=None, columns=[], state="", dropna=False):
     step through NCES CCD district data and grab school stats for every DonorsChoose NCES local education agency id
     """
 
+    na_values = ['M', 'N', 'R']
+
+    if nonneg:
+        na_values.extend([-1, -2, -9])
+
     # load-in NCES school data
     districtdf = pd.read_csv("../data/district/sdf11_1a.txt", index_col=0, sep='\t',
-                             low_memory=False, na_values=[-1, -2, -9, 'M', 'N', 'R'])
-#                              low_memory=False, na_values=['M', 'N'])
+                             low_memory=False, na_values=na_values)
 
     # make sure LEAIDs are integer values
     districtdf.index = districtdf.index.astype(np.int)
@@ -77,7 +84,7 @@ def districts(lea_ids=None, columns=[], state="", dropna=False):
     if state:
         districtdf = districtdf[districtdf.STABBR == state] 
 
-    if lea_ids:
+    if type(lea_ids) == pd.core.series.Series:
         if columns:
             outdf = districtdf[columns].loc[lea_ids].copy()
         else:
@@ -93,12 +100,12 @@ def districts(lea_ids=None, columns=[], state="", dropna=False):
 
     # binarize GSLO and GSHI with pd.get_dummies
     # (add even if not specified on columns kwarg)
-    if lea_ids:
-        outdf = pd.concat([outdf, pd.get_dummies(districtdf.loc[lea_ids].GSLO, prefix="GSLO")], axis=1)
-        outdf = pd.concat([outdf, pd.get_dummies(districtdf.loc[lea_ids].GSHI, prefix="GSHI")], axis=1)
-    else:
-        outdf = pd.concat([outdf, pd.get_dummies(districtdf.GSLO, prefix="GSLO")], axis=1)
-        outdf = pd.concat([outdf, pd.get_dummies(districtdf.GSHI, prefix="GSHI")], axis=1)
+#     if type(lea_ids) == pd.core.series.Series:
+#         outdf = pd.concat([outdf, pd.get_dummies(districtdf.loc[lea_ids].GSLO, prefix="GSLO")], axis=1)
+#         outdf = pd.concat([outdf, pd.get_dummies(districtdf.loc[lea_ids].GSHI, prefix="GSHI")], axis=1)
+#     else:
+#         outdf = pd.concat([outdf, pd.get_dummies(districtdf.GSLO, prefix="GSLO")], axis=1)
+#         outdf = pd.concat([outdf, pd.get_dummies(districtdf.GSHI, prefix="GSHI")], axis=1)
 
     if dropna:
         outdf = outdf.dropna()
@@ -106,7 +113,7 @@ def districts(lea_ids=None, columns=[], state="", dropna=False):
     return outdf
 
 
-def schools_and_districts(school_ids):
+def schools_and_districts(school_ids, nonneg=False):
     """
     INPUT: pandas series of NCES school ids
     OUTPUT: pandas dataframe with index as the given series of school ids
@@ -116,10 +123,10 @@ def schools_and_districts(school_ids):
     print "[grab NCES data...]"
 
     columns = ["SCHNAM", "SURVYEAR", "LEAID", "FTE", "TOTFRL", "MEMBER", "ST_ratio"]
-    NCES_schools = schools(school_ids, columns=columns)
+    NCES_schools = schools(school_ids, columns=columns, nonneg=nonneg)
 
     columns = ["TOTALREV", "TFEDREV", "TSTREV", "TLOCREV", "TOTALEXP", "TCURSSVC", "TCAPOUT", "HR1", "HE1", "HE2"]
-    NCES_districts = districts(NCES_schools.LEAID, columns=columns)
+    NCES_districts = districts(NCES_schools.LEAID, columns=columns, nonneg=nonneg)
 
     NCESdf = pd.concat([NCES_schools, NCES_districts], axis=1)
 

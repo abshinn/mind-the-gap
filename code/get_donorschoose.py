@@ -38,7 +38,7 @@ def schools(state="", year=None):
 
     dflen = len(df)
     df = df[np.isfinite(df._NCESid)]
-    print "No NCESid: {} projects dropped".format(dflen - len(df))
+    print "\tNo NCESid: {}/{} projects dropped".format(dflen - len(df), dflen)
 
     df._NCESid = df._NCESid.astype(np.int)
 
@@ -49,6 +49,8 @@ def schools(state="", year=None):
                                          'funding_status': lambda S: np.sum(S != 'expired')/np.float(len(S)),
                                          'poverty_level': lambda S: S.iloc[0], # only take one
                                          })
+
+    print "\t{} schools".format(len(schools))
 
     # free from memory 
     del df

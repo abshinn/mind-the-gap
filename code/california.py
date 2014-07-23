@@ -17,8 +17,8 @@ def data_prep():
     """
     print "combine DonorsChoose, NCES, and Census data..."
 
-    schools = get_donorschoose.schools()
-    NCES = get_nces.schools_and_districts(schools.index)
+    schools = get_donorschoose.schools(state="CA", year=2011)
+    NCES = get_nces.schools_and_districts(schools.index, nonneg=True)
 
     data = pd.concat([schools, NCES], axis=1)
     n_records = len(data)
@@ -46,4 +46,3 @@ def data_prep():
 if __name__ == "__main__":
     data = data_prep()
     sim = similarity.simSchools(data, ref_columns=["SCHNAM", "District Name", "State"])
-#     sim.most_similar(62271003323)
