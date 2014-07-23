@@ -6,7 +6,7 @@ Zipfian Capstone Project
 - [ ] Profit
 
 #### _current project direction_
-Determine which schools, districts, and US regions that can most benefit from DonorsChoose by creating a rating that describes schools as being most similar to the most active DonorsChoose schools.
+Determine which schools, districts, and US regions that can most benefit from DonorsChoose by comparing their financial and demographic similarity to the most active DonorsChoose schools.
 
 ## Project Checklist
 
@@ -70,59 +70,62 @@ Determine which schools, districts, and US regions that can most benefit from Do
 - [x] Rename repo to make it easier to find forked repo on Zipfian github
 - [x] Create class to store similarity matrix with methods that operate on the matrix
 
+</br>
 
 ### _Week 2_
 
 #### Montag
 - [x] Determine the closest features to two similar schools by taking the difference of two normalized examples
 - [x] Create a similarity matrix of DonorsChoose schools alone
-- [x] Try creating a similarity matrix with NCES data alone - all schools in the US 
+- [x] Try creating a similarity matrix with NCES data alone - all schools in the US
 
 #### Dienstag
-_school/district recommendation_
 - [x] Generalize feature importance code
 - [x] Normalize and replace NaNs with the mean before cosine-similarity calculation
+- [x] Narrow down feature set for NCES data to make matrix multiplication less memory-intensive
 - [x] Compute cosine similarity of NCES school districts using revenue features
+
+#### Mittwoch
 - [ ] Answer questions:
   * Of the most successful DonorsChoose schools/districts, do any have missing NCES information?  
   * Are the most successful DonorsChoose districts similar?
-
-
-</br>
-- [ ] Find a NCES poverty level metric - if helpful
-- [ ] K-means clustering of schools
-- [ ] NCES data -- change datatype to integer when appropriate
-- [ ] Look into NCES district CCDNF field and how that affects merging with NCES school data
-
-
-</br>
 - [ ] Final Analysis/Recommendation Steps
   * Choose most successful (active) schools/districts by project activity
   * Compile list of similar districts to active districts
   * Find similar schools within candidate districts who are not yet active on DonorsChoose
   * In what ways are the suggested schools most similar? (Quantitatively)
-
+  * Which features are most important for school success and project activity?
 
 </br>
+
+###### _similarity brainstorm_
+- similarity can be used to recommend new schools that are most similar to schools/areas with the highest activity
+- start with district level, leveraging census demographic data, then find similar schools within candidate districts
+- if time permits, recommend projects as well
+- analysis goals:
+  * overall: recommend schools that would be most successful on DonorsChoose
+  * filter by schools who are already active
+  * filter by schools that need the most help
+  * LDA on project essays for a given set of similar schools -or- list common project types?
+
+</br>
+
+###### _possible methods_
+- [ ] Find a NCES poverty level metric - if helpful
+- [ ] K-means clustering of schools within candidate districts
+- [ ] NCES data -- change datatype to integer when appropriate
+- [ ] Look into NCES district CCDNF field and how that affects merging with NCES school data
+
+</br>
+
+###### _state-level exploratory analysis: potential D3-gold_
 - [ ] State-level exploratory data analysis:
   * rank DonorsChoose success by state
   * run classification and feature importance using wide range of financial data available
   * most financially similar states
   * are most successful DonorsChoose states financially similar?
 
-
 </br>
-#### Mittwoch...
+
 #### Donnerstag...
 #### Freitag...
-
-</br>
-###### _similarity brainstorm_
-- recommendation goals:
-  * overall: recommend schools that would be most successful on DonorsChoose
-  * LDA on project essays for a given set of similar schools -or- list common project types?
-  * filter by schools who are already active
-  * filter by schools that need the most help
-- similarity can be used to recommend new schools that are most similar to schools/areas with the highest activity
-- if not on the school level, perhaps on the district level, leveraging census demographic data
-- if time permits, recommend projects as well
