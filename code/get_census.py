@@ -4,7 +4,7 @@
 import pandas as pd
 
 
-def districts(LEA_id, columns=None):
+def districts(LEA_id, columns=None, drop_columns=[]):
     """
     INPUT: pandas series of local education agency ids
     OUTPUT: pandas dataframe of census data with index as given series of LEA ids
@@ -18,5 +18,8 @@ def districts(LEA_id, columns=None):
 
     if columns:
         censusdf = censusdf[columns]
+
+    if drop_columns:
+        censusdf = censusdf.drop(drop_columns)
 
     return censusdf.loc[LEA_id]
