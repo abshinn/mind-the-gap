@@ -81,15 +81,24 @@ Determine which schools, districts, and US regions that can most benefit from Do
 #### Dienstag
 _school/district recommendation_
 - [x] Generalize feature importance code
-- [ ] Normalize and replace NaNs with mean before cosine-similarity calculation
-- [ ] NCES data -- change datatypes to integer when appropriate
-- [ ] Look into NCES district CCDNF field and how that affects merging with NCES school data
-- [ ] Compute cosine similarity of NCES school districts using revenue features
-- [ ] Are the most successful DonorsChoose districts similar?
-- [ ] Find NCES poverty level metric
-- [ ] K-means clustering of schools
+- [x] Normalize and replace NaNs with the mean before cosine-similarity calculation
+- [x] Compute cosine similarity of NCES school districts using revenue features
+- [ ] Answer questions:
+  * Of the most successful DonorsChoose schools/districts, do any have missing NCES information?  
+  * Are the most successful DonorsChoose districts similar?
 
-- [ ] State-level analysis notebook:
+- [ ] Find a NCES poverty level metric - if helpful
+- [ ] K-means clustering of schools
+- [ ] NCES data -- change datatype to integer when appropriate
+- [ ] Look into NCES district CCDNF field and how that affects merging with NCES school data
+
+- [ ] Final Analysis/Recommendation Steps
+  * Choose most successful (active) schools/districts by project activity
+  * Compile list of similar districts to active districts
+  * Find similar schools within candidate districts who are not yet active on DonorsChoose
+  * In what ways are the suggested schools most similar? (Quantitatively)
+
+- [ ] State-level exploratory data analysis:
   * rank DonorsChoose success by state
   * run classification and feature importance using wide range of financial data available
   * most financially similar states
@@ -109,4 +118,3 @@ _school/district recommendation_
 - similarity can be used to recommend new schools that are most similar to schools/areas with the highest activity
 - if not on the school level, perhaps on the district level, leveraging census demographic data
 - if time permits, recommend projects as well
-- how does the district-level data affect the similarity/cosine calculation
