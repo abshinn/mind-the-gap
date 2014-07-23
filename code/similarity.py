@@ -2,16 +2,14 @@
 
 import pandas as pd
 import numpy as np
-import datetime as dt
 
-from scipy.spatial.distance import cosine
-from sklearn.preprocessing import normalize
+# from scipy.spatial.distance import cosine
 
 
 def cos(dataframe):
     """
     INPUT: pandas dataframe
-    OUTPUT: numpy square ndarray
+    OUTPUT: numpy square NDarray
 
     create a cosine similarity square matrix based on the rows of 'dataframe'
     """
@@ -34,13 +32,14 @@ def cos(dataframe):
 def matmultcos(dataframe):
     """
     INPUT: pandas dataframe
-    OUTPUT: numpy square ndarray
+    OUTPUT: numpy square NDarray
 
-    matrix multiplcation version of cosine similarity
+    matrix multiplication version of cosine similarity
     """
 
-#     data = normalize(dataframe.values)
+    # normalize and force NaNs to be 0 (mean value) so it won't affect the similarity calculation
     data = (dataframe.values - dataframe.values.mean(axis=0))/dataframe.values.std(axis=0)
+    data[np.isnan(data)] = 0.
 
     # base similarity matrix (all dot products)
     # replace this with data.dot(data.T).todense() if sparce
@@ -89,7 +88,7 @@ class simSchools(object):
         INPUT: list of two nces_ids of schools to compare closeness
         OUTPUT: tuple
                  same -- list of columns which are the same
-                close -- list of tuples of columns and their respective arbirtrary column-similarity metric
+                close -- list of tuples of columns and their respective arbitrary column-similarity metric
         """
         data = self.numeric_data
         norm = data/data.std(axis=0)
