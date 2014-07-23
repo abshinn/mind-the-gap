@@ -3,7 +3,6 @@
 
 import pandas as pd
 import numpy as np
-import pdb
 
 import similarity
 import get_donorschoose
@@ -12,8 +11,9 @@ import get_census
 
 
 def data_prep():
-    """
-    combine DonorsChoose, NCES, and census data for some data crunching
+    """Combine DonorsChoose, NCES, and census data for some data crunching.
+
+    OUTPUT: pandas dataframe
     """
     print "combine DonorsChoose, NCES, and Census data..."
 
@@ -35,11 +35,10 @@ def data_prep():
    
     data = pd.concat([data, census], axis=1)
 
-    # prepare data for similarity calc
-#     lookup = data[["SCHNAM", "District Name", "State"]].copy()
-#     data.drop(["SCHNAM", "District Name", "State", "SURVYEAR", "LEAID"], axis=1, inplace=True)
+    # note: non-numeric columns are automatically dropped before any calculation within simSchools
     data.drop(["SURVYEAR", "LEAID"], axis=1, inplace=True)
-#     data[np.isnan(data)] = -1
+
+#    data[np.isnan(data)] = -1
 
     return data 
 
@@ -47,4 +46,4 @@ def data_prep():
 if __name__ == "__main__":
     data = data_prep()
     sim = similarity.simSchools(data, ref_columns=["SCHNAM", "District Name", "State"])
-    sim.most_similar(62271003323)
+#     sim.most_similar(62271003323)
