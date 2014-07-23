@@ -14,7 +14,7 @@ def NCES_boolean(x):
         return np.nan
 
 
-def schools(_schoolids=None, columns=None):
+def schools(_schoolids=None, columns=[]):
     """
     INPUT: pandas series of NCES school ids
            specific column names (optional)
@@ -43,13 +43,16 @@ def schools(_schoolids=None, columns=None):
 #     for column in boolcolumns:
 #         schooldf[column] = schooldf[column].apply(NCES_boolean)
 
-    if _schoolids:
+    if _schoolids != None:
         if columns:
             outdf = schooldf[columns].loc[_schoolids].copy()
         else:
             outdf = schooldf.loc[_schoolids].copy()
     else:
-        outdf = schooldf.copy()
+        if columns:
+            outdf = schooldf[columns].copy()
+        else:
+            outdf = schooldf.copy()
 
     return outdf
 
@@ -67,10 +70,6 @@ def districts(lea_ids=None, columns=[], state="", dropna=False):
     districtdf = pd.read_csv("../data/district/sdf11_1a.txt", index_col=0, sep='\t',
                              low_memory=False, na_values=[-1, -2, -9, 'M', 'N', 'R'])
 #                              low_memory=False, na_values=['M', 'N'])
-
-    # binarize GSLO and GSHI with pd.get_dummies
-#     districtdf = pd.concat([districtdf, pd.get_dummies(districtdf.GSLO, prefix="GSLO")], axis=1)
-#     districtdf = pd.concat([districtdf, pd.get_dummies(districtdf.GSHI, prefix="GSHI")], axis=1)
 
     # make sure LEAIDs are integer values
     districtdf.index = districtdf.index.astype(np.int)
