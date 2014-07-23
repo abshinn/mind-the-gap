@@ -87,23 +87,31 @@ _school/district recommendation_
   * Of the most successful DonorsChoose schools/districts, do any have missing NCES information?  
   * Are the most successful DonorsChoose districts similar?
 
+
+</br>
 - [ ] Find a NCES poverty level metric - if helpful
 - [ ] K-means clustering of schools
 - [ ] NCES data -- change datatype to integer when appropriate
 - [ ] Look into NCES district CCDNF field and how that affects merging with NCES school data
 
+
+</br>
 - [ ] Final Analysis/Recommendation Steps
   * Choose most successful (active) schools/districts by project activity
   * Compile list of similar districts to active districts
   * Find similar schools within candidate districts who are not yet active on DonorsChoose
   * In what ways are the suggested schools most similar? (Quantitatively)
 
+
+</br>
 - [ ] State-level exploratory data analysis:
   * rank DonorsChoose success by state
   * run classification and feature importance using wide range of financial data available
   * most financially similar states
   * are most successful DonorsChoose states financially similar?
 
+
+</br>
 #### Mittwoch...
 #### Donnerstag...
 #### Freitag...
