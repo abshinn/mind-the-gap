@@ -54,7 +54,7 @@ def schools(_schoolids=None, columns=None):
     return outdf
 
 
-def districts(lea_ids=None, columns=[]):
+def districts(lea_ids=None, columns=[], state="", dropna=False):
     """
     INPUT: pandas series of local education agency ids indexed by NCES school ids (optional)
            specific column names to include (optional)
@@ -65,13 +65,18 @@ def districts(lea_ids=None, columns=[]):
 
     # load-in NCES school data
     districtdf = pd.read_csv("../data/district/sdf11_1a.txt", index_col=0, sep='\t',
-#                              low_memory=False, na_values=[-1, -2, -9, 'M', 'N', 'R'])
-                             low_memory=False, na_values=['M', 'N'])
+                             low_memory=False, na_values=[-1, -2, -9, 'M', 'N', 'R'])
+#                              low_memory=False, na_values=['M', 'N'])
 
-    # perhaps binarize GSLO and GSHI with pd.get_dummies
+    # binarize GSLO and GSHI with pd.get_dummies
+#     districtdf = pd.concat([districtdf, pd.get_dummies(districtdf.GSLO, prefix="GSLO")], axis=1)
+#     districtdf = pd.concat([districtdf, pd.get_dummies(districtdf.GSHI, prefix="GSHI")], axis=1)
 
     # make sure LEAIDs are integer values
     districtdf.index = districtdf.index.astype(np.int)
+
+    if state:
+        districtdf = districtdf[districtdf.STABBR == state] 
 
     if lea_ids:
         if columns:
@@ -87,6 +92,17 @@ def districts(lea_ids=None, columns=[]):
         else:
             outdf = districtdf.copy()
 
+    # binarize GSLO and GSHI with pd.get_dummies
+    # (add even if not specified on columns kwarg)
+    if lea_ids:
+        outdf = pd.concat([outdf, pd.get_dummies(districtdf.loc[lea_ids].GSLO, prefix="GSLO")], axis=1)
+        outdf = pd.concat([outdf, pd.get_dummies(districtdf.loc[lea_ids].GSHI, prefix="GSHI")], axis=1)
+    else:
+        outdf = pd.concat([outdf, pd.get_dummies(districtdf.GSLO, prefix="GSLO")], axis=1)
+        outdf = pd.concat([outdf, pd.get_dummies(districtdf.GSHI, prefix="GSHI")], axis=1)
+
+    if dropna:
+        outdf = outdf.dropna()
 
     return outdf
 
