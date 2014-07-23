@@ -5,9 +5,9 @@ import pandas as pd
 import numpy as np
 
 
-def schools(state = "CA", year = 2011):
+def schools(state="", year=None):
     """
-    INPUT: kwargs state and year
+    INPUT: optional kwargs state [str] and year (posted) [int]
     OUTPUT: pandas dataframe
 
     grab DonorsChoose Project data and return dataframe of schools
@@ -28,19 +28,30 @@ def schools(state = "CA", year = 2011):
     year_posted = df.date_posted.apply(lambda date: date.year)
     df["year_posted"] = year_posted
 
-    df = df[df.year_posted == year]
-    statedf = df[df.state == state].copy()
+    if year:
+        print "\tposted year: {}".format(year)
+        df = df[df.year_posted == year]
+
+    if state:
+        print "\tstate: {}".format(state)
+        df = df[df.state == state]
+
+    dflen = len(df)
+    df = df[np.isfinite(df._NCESid)]
+    print "No NCESid: {} projects dropped".format(dflen - len(df))
+
+    df._NCESid = df._NCESid.astype(np.int)
+
+    # sort df by schools, custom aggregate on projects
+    schools = df.groupby("_NCESid").agg({'_projectid': pd.Series.nunique,
+                                         'total_donations': np.sum,
+                                         'students_reached': np.sum,
+                                         'funding_status': lambda S: np.sum(S != 'expired')/np.float(len(S)),
+                                         'poverty_level': lambda S: S.iloc[0], # only take one
+                                         })
 
     # free from memory 
     del df
-
-    # sort df by schools, custom aggregate on projects
-    schools = statedf.groupby("_NCESid").agg({'_projectid': pd.Series.nunique,
-                                              'total_donations': np.sum,
-                                              'students_reached': np.sum,
-                                              'funding_status': lambda S: np.sum(S != 'expired')/np.float(len(S)),
-                                              'poverty_level': lambda S: S.iloc[0], # only take one
-                                              })
 
     # rename columns
     schools.columns = ['students_reached', 'projects', 'percent_funded', 'total_donations', 'poverty_level']
@@ -54,4 +65,3 @@ def schools(state = "CA", year = 2011):
 
 def school_lookup(schoolname):
     pass
-
