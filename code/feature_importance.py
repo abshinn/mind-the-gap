@@ -3,7 +3,6 @@
 
 import pandas as pd
 import numpy as np
-import pdb
 
 import california
 
@@ -17,8 +16,8 @@ from sklearn.ensemble import ExtraTreesClassifier
 def correlation(data, columns=[]):
     """Compare project amount to other features using the pearson coefficient.
 
-    INPUT:   data -- pandas dataframe
-          columns -- list of column names to compare to project amount
+    INPUT: data    -- pandas dataframe
+           columns -- list of column names to compare to project amount
     """
 
     if not columns:
@@ -40,13 +39,14 @@ def correlation(data, columns=[]):
 def define_label(data, n_projects=3):
     """Define label with which to train classifier on.
 
-    INPUT:       data -- pandas dataframe
-           n_projects -- label True for number of projects greater than or equal to n
-    OUTPUT: tuple 
-                 data -- pandas dataframe without project column or non-numeric columns
-           n_projects -- pandas boolean series 
+    INPUT: data       -- pandas dataframe
+           n_projects -- asign True for amount of projects greater than or equal to n_projects
 
+    OUTPUT: tuple (data, label)
+            data  -- pandas dataframe without project column or non-numeric columns
+            label -- pandas boolean series 
     """
+
     label = data.projects >= n_projects 
     data = data.drop(["projects"], axis=1)._get_numeric_data()
     return data, label
@@ -59,15 +59,16 @@ def deal_with_nans():
 def importance(data, label):
     """Compute feature importance using decision trees classifier.
 
-    INPUT:  data -- numeric pandas dataframe with non-missing values
+    INPUT: data  -- numeric pandas dataframe with non-missing values
            label -- boolean pandas series with which to predict on
+
     OUTPUT: results sent to stdout
     """
 
     clf = ExtraTreesClassifier()
     clf.fit(data.values, label.values)
 
-    for imp, col in sorted(zip(clf.feature_importances_, data.columns), key=lambda (imp, col): imp, reverse=True):
+    for imp, col in sorted( zip(clf.feature_importances_, data.columns), key=lambda (imp, col): imp, reverse=True ):
         print "[{:.5f}] {}".format(imp, col)
 
 
