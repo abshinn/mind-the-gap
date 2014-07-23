@@ -95,6 +95,12 @@ Determine which schools, districts, and US regions that can most benefit from Do
   * Find similar schools within candidate districts who are not yet active on DonorsChoose
   * In what ways are the suggested schools most similar? (Quantitatively)
   * Which features are most important for school success and project activity?
+- [ ] Recommender App
+  * Type in school name, search NCES school database
+  * Display district revenue and census demographic information
+  * If a DonorsChoose school, display DC information
+  * Based on _similar_ DonorsChoose schools:
+    - what is the probability of becoming and active school?
 
 - [ ] Provide information about data sources in module docstring
 
