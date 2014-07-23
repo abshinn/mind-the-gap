@@ -86,15 +86,17 @@ Determine which schools, districts, and US regions that can most benefit from Do
 - [x] Compute cosine similarity of NCES school districts using revenue features
 
 #### Mittwoch
-- [ ] Answer questions:
-  * Of the most successful DonorsChoose schools/districts, do any have missing NCES information?  
-  * Are the most successful DonorsChoose districts similar?
-- [ ] Final Analysis/Recommendation Steps
+- [x] Answer questions:
+  * Of the most successful DonorsChoose schools/districts, do any have missing NCES information? No.
+  * Are the most successful DonorsChoose districts similar? Seems like it.
+- [ ] Final Analysis/Recommendation Steps:
   * Choose most successful (active) schools/districts by project activity
   * Compile list of similar districts to active districts
   * Find similar schools within candidate districts who are not yet active on DonorsChoose
   * In what ways are the suggested schools most similar? (Quantitatively)
   * Which features are most important for school success and project activity?
+
+- [ ] Provide information about data sources in module docstring
 
 </br>
 
