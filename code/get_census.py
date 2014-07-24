@@ -36,17 +36,19 @@ def districts(lea_ids=[], columns=[], drop_columns=[], filename=""):
         return censusdf
 
 
-def all_districts(columns=[]):
-    census_path = "../data/census/"
+def all_districts(columns=[], census_path="../data/census/"):
     csvs = os.listdir(census_path)
 
     state_dfs = []
     for csv in csvs:
-        print csv
         state_dfs.append(districts(filename=(census_path + csv)))
 
     states = pd.concat(state_dfs, axis=0)
-    pdb.set_trace()
+
+    if columns:
+        states = states[columns]
+
+    return states
 
 
 if __name__ == "__main__":
