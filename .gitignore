@@ -4,5 +4,7 @@ eda/
 *.zip
 *.py[co]
 *.sw[po]
+*.png
+.DS_Store
 .ipynb_checkpoints/
 data/
