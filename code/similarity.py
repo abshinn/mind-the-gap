@@ -3,7 +3,7 @@
 import pandas as pd
 import numpy as np
 
-# from scipy.spatial.distance import cosine
+from scipy.spatial.distance import cosine
 
 
 def cos(dataframe):
@@ -99,12 +99,12 @@ class simSchools(object):
         close = filter(lambda (col, sim): sim, close)
         return same, close
 
-    def lookup_index(self, nces_id):
+    def _lookup_index(self, nces_id):
         return self.data.loc[nces_id].ref
 
     def most_similar(self, nces_id, n=None):
-        most_sim_index = np.argsort(self.sim[self.lookup_index(nces_id),:])[0:n]
-#         print np.sort(self.sim[self.lookup_index(nces_id),:])[0:n]
+        most_sim_index = np.argsort(self.sim[self._lookup_index(nces_id),:])[0:n]
+#         print np.sort(self.sim[self._lookup_index(nces_id),:])[0:n]
         return self.data.iloc[most_sim_index]
 
     def __str__(self):
