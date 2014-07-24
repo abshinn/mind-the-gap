@@ -1,5 +1,7 @@
-Zipfian Capstone Project
+Mind the Supply Gap
 ===
+
+### Zipfian Capstone Project: _Mind the Supply Gap_ on [DonorsChoose.org](http://donorschoose.org)
 
 - [x] Do data science
 - [ ] ?
@@ -70,8 +72,6 @@ Determine which schools, districts, and US regions that can most benefit from Do
 - [x] Rename repo to make it easier to find forked repo on Zipfian github
 - [x] Create class to store similarity matrix with methods that operate on the matrix
 
-</br>
-
 ### _Week 2_
 
 #### Montag
@@ -86,27 +86,40 @@ Determine which schools, districts, and US regions that can most benefit from Do
 - [x] Compute cosine similarity of NCES school districts using revenue features
 
 #### Mittwoch
-- [x] Answer questions:
-  * Of the most successful DonorsChoose schools/districts, do any have missing NCES information? No.
-  * Are the most successful DonorsChoose districts similar? Seems like it.
-- [ ] Final Analysis/Recommendation Steps:
+- [x] Make sure NCES district data matches DonorsChoose data
+- [x] Explore district similarity
+- [x] Attempt to classify activity (no. of projects) with Naive Bayes, Logistic Regression, and Decision Trees
+- [x] Feature importance tree
+- [x] Switch deliverable to be a web app that characterizes DonorsChoose potential for a given school:
+  * Type in school name, search NCES school database, find N most similar districts that use use DonorsChoose 
+  * Display district revenue and census demographic information
+  * If a DonorsChoose school, display DC information
+  * Display expected activity, expected benefit given schools in similar districts
+  * ml idea: regress on District project activity (projects/years on DonorsChoose)
+
+#### Donnerstag
+- [ ] Create basic version of app
+  * Look up district based on school name, zip, or NCES id
+  * Find N most similar districts that use DonorsChoose
+  * Aggregate stats on N most similar districts
+  * Quantitatively describe DonorsChoose potential
+- [ ] Draft web app infrastructure
+  * MongoDB for storage
+  * Flask/yHat for running on-the-fly model
+  * Bootstrap front-end
+- [ ] Secure a domain name
+
+- [ ] Final Analysis: **On Hold**
   * Choose most successful (active) schools/districts by project activity
   * Compile list of similar districts to active districts
   * Find similar schools within candidate districts who are not yet active on DonorsChoose
   * In what ways are the suggested schools most similar? (Quantitatively)
   * Which features are most important for school success and project activity?
-- [ ] Recommender App
-  * Type in school name, search NCES school database
-  * Display district revenue and census demographic information
-  * If a DonorsChoose school, display DC information
-  * Based on _similar_ DonorsChoose schools:
-    - what is the probability of becoming and active school?
 
-- [ ] Provide information about data sources in module docstring
+- [ ] Provide information about data sources in module doc-string
 
-</br>
 
-###### _similarity brainstorm_
+###### school recommendation based on similarity _brainstorm_
 - similarity can be used to recommend new schools that are most similar to schools/areas with the highest activity
 - start with district level, leveraging census demographic data, then find similar schools within candidate districts
 - if time permits, recommend projects as well
@@ -116,24 +129,18 @@ Determine which schools, districts, and US regions that can most benefit from Do
   * filter by schools that need the most help
   * LDA on project essays for a given set of similar schools -or- list common project types?
 
-</br>
-
 ###### _possible methods_
 - [ ] Find a NCES poverty level metric - if helpful
 - [ ] K-means clustering of schools within candidate districts
 - [ ] NCES data -- change datatype to integer when appropriate
 - [ ] Look into NCES district CCDNF field and how that affects merging with NCES school data
 
-</br>
-
-###### _state-level exploratory analysis: potential D3-gold_
+###### _state-level exploratory analysis: potential D3-gold_ **On Hold**
 - [ ] State-level exploratory data analysis:
   * rank DonorsChoose success by state
   * run classification and feature importance using wide range of financial data available
   * most financially similar states
   * are most successful DonorsChoose states financially similar?
 
-</br>
 
-#### Donnerstag...
 #### Freitag...
