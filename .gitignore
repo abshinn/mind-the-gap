@@ -3,6 +3,10 @@ eda/
 *.csv
 *.zip
 *.py[co]
+*.pkle
+*.pickle
+*.pckle
+*.pk
 *.sw[po]
 *.png
 .DS_Store
