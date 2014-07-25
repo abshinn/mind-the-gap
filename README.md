@@ -98,8 +98,8 @@ Determine which schools, districts, and US regions that can most benefit from Do
   * ml idea: regress on District project activity (projects/years on DonorsChoose)
 
 #### Donnerstag
-- [ ] Compile a district data set with all districts [with NCES revenue and Census features]
-- [ ] Compute cosine similarity
+- [x] Compile a district data set with all districts [with NCES revenue and Census features]
+- [x] Compute cosine similarity
 - [ ] Compile list of districts most similar to active donors choose districts
 
 
