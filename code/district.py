@@ -16,20 +16,21 @@ def district_similarity(pkle=False):
     """Compute district similarity matrix using census, NCES, and census district data.
 
     OUTPUT: Similarity object
+            pickled Similarity object (optional)
     """
-    print "combine DonorsChoose, NCES, and Census data..."
 
-    census = get_census.all_districts()
+    census = get_census.all_states()
 
     columns = ["TOTALREV", "TFEDREV", "TSTREV", "TLOCREV", "TOTALEXP", "TCURSSVC", "TCAPOUT", "HR1", "HE1", "HE2"]
     nces = get_nces.districts(columns=columns, nonneg=True)
 
     ddf = pd.concat([census, nces.loc[census.index]], axis=1)
 
-    sim = similarity.Similarity(data, ref_columns=["District Name", "State"])
+    sim = similarity.Similarity(ddf, ref_columns=["District Name", "State"])
 
     if pkle:
-        pickle.dump(sim, "district_similarity.pkle")
+        with open("district_similarity.pkle", "wb") as p:
+            pickle.dump(sim, p)
 
     return sim
 
