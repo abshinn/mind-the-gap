@@ -9,12 +9,13 @@ import similarity
 import get_donorschoose
 import get_nces
 import get_census
+# import pickle
 
 
-def data_prep():
-    """Combine census and NCES and census district data for a similarity calculation.
+def district_similarity():
+    """Compute district similarity matrix using census, NCES, and census district data.
 
-    OUTPUT: pandas dataframe
+    OUTPUT: Similarity object
     """
     print "combine DonorsChoose, NCES, and Census data..."
 
@@ -25,12 +26,16 @@ def data_prep():
 
     ddf = pd.concat([census, nces.loc[census.index]], axis=1)
 
-    return ddf
+    sim = similarity.Similarity(data, ref_columns=["District Name", "State"])
+
+    return sim
 
 
 def potential_districts():
-#     data = data_prep()
-#     sim = similarity.simSchools(data, ref_columns=["District Name", "State"])
+    """Find potentially active districts outside of DonorsChoose network.
+
+    OUTPUT:
+    """
 
     schools = get_donorschoose.schools(year=2011)
     schools = pd.concat([ schools, get_nces.schools(schools.index, columns=["LEAID", "FTE", "MEMBER", "ST_ratio", "TOTFRL"]) ], axis=1)
@@ -47,9 +52,16 @@ def potential_districts():
                                                 "MEMBER": np.sum,
                                                 "ST_ratio": np.mean,
                                                }).sort("projects", ascending=False)
+
+    # pseudo
+    # reduce dcdistricts down to most active
+    # compile list of potential districts
+    # compute similarity
+    # compute activity metric
+    # save into csv
+
     return dcdistricts
        
-
 
 if __name__ == "__main__":
     potential_districts()
