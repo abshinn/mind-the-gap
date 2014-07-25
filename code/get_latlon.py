@@ -3,6 +3,7 @@
 import sys
 import urllib2
 import json
+from numpy import nan
 
 
 def from_address(address):
@@ -33,6 +34,10 @@ def from_address(address):
         lat = result['geometry']['location']['lat']
         lon = result['geometry']['location']['lng']
         coords.append((lat, lon))
+
+    if not coords:
+        print "not found: {}".format(address) 
+        coords = [(nan, nan)]
 
     return coords[0]
 
