@@ -41,22 +41,23 @@ def potential_districts():
     OUTPUT:
     """
 
-    schools = get_donorschoose.schools(year=2011)
-    schools = pd.concat([ schools, get_nces.schools(schools.index, columns=["LEAID", "FTE", "MEMBER", "ST_ratio", "TOTFRL"]) ], axis=1)
-
-    dcdistricts = schools.groupby("LEAID").agg({"students_reached": np.sum,
-                                                "projects": np.sum,
-                                                "percent_funded": np.mean,
-                                                "total_donations": np.sum,
-                                                "high poverty": np.sum,
-                                                "highest poverty": np.sum,
-                                                "low poverty": np.sum,
-                                                "FTE": np.mean,
-                                                "TOTFRL": np.sum,
-                                                "MEMBER": np.sum,
-                                                "ST_ratio": np.mean,
-                                               }).sort("projects", ascending=False)
-
+#     schools = get_donorschoose.schools(year=2011)
+#     schools = pd.concat([ schools, get_nces.schools(schools.index, columns=["LEAID", "FTE", "MEMBER", "ST_ratio", "TOTFRL"]) ], axis=1)
+# 
+#     dcdistricts = schools.groupby("LEAID").agg({"students_reached": np.sum,
+#                                                 "projects": np.sum,
+#                                                 "percent_funded": np.mean,
+#                                                 "total_donations": np.sum,
+#                                                 "high poverty": np.sum,
+#                                                 "highest poverty": np.sum,
+#                                                 "low poverty": np.sum,
+#                                                 "FTE": np.mean,
+#                                                 "TOTFRL": np.sum,
+#                                                 "MEMBER": np.sum,
+#                                                 "ST_ratio": np.mean,
+#                                                }).sort("projects", ascending=False)
+# 
+    dcdisticts = get_donorschoose.districts(year=2011)
     # pseudo
     # reduce dcdistricts down to most active
     # compile list of potential districts
@@ -68,5 +69,6 @@ def potential_districts():
        
 
 if __name__ == "__main__":
-    district_similarity(pkle=True) 
-#     potential_districts()
+#     district_similarity(pkle=True) 
+    potential_districts()
+    pdb.set_trace()
