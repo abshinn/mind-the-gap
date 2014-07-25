@@ -65,7 +65,7 @@ def matmultcos(dataframe):
     return cos
 
 
-class simSchools(object):
+class Similarity(object):
     """Compute and store cosine similarity matrix, allow methods to operate on the stored matrix.
 
     REQUIRED INPUT: 
@@ -107,4 +107,4 @@ class simSchools(object):
         return self.data.iloc[most_sim_index]
 
     def __str__(self):
-        return "similarity matrix of shape: {}".format(self.sim.shape)
+        return "Similarity object of shape: {}".format(self.sim.shape)
