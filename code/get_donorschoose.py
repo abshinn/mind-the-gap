@@ -58,11 +58,11 @@ def schools(state="", year=None):
     # free from memory 
     del df
 
-    pdb.set_trace()
+#     pdb.set_trace()
 
     # rename columns
 #     schools.columns = ["students_reached", "projects", "percent_funded", "total_donations", "poverty_level", "latitude", "longitude"]
-    schoosl.columns = ["total_donations", "students_reached", "poverty_level", "longitude", "projects", "latitude", "percent_funded"]
+    schools.columns = ["total_donations", "students_reached", "poverty_level", "longitude", "projects", "latitude", "percent_funded"]
 
     # binarize poverty level
     binary_poverty = pd.get_dummies(schools.poverty_level)
