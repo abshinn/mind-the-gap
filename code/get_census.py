@@ -11,12 +11,11 @@ def districts(lea_ids=[], columns=[], drop_columns=[], filename=""):
     INPUT: pandas series of local education agency ids (optional)
     OUTPUT: pandas dataframe of census data with index as given series of LEA ids
 
-    grab California census-by-district data
+    by default grab California census-by-district data 
     """
-    print "[grab California census data...]"
 
     if filename:
-        print "[grabbing census data from: {}]".format(filename)
+        print "[grabbing census data from: {}]".format(filename.split("_")[3])
     else:
         print "[grab California census data...]"
         filename = "../data/district/SDDS_School_Districts_California_Jul-17-2014.csv"
