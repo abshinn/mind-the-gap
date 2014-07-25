@@ -111,12 +111,17 @@ Determine which schools, districts, and US regions that can most benefit from Do
 - [x] Initialize webpage (abshinn.github.io/mind-the-gap)
 - [x] Pull down census data for all states
 - [x] Compile a district data set with all districts [with NCES revenue and Census features]
-- [x] Compute cosine similarity
-- [x] Compile list of districts most similar to active donors choose districts
+- [x] Compute cosine similarity, try pickling
 
 #### Freitag
+- [ ] Compile list of districts most similar to active donors choose districts
+  * Choose 5 most similar districts for all DonorsChoose districts that have more than 50 projects
+  * Take out DonorsChoose super-schools from list
+  * Group by state, do value count
+  * Take N potential districts for each state
 - [ ] Compute "activity potential" metric
-- [ ] Store N potential schools for each state in csv
+- [ ] Store N potential schools for each state in GeoJson
+- [ ] Build interactive US map
 
 - [ ] Create basic version of app **Scrapped**
   * Look up district based on school name, zip, or NCES id
