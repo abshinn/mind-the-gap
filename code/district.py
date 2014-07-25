@@ -28,12 +28,28 @@ def data_prep():
     return ddf
 
 
-def potential():
-    pass
+def potential_districts():
+#     data = data_prep()
+#     sim = similarity.simSchools(data, ref_columns=["District Name", "State"])
+
+    schools = get_donorschoose.schools(year=2011)
+    schools = pd.concat([ schools, get_nces.schools(schools.index, columns=["LEAID", "FTE", "MEMBER", "ST_ratio", "TOTFRL"]) ], axis=1)
+
+    dcdistricts = schools.groupby("LEAID").agg({"students_reached": np.sum,
+                                                "projects": np.sum,
+                                                "percent_funded": np.mean,
+                                                "total_donations": np.sum,
+                                                "high poverty": np.sum,
+                                                "highest poverty": np.sum,
+                                                "low poverty": np.sum,
+                                                "FTE": np.mean,
+                                                "TOTFRL": np.sum,
+                                                "MEMBER": np.sum,
+                                                "ST_ratio": np.mean,
+                                               }).sort("projects", ascending=False)
+    return dcdistricts
+       
 
 
 if __name__ == "__main__":
-    data = data_prep()
-    pdb.set_trace()
-    sim = similarity.simSchools(data, ref_columns=["District Name", "State"])
-    pdb.set_trace()
+    potential_districts()

@@ -1,4 +1,4 @@
-""" calculate distance-similarity """
+"""calculate distance-similarity"""
 
 import pandas as pd
 import numpy as np
