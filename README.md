@@ -3,6 +3,8 @@ Mind the Supply Gap
 
 ### Zipfian Capstone Project: _Mind the Supply Gap_ on [DonorsChoose.org](http://donorschoose.org)
 
+#### Future home: [abshinn.github.io/mind-the-gap](abshinn.github.io/mind-the-gap)
+
 - [x] Do data science
 - [ ] ?
 - [ ] Profit
@@ -74,37 +76,49 @@ Determine which schools, districts, and US regions that can most benefit from Do
 
 ### _Week 2_
 
-#### Montag
+#### Monday
 - [x] Determine the closest features to two similar schools by taking the difference of two normalized examples
 - [x] Create a similarity matrix of DonorsChoose schools alone
 - [x] Try creating a similarity matrix with NCES data alone - all schools in the US
 
-#### Dienstag
+#### Tuesday
 - [x] Generalize feature importance code
 - [x] Normalize and replace NaNs with the mean before cosine-similarity calculation
 - [x] Narrow down feature set for NCES data to make matrix multiplication less memory-intensive
 - [x] Compute cosine similarity of NCES school districts using revenue features
 
-#### Mittwoch
+#### Wednesday
 - [x] Make sure NCES district data matches DonorsChoose data
 - [x] Explore district similarity
 - [x] Attempt to classify activity (no. of projects) with Naive Bayes, Logistic Regression, and Decision Trees
 - [x] Feature importance tree
-- [x] Switch deliverable to be a web app that characterizes DonorsChoose potential for a given school:
+- [x] Explore deliverable idea: web app that characterizes DonorsChoose potential for a given school
   * Type in school name, search NCES school database, find N most similar districts that use use DonorsChoose 
   * Display district revenue and census demographic information
   * If a DonorsChoose school, display DC information
   * Display expected activity, expected benefit given schools in similar districts
   * ml idea: regress on District project activity (projects/years on DonorsChoose)
+  * _Nixed_
 
-#### Donnerstag
+#### Thursday
+- [x] Deliverable idea: D3js visual of US map, produce tables with potential DonorsChoose schools on hover
+  * Compute cosine similarity of all districts using revenue and census data
+  * Find potential districts by their similarity to the most successful DonorsChoose schools
+  * Create a "potentially active" metric based on rms of similarity
+  * Output potential schools to csv or json format
+  * Create D3js interactive
+- [x] Update resume
+- [x] Initialize webpage (abshinn.github.io/mind-the-gap)
+- [x] Pull down census data for all states
 - [x] Compile a district data set with all districts [with NCES revenue and Census features]
 - [x] Compute cosine similarity
-- [ ] Compile list of districts most similar to active donors choose districts
+- [x] Compile list of districts most similar to active donors choose districts
 
+#### Freitag
+- [ ] Compute "activity potential" metric
+- [ ] Store N potential schools for each state in csv
 
-
-- [ ] Create basic version of app
+- [ ] Create basic version of app **Scrapped**
   * Look up district based on school name, zip, or NCES id
   * Find N most similar districts that use DonorsChoose
   * Aggregate stats on N most similar districts
@@ -147,6 +161,3 @@ Determine which schools, districts, and US regions that can most benefit from Do
   * run classification and feature importance using wide range of financial data available
   * most financially similar states
   * are most successful DonorsChoose states financially similar?
-
-
-#### Freitag...
