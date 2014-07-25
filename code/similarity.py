@@ -104,7 +104,6 @@ class simSchools(object):
 
     def most_similar(self, nces_id, n=None):
         most_sim_index = np.argsort(self.sim[self._lookup_index(nces_id),:])[0:n]
-#         print np.sort(self.sim[self._lookup_index(nces_id),:])[0:n]
         return self.data.iloc[most_sim_index]
 
     def __str__(self):

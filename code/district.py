@@ -3,6 +3,7 @@
 
 import pandas as pd
 import numpy as np
+import pdb
 
 import similarity
 import get_donorschoose
@@ -11,36 +12,20 @@ import get_census
 
 
 def data_prep():
-    """Combine DonorsChoose, NCES, and census data for some data crunching.
+    """Combine census and NCES and census district data for a similarity calculation.
 
     OUTPUT: pandas dataframe
     """
     print "combine DonorsChoose, NCES, and Census data..."
 
-    schools = get_donorschoose.schools(state="CA", year=2011)
-    NCES = get_nces.schools_and_districts(schools.index, nonneg=True)
+    census = get_census.all_districts()
 
-    data = pd.concat([schools, NCES], axis=1)
-    n_records = len(data)
+    columns = ["TOTALREV", "TFEDREV", "TSTREV", "TLOCREV", "TOTALEXP", "TCURSSVC", "TCAPOUT", "HR1", "HE1", "HE2"]
+    nces = get_nces.districts(columns=columns, nonneg=True)
 
-    # drop rows without local education agency (school district) id
-    data = data.loc[data.LEAID.dropna().index]
-    print "\tNaN indices: dropped {} schools".format(n_records - len(data))
+    ddf = pd.concat([census, nces.loc[census.index]], axis=1)
 
-    census = get_census.districts(data.LEAID)
-
-    census = census.reset_index()
-    census.drop(["index"], axis=1, inplace=True)
-    census.index = data.index
-   
-    data = pd.concat([data, census], axis=1)
-
-    # note: non-numeric columns are automatically dropped before any calculation within simSchools
-#     data.drop(["SURVYEAR", "LEAID"], axis=1, inplace=True)
-
-#    data[np.isnan(data)] = -1
-
-    return data 
+    return ddf
 
 
 def potential():
@@ -49,4 +34,6 @@ def potential():
 
 if __name__ == "__main__":
     data = data_prep()
-    sim = similarity.simSchools(data, ref_columns=["SCHNAM", "District Name", "State"])
+    pdb.set_trace()
+    sim = similarity.simSchools(data, ref_columns=["District Name", "State"])
+    pdb.set_trace()
