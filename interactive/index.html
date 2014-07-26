@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <script src="//code.jquery.com/jquery-2.0.0.js"></script>
+    <style>
+    #map {
+      background-color: #fff;
+      border: 1px solid #ccc;
+    }
+    .background {
+      fill: none;
+      pointer-events: all;
+    }
+    #states {
+      fill: #cde;
+      stroke: #fff;
+      stroke-linejoin: round;
+      stroke-linecap: round;
+    }
+    #states .active {
+      fill: #89a;
+    }
+    #districts, #cities {
+      stroke-width: 0;
+    }
+    .district, .city {
+      fill: #345;
+      stroke: #fff;
+    }
+    pre.prettyprint {
+      border: 1px solid #ccc;
+      margin-bottom: 0;
+      padding: 9.5px;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <div id="table"></div>
+    <script src="d3.v3.min.js"></script>
+    <script src="topojson.v1.min.js"></script>
+    <script>
+
+    var m_width = $("#map").width(),
+//         width = 938,
+//         height = 500,
+        width = 340,
+        height = 140,
+        state;
+
+    var projection = d3.geo.albersUsa()
+        .scale(300)
+        .translate([width / 2, height / 2]);
+
+    var path = d3.geo.path()
+        .projection(projection);
+
+    var svg = d3.select("#map").append("svg")
+        .attr("preserveAspectRatio", "xMidYMid")
+        .attr("viewBox", "0 0 " + width + " " + height)
+        .attr("width", m_width)
+        .attr("height", m_width * height / width);
+
+    svg.append("rect")
+        .attr("class", "background")
+        .attr("width", width)
+        .attr("height", height)
+        .on("click", state_clicked);
+
+    var g = svg.append("g");
+    
+    d3.json("/json/states_usa.topo.json", function(error, us) {
+    g.append("g")
+      .attr("id", "states")
+      .selectAll("path")
+      .data(topojson.feature(us, us.objects.states).features)
+      .enter()
+      .append("path")
+      .attr("id", function(d) { return d.id; })
+      .attr("class", "active")
+      .attr("d", path)
+      .on("click", state_clicked);
+    });
+
+    
+    function zoom(xyz) {
+      g.transition()
+        .duration(750)
+        .attr("transform", "translate(" + projection.translate() + ")scale(" + xyz[2] + ")translate(-" + xyz[0] + ",-" + xyz[1] + ")")
+        .selectAll(["#states", "#cities"])
+        .style("stroke-width", 0.5 / xyz[2] + "px")
+        .selectAll(".city")
+        .attr("d", path.pointRadius(1./xyz[2]));
+    }
+
+    function get_xyz(d) {
+      var bounds = path.bounds(d);
+      var w_scale = (bounds[1][0] - bounds[0][0]) / width;
+      var h_scale = (bounds[1][1] - bounds[0][1]) / height;
+      var z = .96 / Math.max(w_scale, h_scale);
+      var x = (bounds[1][0] + bounds[0][0]) / 2;
+      var y = (bounds[1][1] + bounds[0][1]) / 2;
+      return [x, y, z];
+    }
+
+
+    function state_clicked(d) {
+      g.selectAll("#cities").remove();
+      g.selectAll("#districts").remove();
+
+      if (d && state !== d) {
+        var xyz = get_xyz(d);
+        state = d;
+
+//         country_code = state.id.substring(0, 3).toLowerCase();
+        state_name = state.properties.name;
+
+        console.log(state_name)
+//         d3.json("/json/cities_usa.topo.json", function(error, us) {
+        d3.json("/json/district.topo.json", function(error, us) {
+//                 console.log(us);
+          g.append("g")
+            .attr("id", "districts")
+//             .attr("id", "cities")
+            .selectAll("path")
+//             .data(topojson.feature(us, us.objects.cities).features.filter(function(d) { return state_name == d.properties.state; }))
+            .data(topojson.feature(us, us.objects.districts).features.filter(function(d) { return state_name == d.properties.state; }))
+            .enter()
+            .append("path")
+            .attr("id", function(d) { console.log(d); return d.properties.name; })
+//             .attr("id", function(d) { return d.properties.id; })
+//             .attr("class", "city")
+            .attr("class", "district")
+            .attr("d", path.pointRadius(2./xyz[2]));
+//             console.log(us);
+          zoom(xyz);
+        });      
+      } else {
+        var xyz = [width / 2, height / 2, 1];
+        state = null;
+        zoom(xyz);
+      }
+    }
+
+    $(window).resize(function() {
+      var w = $("#map").width();
+      svg.attr("width", w);
+      svg.attr("height", w * height / width);
+    });
+
+var dataset = [],
+tmpDataset = [],
+i, j;
+
+for (i = 0; i < 5; i++) {
+    for (j = 0, tmpDataset = []; j < 3; j++) {
+        tmpDataset.push("Row:"+i+",Col:"+j);
+    }
+    dataset.push(tmpDataset);
+}
+    
+d3.select("#table")
+    .append("table")
+    .style("border-collapse", "collapse")
+    .style("border", "2px black solid")
+    
+    .selectAll("tr")
+    .data(dataset)
+    .enter().append("tr")
+    .on("mouseover", function(){d3.select(this).style("background-color", "aliceblue")}) 
+    .on("mouseout", function(){d3.select(this).style("background-color", "white")}) 
+    
+    .selectAll("td")
+    .data(function(d){return d;})
+    .enter().append("td")
+    .style("border", "1px black solid")
+    .style("padding", "10px")
+    .text(function(d){return d;})
+    .style("font-size", "12px");
+    </script>
+  </body>
+</html>
