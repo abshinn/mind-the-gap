@@ -14,7 +14,8 @@ def districts(lea_ids=[], columns=[], drop_columns=[], filename=""):
     """
 
     if filename:
-        print "census grab: {:<20}".format(filename.split("_")[3])
+        pass
+#         print "census grab: {:<20}".format(filename.split("_")[3])
     else:
         print "[grab California census data...]"
         filename = "../data/district/SDDS_School_Districts_California_Jul-17-2014.csv"
