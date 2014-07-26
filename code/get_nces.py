@@ -1,8 +1,9 @@
-#!/usr/bin/env python2.7 
+#!/usr/bin/env python2.7  -B
 """pull pertinent data from NCES tab delimited files""" 
 
 import pandas as pd
 import numpy as np
+import pdb
 
 
 def NCES_boolean(x):
@@ -81,6 +82,12 @@ def districts(lea_ids=[], columns=[], state="", dropna=False, nonneg=False):
     # make sure LEAIDs are integer values
     districtdf.index = districtdf.index.astype(np.int)
 
+    districtinfo = pd.read_csv("../data/district/ag111a_supp.txt", index_col=1, sep='\t',
+                             low_memory=False, na_values=na_values)
+
+    info_columns = ["LATCOD", "LONCOD"]
+    districtdf = pd.concat([districtdf, districtinfo[info_columns].loc[districtdf.index]], axis=1)
+   
     if state:
         districtdf = districtdf[districtdf.STABBR == state] 
 
@@ -131,3 +138,8 @@ def schools_and_districts(school_ids, nonneg=False):
     NCESdf = pd.concat([NCES_schools, NCES_districts], axis=1)
 
     return NCESdf
+
+
+if __name__ == "__main__":
+    districts()
+
