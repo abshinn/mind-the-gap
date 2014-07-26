@@ -114,14 +114,15 @@ Determine which schools, districts, and US regions that can most benefit from Do
 - [x] Compute cosine similarity, try pickling
 
 #### Freitag
-- [ ] Compile list of districts most similar to active donors choose districts
-  * Choose 5 most similar districts for all DonorsChoose districts that have more than 50 projects
+- [x] Compile list of districts most similar to active donors choose districts
+  * Choose 10 most similar districts for all DonorsChoose districts that have more than 100 projects
   * Take out DonorsChoose super-schools from list
   * Group by state, do value count
   * Take N potential districts for each state
+- [x] Create interactive US map
 - [ ] Compute "activity potential" metric
-- [ ] Store N potential schools for each state in GeoJson
-- [ ] Build interactive US map
+- [x] Store N potential schools for each state in GeoJson
+- [x] Plot most active districts on interactive map
 
 - [ ] Create basic version of app **Scrapped**
   * Look up district based on school name, zip, or NCES id
