@@ -11,6 +11,16 @@ import get_nces
 import get_census
 import pickle
 import geojson
+import subprocess
+
+def bash(command):
+    print "$ " + command
+    p = subprocess.Popen(command.split(), stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+    output, errors = p.communicate()
+    if output:
+        print output
+    if errors:
+        print errors
 
 
 def district_similarity(pkle=False):
@@ -22,12 +32,12 @@ def district_similarity(pkle=False):
 
     census = get_census.all_states()
 
-    columns = ["STNAME", "TOTALREV", "TFEDREV", "TSTREV", "TLOCREV", "TOTALEXP", "TCURSSVC", "TCAPOUT", "HR1", "HE1", "HE2"]
+    columns = ["STNAME", "LATCOD", "LONCOD", "TOTALREV", "TFEDREV", "TSTREV", "TLOCREV", "TOTALEXP", "TCURSSVC", "TCAPOUT", "HR1", "HE1", "HE2"]
     nces = get_nces.districts(columns=columns, nonneg=True)
 
     ddf = pd.concat([census, nces.loc[census.index]], axis=1)
 
-    sim = similarity.Similarity(ddf, ref_columns=["District Name", "State", "STNAME"])
+    sim = similarity.Similarity(ddf, ref_columns=["District Name", "State", "STNAME", "LATCOD", "LONCOD"])
 
     if pkle:
         with open("district_similarity.pkle", "wb") as p:
@@ -36,7 +46,7 @@ def district_similarity(pkle=False):
     return sim
 
 
-def potential_districts():
+def potential_districts(sim):
     """Find potentially active districts outside of DonorsChoose network.
 
     OUTPUT:
@@ -45,7 +55,32 @@ def potential_districts():
     dc_districts = get_donorschoose.districts(year=2011)
 
     all_dc = dc_districts.index
-    most_active = dc_districts.projects[dc_districts.projects >= 100].index
+    most_active = dc_districts[dc_districts.projects >= 100]
+
+#     pdb.set_trace()
+
+    # warning: renaming of df
+    most_active = sim.data[["District Name", "STNAME", "LATCOD", "LONCOD"]].loc[most_active.index]
+    lenma = len(most_active)
+    most_active.dropna(inplace=True)
+    print "NaNs: dropped {} districts".format(lenma - len(most_active))
+
+    features = []
+    for leaid in most_active.index.values.astype(np.int):
+        point = geojson.Point((most_active["LONCOD"].loc[leaid], most_active["LATCOD"].loc[leaid]))
+        properties = {"name" : most_active["District Name"].loc[leaid], "state": most_active["STNAME"].loc[leaid]}
+        features.append(geojson.Feature(geometry=point, properties=properties))#, id=leaid))
+
+    collection = geojson.FeatureCollection(features) 
+
+
+    basename = "districts"
+    with open(basename + ".json", "w") as geo:
+        geo.write(geojson.dumps(collection))
+
+    bash("topojson -p name -p state -o {} {}".format(basename + ".topo.json", basename + ".json"))
+#     bash("mv *.json ../interactive/json/")
+
     # pseudo
     # reduce dcdistricts down to most active
     # compile list of potential districts
@@ -53,23 +88,8 @@ def potential_districts():
     # compute activity metric
     # save into csv
 
-    return dc_districts
+#     return dc_districts
        
 
 if __name__ == "__main__":
-    sim = district_similarity() 
-    ddf = potential_districts()
-    most_active = ddf.projects[ddf.projects >= 100].index
-    all_dc = ddf.index
-    ma = ddf.loc[most_active]
-    names = sim.data[["District Name", "STNAME"]].loc[ma.index]
-    ma = pd.concat([ma, names], axis=1)
-    ma = ma.dropna()
-    features = []
-    for leaid in ma.index.values.astype(np.int):
-        point = geojson.Point((ma.loc[leaid].longitude, ma.loc[leaid].latitude))
-        properties = {"name" : ma["District Name"].loc[leaid], "state": ma["STNAME"].loc[leaid]}
-        features.append(geojson.Feature(geometry=point, properties=properties))#, id=leaid))
-    collection = geojson.FeatureCollection(features) 
-    with open("test.json", "w") as geo:
-        geo.write(geojson.dumps(collection))
+    pass
