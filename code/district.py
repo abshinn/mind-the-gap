@@ -68,7 +68,7 @@ def potential_districts(sim):
     pdf = pd.DataFrame(p)
     pdf.columns = ["leaid", "score"]
     pdf.index = pdf.pop("leaid")
-    recommend = pdf.index[:500]
+    recommend = pdf.index[:550]
 
     # warning: renaming of df
 #     most_active = sim.data[["District Name", "STNAME", "LATCOD", "LONCOD"]].loc[most_active.index]
@@ -88,26 +88,19 @@ def potential_districts(sim):
                       "leaid": leaid,
                       "score": str(pdf.score.loc[leaid]),
                       }
-        features.append(geojson.Feature(geometry=point, properties=properties))#, id=leaid))
+        features.append(geojson.Feature(geometry=point, properties=properties))
 
     collection = geojson.FeatureCollection(features) 
 
-
     basename = "districts"
-    with open(basename + ".json", "w") as geo:
+    with open(basename+".json", "w") as geo:
         geo.write(geojson.dumps(collection))
 
-    bash("topojson -o {} {}".format(basename + ".topo.json", basename + ".json"))
-#     bash("mv *.json ../interactive/json/")
+    bash("topojson -p -o {}.topo.json {}.json".format(basename, basename))
+#     bash("mv {}.json ../interactive/json/{}.json".format(basename))
+#     bash("mv {}.topo.json ../interactive/json/{}.topo.json".format(basename))
 
-    # pseudo
-    # reduce dcdistricts down to most active
-    # compile list of potential districts
-    # compute similarity
-    # compute activity metric
-    # save into csv
-
-#     return dc_districts
+    return rec
        
 
 if __name__ == "__main__":
