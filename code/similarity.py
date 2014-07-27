@@ -110,8 +110,8 @@ class Similarity(object):
         OUTPUT: rms score
         """
         v = self.sim[self._lookup_index(group1).dropna(), :]
-        v = v[:, self._lookup_index(group2)]
-        rms = np.sqrt(np.multiply(v*v).mean(axis=1))
+        v = v[:, self._lookup_index(group2).dropna()]
+        rms = np.sqrt(np.multiply(v,v).mean(axis=1))
         return rms
 
     def most_similar(self, nces_id, n=None):
