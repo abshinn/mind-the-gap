@@ -53,7 +53,8 @@ def potential_districts(sim):
     OUTPUT:
     """
 
-    dc_districts = get_donorschoose.districts(year=2011)
+#     dc_districts = get_donorschoose.districts(year=2011)
+    dc_districts = get_donorschoose.districts()
 
     all_dc = dc_districts.index
     most_active = set(dc_districts[dc_districts.projects >= 10].index.values.astype(np.int))
@@ -64,20 +65,29 @@ def potential_districts(sim):
     
     # list of sorted potential districts
     p = sorted(zip(potential, rms), key=lambda (x, y): y, reverse=True)
-
-    if True:
-        return rms
+    pdf = pd.DataFrame(p)
+    pdf.columns = ["leaid", "score"]
+    pdf.index = pdf.pop("leaid")
+    recommend = pdf.index[:500]
 
     # warning: renaming of df
-    most_active = sim.data[["District Name", "STNAME", "LATCOD", "LONCOD"]].loc[most_active.index]
-    lenma = len(most_active)
-    most_active.dropna(inplace=True)
-    print "NaNs: dropped {} districts".format(lenma - len(most_active))
+#     most_active = sim.data[["District Name", "STNAME", "LATCOD", "LONCOD"]].loc[most_active.index]
+    rec = sim.data[["District Name", "STNAME", "LATCOD", "LONCOD"]].loc[recommend]
+#     lenma = len(most_active)
+#     most_active.dropna(inplace=True)
+#     print "NaNs: dropped {} districts".format(lenma - len(most_active))
+    lenrec = len(rec)
+    rec.dropna(inplace=True)
+    print "NaNs: dropped {} districts".format(lenrec - len(rec))
 
     features = []
-    for leaid in most_active.index.values.astype(np.int):
-        point = geojson.Point((most_active["LONCOD"].loc[leaid], most_active["LATCOD"].loc[leaid]))
-        properties = {"name" : most_active["District Name"].loc[leaid], "state": most_active["STNAME"].loc[leaid]}
+    for leaid in rec.index.values:
+        point = geojson.Point((rec["LONCOD"].loc[leaid], rec["LATCOD"].loc[leaid]))
+        properties = {"name" : rec["District Name"].loc[leaid], 
+                      "state": rec["STNAME"].loc[leaid],
+                      "leaid": leaid,
+                      "score": str(pdf.loc[leaid]),
+                      }
         features.append(geojson.Feature(geometry=point, properties=properties))#, id=leaid))
 
     collection = geojson.FeatureCollection(features) 
