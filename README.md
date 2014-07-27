@@ -6,7 +6,7 @@ Mind the Supply Gap
 #### Future home: [abshinn.github.io/mind-the-gap](abshinn.github.io/mind-the-gap)
 
 - [x] Do data science
-- [ ] ?
+- [x] ?
 - [ ] Profit
 
 #### _current project direction_
@@ -101,28 +101,48 @@ Determine which schools, districts, and US regions that can most benefit from Do
   * _Nixed_
 
 #### Thursday
-- [x] Deliverable idea: D3js visual of US map, produce tables with potential DonorsChoose schools on hover
+- [x] Deliverable idea: D3.js visual of US map, produce tables with potential DonorsChoose schools on hover
   * Compute cosine similarity of all districts using revenue and census data
   * Find potential districts by their similarity to the most successful DonorsChoose schools
   * Create a "potentially active" metric based on rms of similarity
   * Output potential schools to csv or json format
-  * Create D3js interactive
+  * Create D3.js interactive
 - [x] Update resume
 - [x] Initialize webpage (abshinn.github.io/mind-the-gap)
 - [x] Pull down census data for all states
 - [x] Compile a district data set with all districts [with NCES revenue and Census features]
 - [x] Compute cosine similarity, try pickling
 
-#### Freitag
+#### Friday
 - [x] Compile list of districts most similar to active donors choose districts
   * Choose 10 most similar districts for all DonorsChoose districts that have more than 100 projects
   * Take out DonorsChoose super-schools from list
   * Group by state, do value count
   * Take N potential districts for each state
 - [x] Create interactive US map
-- [ ] Compute "activity potential" metric
 - [x] Store N potential schools for each state in GeoJson
 - [x] Plot most active districts on interactive map
+
+#### Saturday
+- [x] TopoJson-creation pipeline
+- [x] Fill table with districts when state is clicked
+- [x] Link district dot with table 
+- [ ] Compute "activity potential" metric
+- [ ] Choose columns to show in D3
+
+#### Sunday
+- [ ] Project recommendations
+- [ ] 3rd level -- show successful schools which are most similar
+- [ ] Style-formatting and re-arranging
+- [ ] Deploy on abshinn.github.io/mind-the-gap
+- [ ] Work on slides
+
+#### Monday
+- [ ] Provide information about data sources in module doc-string
+- [ ] Clean code
+- [ ] Practice talk
+
+
 
 - [ ] Create basic version of app **Scrapped**
   * Look up district based on school name, zip, or NCES id
@@ -141,8 +161,6 @@ Determine which schools, districts, and US regions that can most benefit from Do
   * Find similar schools within candidate districts who are not yet active on DonorsChoose
   * In what ways are the suggested schools most similar? (Quantitatively)
   * Which features are most important for school success and project activity?
-
-- [ ] Provide information about data sources in module doc-string
 
 
 ###### school recommendation based on similarity _brainstorm_
