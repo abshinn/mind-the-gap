@@ -57,7 +57,7 @@ def potential_districts(sim):
     all_dc = dc_districts.index
     most_active = dc_districts[dc_districts.projects >= 100]
 
-#     pdb.set_trace()
+#     sim.rms_score(all_dc, most_active.index) # need to test
 
     # warning: renaming of df
     most_active = sim.data[["District Name", "STNAME", "LATCOD", "LONCOD"]].loc[most_active.index]
