@@ -56,11 +56,14 @@ def potential_districts(sim):
     dc_districts = get_donorschoose.districts(year=2011)
 
     all_dc = dc_districts.index
-    most_active = set(dc_districts[dc_districts.projects >= 100].index.astype(np.int))
-    all_districts = set(sim.data.index.astype(np.int))
-    potential = all_districts - most_active
+    most_active = set(dc_districts[dc_districts.projects >= 10].index.values.astype(np.int))
+    all_districts = set(sim.data.index.values.astype(np.int))
+    potential = all_districts - (most_active & all_districts)
 
     rms = sim.rms_score(potential, most_active)
+    
+    # list of sorted potential districts
+    p = sorted(zip(potential, rms), key=lambda (x, y): y, reverse=True)
 
     if True:
         return rms
