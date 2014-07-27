@@ -41,6 +41,8 @@ def schools(_schoolids=None, columns=[], nonneg=False):
 
     schooldf.index = schooldf.pop("NCESSCH")
 
+    schooldf["LEAID"] = schooldf["LEAID"].astype(np.int)
+
     # student-teacher ratio
     schooldf["ST_ratio"] = schooldf.MEMBER/schooldf.FTE
 
