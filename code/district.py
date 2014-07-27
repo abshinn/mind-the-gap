@@ -86,7 +86,7 @@ def potential_districts(sim):
         properties = {"name" : rec["District Name"].loc[leaid], 
                       "state": rec["STNAME"].loc[leaid],
                       "leaid": leaid,
-                      "score": str(pdf.loc[leaid]),
+                      "score": str(pdf.score.loc[leaid]),
                       }
         features.append(geojson.Feature(geometry=point, properties=properties))#, id=leaid))
 
@@ -97,7 +97,7 @@ def potential_districts(sim):
     with open(basename + ".json", "w") as geo:
         geo.write(geojson.dumps(collection))
 
-    bash("topojson -p name -p state -o {} {}".format(basename + ".topo.json", basename + ".json"))
+    bash("topojson -o {} {}".format(basename + ".topo.json", basename + ".json"))
 #     bash("mv *.json ../interactive/json/")
 
     # pseudo
