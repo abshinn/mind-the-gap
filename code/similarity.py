@@ -2,6 +2,7 @@
 
 import pandas as pd
 import numpy as np
+import pdb
 
 from scipy.spatial.distance import cosine
 
@@ -79,7 +80,7 @@ class Similarity(object):
         self.data = data
       
         calcdata = data.drop(ref_columns, axis=1)._get_numeric_data()
-#         calcdata[np.isnan(calcdata)] = -1 # try keeping the NaNs at some point
+#         calcdata[np.isnan(calcdata)] = -1
         self.numeric_data = calcdata
         self.sim = matmultcos( calcdata )
 
@@ -101,6 +102,17 @@ class Similarity(object):
 
     def _lookup_index(self, nces_id):
         return self.data.loc[nces_id].ref
+
+    def rms_score(self, group1, group2):
+        """Metric with which to compare one group of items to another.
+        INPUT: group1 -- pandas series of nces_ids
+               group2 -- pandas series of nces_ids
+        OUTPUT: rms score
+        """
+        v = self.sim[self._lookup_index(group1).dropna(), :]
+        v = v[:, self._lookup_index(group2)]
+        rms = np.sqrt(np.multiply(v*v).mean(axis=1))
+        return rms
 
     def most_similar(self, nces_id, n=None):
         most_sim_index = np.argsort(self.sim[self._lookup_index(nces_id),:])[0:n]
