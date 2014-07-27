@@ -13,6 +13,7 @@ import pickle
 import geojson
 import subprocess
 
+
 def bash(command):
     print "$ " + command
     p = subprocess.Popen(command.split(), stderr=subprocess.PIPE, stdout=subprocess.PIPE)
@@ -55,9 +56,14 @@ def potential_districts(sim):
     dc_districts = get_donorschoose.districts(year=2011)
 
     all_dc = dc_districts.index
-    most_active = dc_districts[dc_districts.projects >= 100]
+    most_active = set(dc_districts[dc_districts.projects >= 100].index.astype(np.int))
+    all_districts = set(sim.data.index.astype(np.int))
+    potential = all_districts - most_active
 
-#     sim.rms_score(all_dc, most_active.index) # need to test
+    rms = sim.rms_score(potential, most_active)
+
+    if True:
+        return rms
 
     # warning: renaming of df
     most_active = sim.data[["District Name", "STNAME", "LATCOD", "LONCOD"]].loc[most_active.index]
