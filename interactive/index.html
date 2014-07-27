@@ -134,7 +134,6 @@
       d3.selectAll("#district").remove();
       d3.select("#table").selectAll("tr").remove();
       d3.select("#table").selectAll("th").remove();
-//       g.selectAll("paths").classed("active");
 
       if (d && state !== d) {
         var xyz = get_xyz(d);
@@ -148,19 +147,22 @@
         d3.json("json/districts.topo.json", function(error, us) {
           g.append("g")
             .selectAll("path")
-            .data(topojson.feature(us, us.objects.districts).features.filter(function(d) { return state_name == d.properties.state; }))
+            .data(topojson.feature(us, us.objects.districts).features.filter(function(d) { 
+//                     console.log(d);
+                    return state_name == d.properties.state; }))
             .enter()
             .append("path")
             .attr("id", "district")
-            .attr("class", function(d) {  distarr.push(d.properties); return d.properties.state})
+            .attr("class", function(d) { distarr.push(d.properties); return d.properties.name.replace(/\s/g, "") })
             .attr("d", path.pointRadius(1./xyz[2]))
             .on("mouseover", function(d){ 
-                console.log(d.properties.name);
-                d3.select(this).style("fill", "orange").classed("selected", true);
-                d3.selectAll("." + d.properties.state).style("background-color", "aliceblue").classed("selected", true)})  
+//               console.log(d.properties.name);
+              d3.select(this).style("fill", "orange");
+              console.log(d3.selectAll("d.properties.leaid"));
+              d3.selectAll("."+d.properties.name.replace(/\s/g, "")).style("background-color", "lightblue")})  
             .on("mouseout", function(d) { 
-              d3.select(this).style("fill", "#345").classed("selected", false);
-              d3.selectAll("." + d.properties.state).style("background-color", "white").classed("selected", false);
+              d3.select(this).style("fill", "#345");
+              d3.selectAll("."+d.properties.name.replace(/\s/g, "")).style("background-color", "white");
           });
 
       console.log(distarr);
@@ -171,15 +173,15 @@
         .enter().append("th").text(function(d){return d});
         // create rows
        var tr = d3.select("#table").selectAll("tr")
-        .data(distarr).enter().append("tr").attr("class", function(d){ return d.state; })
+        .data(distarr).enter().append("tr").attr("class", function(d){ return d.name.replace(/s/g, ""); })
         .on("mouseover", function(d){
-                d3.select(this).style("background-color", "aliceblue").classed("selected", true);
-                d3.selectAll("."+d.state).style("fill", "orange").classed("selected", true) ;
-                
+                d3.select(this).style("background-color", "lightblue");
+                d3.selectAll("."+d.name.replace(/\s/g, "")).style("fill", "orange");
                 }) 
         .on("mouseout", function(d){
-          d3.select(this).style("background-color", "white").classed("selected", false) 
-          d3.selectAll("."+d.state).style("fill", "#345").classed("selected", false) });
+                console.log(d.name.replace(/\s/g, ""));
+          d3.select(this).style("background-color", "white");
+          d3.selectAll("."+d.name.replace(/\s/g, "")).style("fill", "#345")});
         // create cells
         var td = tr.selectAll("td")
           .data(function(d){return d3.values(d)})
