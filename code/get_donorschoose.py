@@ -72,7 +72,7 @@ def schools(state="", year=None):
     return schools
 
 
-def districts(year=2011):
+def districts(year=None):
     """Get DonorsChoose and NCES school data and group by districts.
 
     OUTPUT: pandas dataframe
