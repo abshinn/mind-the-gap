@@ -7,12 +7,18 @@
   pointer-events: all;
 }
 
+#district {
+  stroke: white;
+  stroke-width: 0;
+}
+
 #states {
   fill: #aaa;
 }
 
 #states .active {
-  fill: orange;
+/*  fill: orange; */
+    fill: #F16F30;
 }
 
 #state-borders {
@@ -23,6 +29,7 @@
   stroke-linecap: round;
   pointer-events: none;
 }
+
 /*
 #districts {
   stroke-width: 1;
@@ -34,27 +41,37 @@ body {
   font: normal medium/1.4 sans-serif;
 }
 */
+
 #table {
   font: normal medium/1.4 sans-serif;
   border-collapse: collapse;
   width: 100%;
 }
+
 #table th, td {
   padding: 0.25rem;
   text-align: left;
   border: 1px solid #ccc;
+}
+
+#table th {
+  background: #363636;
+  color: #F27D44;
 }
 #tbody tr:nth-child(odd) {
   background: #eee;
 }
 </style>
 <body>
-<div id="title" style="background-color:#FFA500;height:80px;width:1000px;float:left;"></div>
+<div id="title" style="background-color:#FFA500;height:150px;width:1000px;float:left;background:url(mind-the-gap-header-01.jpg);"></div>
 <div id="map" style="background-color:#F8F8F8;height:500px;width:550px;float:left;"></div>
-<div id="table" style="background-color:#EEEEEE;height:500px;width:450px;float:left;"></div>
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="http://d3js.org/topojson.v1.min.js"></script>
+<div id="table" style="height:500px;width:450px;float:left;"></div>
+
+<script src="d3.v3.min.js"></script>
+<script src="topojson.v1.min.js"></script>
 <script>
+// <script src="http://d3js.org/d3.v3.min.js"><\/script>
+// // <script src="http://d3js.org/topojson.v1.min.js"><\/script>
 
 var width = 550,
     height = 500,
@@ -62,7 +79,7 @@ var width = 550,
 
 var projection = d3.geo.albersUsa()
     .scale(750)
-    .translate([width / 2, height / 2]);
+    .translate([width/2, height/2 - 50]);
 
 var path = d3.geo.path()
     .projection(projection);
@@ -72,26 +89,26 @@ var svg = d3.select("#map").append("svg")
     .attr("height", height);
 
 svg.append("rect")
-    .attr("class", "background")
-    .attr("width", width)
-    .attr("height", height)
-    .on("click", clicked);
+   .attr("class", "background")
+   .attr("width", width)
+   .attr("height", height)
+   .on("click", clicked);
 
 var g = svg.append("g");
 
 d3.json("json/states_usa.topo.json", function(error, us) {
-  g.append("g")
-   .attr("id", "states")
-   .selectAll("path")
-   .data(topojson.feature(us, us.objects.states).features)
-   .enter().append("path")
-   .attr("d", path)
-   .on("click", clicked);
-
-  g.append("path")
-   .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
-   .attr("id", "state-borders")
-   .attr("d", path);
+   g.append("g")
+    .attr("id", "states")
+    .selectAll("path")
+    .data(topojson.feature(us, us.objects.states).features)
+    .enter().append("path")
+    .attr("d", path)
+    .on("click", clicked);
+ 
+   g.append("path")
+    .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
+    .attr("id", "state-borders")
+    .attr("d", path);
 });
 
 g.append("g").attr("class", "stable").attr("transform","translate(850,0)");
@@ -100,9 +117,9 @@ g.append("g").attr("class", "stable").attr("transform","translate(850,0)");
 function draw_districts(state) {
     state_name = state.properties.name;
 
-    var distarr = new Array();
+    var district_arr = [];
 
-    console.log(state_name)
+//     console.log(state_name)
     d3.json("json/districts.topo.json", function(error, us) {
       g.append("g")
         .selectAll("path")
@@ -111,55 +128,65 @@ function draw_districts(state) {
         .enter()
         .append("path")
         .attr("id", "district")
-        .attr("class", function(d) { distarr.push(d.properties); return d.properties.name.replace(/\s/g, "") })
+     
+        // class set to name of district with spaces removed
+        .attr("class", function(d) { district_arr.push(d.properties); return d.properties.name.replace(/\s/g, "") })
         .attr("d", path.pointRadius(2))
         .on("mouseover", function(d){ 
                 d3.select(this)
                   .transition()
-                  .duration(200)
-                  .ease("back-in")
-                  .attr("d", path.pointRadius(3.5));
-                   console.log(d.properties.name.replace(/\s/g, ""));
+                  .duration(400)
+                  .ease("back-out")
+                  .attr("d", path.pointRadius(4));
                 d3.selectAll("."+d.properties.name.replace(/\s/g, ""))
                   .style("background-color", "lightblue"); })  
         .on("mouseout", function(d) { 
                 d3.select(this)
                   .transition()
-                  .ease("back-out")
                   .duration(400)
+                  .ease("back-out")
                   .attr("d", path.pointRadius(2));
                 d3.selectAll("."+d.properties.name.replace(/\s/g, ""))
                   .style("background-color", "white"); });
 
-      draw_table(distarr, state);
+      draw_table(district_arr, state);
     });
 }
 
-function draw_table(distarr, state) {
+// remove columns from table
+function columns(obj) {
+      delete obj["leaid"]
+      delete obj["state"]
+      return obj;
+}
+
+function draw_table(district_arr, state) {
+
+    district_arr.filter(columns)
 
     // header
     d3.select("#table").selectAll("th")
-    .data(d3.keys(distarr[0]))
+    .attr("width", 450)
+    .data(d3.keys(district_arr[0]))
     .enter().append("th").text(function(d){return d});
 
     // rows
     var tr = d3.select("#table").selectAll("tr")
-      .data(distarr).enter().append("tr").attr("class", function(d){ return d.name.replace(/\s/g, ""); })
+      .data(district_arr).enter().append("tr").attr("class", function(d){ return d.name.replace(/\s/g, ""); })
       .on("mouseover", function(d){
               d3.select(this).style("background-color", "lightblue");
               d3.selectAll("."+d.name.replace(/\s/g, ""))
                   .transition()
+                  .ease("back-out")
                   .duration(400)
-                  .attr("d", path.pointRadius(3.5))})
+                  .attr("d", path.pointRadius(4))})
       .on("mouseout", function(d){
-              console.log(d.name.replace(/\s/g, ""));
               d3.select(this).style("background-color", "white");
               d3.selectAll("."+d.name.replace(/\s/g, ""))
                   .transition()
+                  .ease("back-out")
                   .duration(400)
                   .attr("d", path.pointRadius(2))});
-//       .transition()//.style("fill", "#345")});
-//       .duration(200);
 
     // create cells
     var td = tr.selectAll("td")
@@ -202,16 +229,6 @@ console.log("state clicked");
       .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
       .style("stroke-width", 1.5 / k + "px");
 
-//   if (state && centered !== d)
-//         .attr("d", path.pointRadius(1./xyz[2]))
-//             .on("mouseover", function(d){ 
-//               d3.select(this).style("fill", "orange");
-//               console.log(d3.selectAll("d.properties.leaid"));
-//               d3.selectAll("."+d.properties.name.replace(/\s/g, "")).style("background-color", "lightblue")})  
-//             .on("mouseout", function(d) { 
-//               d3.select(this).style("fill", "#345");
-//               d3.selectAll("."+d.properties.name.replace(/\s/g, "")).style("background-color", "white");
-//       });
 }
 
 </script>
