@@ -127,10 +127,13 @@ Determine which schools, districts, and US regions that can most benefit from Do
 - [x] TopoJson-creation pipeline
 - [x] Fill table with districts when state is clicked
 - [x] Link district dot with table 
-- [ ] Compute "activity potential" metric
-- [ ] Choose columns to show in D3
+- [x] Compute "activity potential" metric
+- [x] Choose columns to show in D3
 
 #### Sunday
+- [x] Clean D3 code
+- [x] Fix table-district binding
+- [x] Use div to manage header and table
 - [ ] Project recommendations
 - [ ] 3rd level -- show successful schools which are most similar
 - [ ] Style-formatting and re-arranging
