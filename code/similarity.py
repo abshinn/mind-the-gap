@@ -114,8 +114,11 @@ class Similarity(object):
         rms = np.sqrt(np.multiply(v,v).mean(axis=1))
         return rms
 
-    def most_similar(self, nces_id, n=None):
-        most_sim_index = np.argsort(self.sim[self._lookup_index(nces_id),:])[0:n]
+    def most_similar(self, nces_id, in_group=None, n=None):
+        if group:
+            most_sim_index = np.argsort(self.sim[self._lookup_index(nces_id),self._lookup_index(in_group)])[0:n]
+        else:
+            most_sim_index = np.argsort(self.sim[self._lookup_index(nces_id),:])[0:n]
         return self.data.iloc[most_sim_index]
 
     def __str__(self):

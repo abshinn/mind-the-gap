@@ -73,8 +73,13 @@ def potential_districts(sim):
         recommend.extend(pdf[pdf.State == state].head(15).index.values)
 
     # active DonorsChoose schools recieved $x in donations with an average of y projects
-#     for r in recommend:
-#         sim.most_smilar(r).loc[most_active]
+    for r in recommend:
+        most_sim = sim.most_smilar(r, in_group=most_active, n=10)
+        break
+
+    if True:
+        return r, most_sim
+    # sim.data where the rows are the most similar schools in decreasing order
 
     rec = sim.data[["District Name", "STNAME", "State", "LATCOD", "LONCOD"]].loc[recommend]
     rec["score"] = pdf.score.loc[recommend]
