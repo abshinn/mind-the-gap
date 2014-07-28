@@ -52,10 +52,6 @@ def define_label(data, n_projects=3):
     return data, label
 
 
-def deal_with_nans(): 
-    pass
-
-
 def importance(data, label):
     """Compute feature importance using decision trees classifier.
 
