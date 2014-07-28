@@ -6,12 +6,12 @@
   fill: none;
   pointer-events: all;
 }
-
+/*
 #district {
   stroke: white;
   stroke-width: 0;
 }
-
+*/
 #states {
   fill: #aaa;
 }
@@ -64,14 +64,12 @@ body {
 </style>
 <body>
 <div id="title" style="background-color:#FFA500;height:150px;width:1000px;float:left;background:url(mind-the-gap-header-01.jpg);"></div>
-<div id="map" style="background-color:#F8F8F8;height:500px;width:550px;float:left;"></div>
+<div id="map" style="height:500px;width:550px;float:left;"></div>
 <div id="table" style="height:500px;width:450px;float:left;"></div>
 
-<script src="d3.v3.min.js"></script>
-<script src="topojson.v1.min.js"></script>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
 <script>
-// <script src="http://d3js.org/d3.v3.min.js"><\/script>
-// // <script src="http://d3js.org/topojson.v1.min.js"><\/script>
 
 var width = 550,
     height = 500,
