@@ -3,7 +3,7 @@ Mind the Supply Gap
 
 ### Zipfian Capstone Project: _Mind the Supply Gap_ on [DonorsChoose.org](http://donorschoose.org)
 
-#### Future home: [abshinn.github.io/mind-the-gap](abshinn.github.io/mind-the-gap)
+#### [abshinn.github.io/mind-the-gap](abshinn.github.io/mind-the-gap)
 
 - [x] Do data science
 - [x] ?
@@ -131,32 +131,24 @@ Determine which schools, districts, and US regions that can most benefit from Do
 - [x] Choose columns to show in D3
 
 #### Sunday
-- [x] Clean D3 code
+- [x] Clean D3 code using a Mike Bostock example
 - [x] Fix table-district binding
 - [x] Use div to manage header and table
-- [ ] Project recommendations
-- [ ] 3rd level -- show successful schools which are most similar
-- [ ] Style-formatting and re-arranging
-- [ ] Deploy on abshinn.github.io/mind-the-gap
-- [ ] Work on slides
+- [x] Style-formatting and re-arranging
+- [x] Deploy on abshinn.github.io/mind-the-gap
 
 #### Monday
+- [ ] Include potential-metrics in visualization
+- [ ] District similarity feature importances
+- [ ] District activity plot
+- [ ] Work on slides
+- [ ] Practice talk
+- [ ] Choose order of table columns
 - [ ] Provide information about data sources in module doc-string
 - [ ] Clean code
-- [ ] Practice talk
+- [ ] Project recommendations
+- [ ] 3rd level -- show successful schools which are most similar
 
-
-
-- [ ] Create basic version of app **Scrapped**
-  * Look up district based on school name, zip, or NCES id
-  * Find N most similar districts that use DonorsChoose
-  * Aggregate stats on N most similar districts
-  * Quantitatively describe DonorsChoose potential
-- [ ] Draft web app infrastructure
-  * MongoDB for storage
-  * Flask/yHat for running on-the-fly model
-  * Bootstrap front-end
-- [ ] Secure a domain name
 
 - [ ] Final Analysis: **On Hold**
   * Choose most successful (active) schools/districts by project activity
