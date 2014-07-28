@@ -59,18 +59,25 @@ def potential_districts(sim):
 
     rms = sim.rms_score(potential, most_active)
     norm_rms = (100*rms/rms.max()).astype(np.int)
-      
+     
     # list of sorted potential districts
     p = sorted(zip(potential, norm_rms), key=lambda (x, y): y, reverse=True)
     pdf = pd.DataFrame(p)
     pdf.columns = ["leaid", "score"]
     pdf.index = pdf.pop("leaid")
-    recommend = pdf.index[:550]
+    pdf["State"] = sim.data["State"].loc[pdf.index]
 
-    # 10 simliar active DonorsChoose schools revieved $x in donations with an average of y projects
-    # take 10 schools for each state 
+    # pick at most 15 recommendations for each state
+    recommend = []
+    for state in sim.data.State.value_counts().index:
+        recommend.extend(pdf[pdf.State == state].head(15).index.values)
 
-    rec = sim.data[["District Name", "STNAME", "LATCOD", "LONCOD"]].loc[recommend]
+    # active DonorsChoose schools recieved $x in donations with an average of y projects
+#     for r in recommend:
+#         sim.most_smilar(r).loc[most_active]
+
+    rec = sim.data[["District Name", "STNAME", "State", "LATCOD", "LONCOD"]].loc[recommend]
+    rec["score"] = pdf.score.loc[recommend]
     lenrec = len(rec)
     rec.dropna(inplace=True)
     print "NaNs: dropped {} districts".format(lenrec - len(rec))
@@ -79,11 +86,12 @@ def potential_districts(sim):
     for leaid in rec.index.values:
         point = geojson.Point((rec["LONCOD"].loc[leaid], rec["LATCOD"].loc[leaid]))
         properties = {"name" : rec["District Name"].loc[leaid], 
-                      "state": rec["STNAME"].loc[leaid],
+                      "state": rec.STNAME.loc[leaid],
+                      "stabb": rec.State.loc[leaid],
                       "leaid": leaid,
                       "score": pdf.score.loc[leaid],
                       }
-        features.append(geojson.Feature(geometry=point, properties=properties))
+        features.append(geojson.Feature(geometry=point, properties=properties, id=leaid))
 
     collection = geojson.FeatureCollection(features) 
 
@@ -92,8 +100,6 @@ def potential_districts(sim):
         geo.write(geojson.dumps(collection))
 
     bash("topojson -p -o {}.topo.json {}.json".format(basename, basename))
-#     bash("mv {}.json ../interactive/json/{}.json".format(basename))
-#     bash("mv {}.topo.json ../interactive/json/{}.topo.json".format(basename))
 
     return rec
        
