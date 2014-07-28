@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <script src="//code.jquery.com/jquery-2.0.0.js"></script>
+     <script src="jquery-2.0.0.js"></script>
     <style>
     #map {
       background-color: #fff;
@@ -12,44 +12,72 @@
       fill: none;
       pointer-events: all;
     }
-    #countries, #states {
+    #states {
       fill: #cde;
       stroke: #fff;
       stroke-linejoin: round;
       stroke-linecap: round;
     }
-    #countries .active, #states .active {
+    #states .active {
       fill: #89a;
     }
-    #cities {
+    #districts {
       stroke-width: 0;
     }
-    .city {
+    .district {
       fill: #345;
-      stroke: #fff;
+  /*    stroke: #fff;*/
     }
     pre.prettyprint {
       border: 1px solid #ccc;
       margin-bottom: 0;
       padding: 9.5px;
     }
+#table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#table td, #table th {
+    font-size: 1em;
+    border: 1px solid #98bf21;
+    padding: 3px 7px 2px 7px;
+}
+
+#table th {
+    font-size: 1.1em;
+    text-align: left;
+    padding-top: 5px;
+    padding-bottom: 4px;
+    background-color: #89a;
+/*    background-color: #A7C942; */
+    color: #ffffff;
+}
+
+#table tr.alt td {
+    color: #000000;
+    background-color: #EAF2D3;
+}
     </style>
   </head>
   <body>
     <div id="map"></div>
+    <div id="table"></div>
     <script src="d3.v3.min.js"></script>
     <script src="topojson.v1.min.js"></script>
     <script>
 
     var m_width = $("#map").width(),
-        width = 938,
-        height = 500,
-        country,
+//         width = 938,
+//         height = 500,
+        width = 340,
+        height = 140,
         state;
 
     var projection = d3.geo.albersUsa()
-        .scale(150)
-        .translate([width / 2, height / 1.5]);
+        .scale(300)
+        .translate([width / 2, height / 2]);
 
     var path = d3.geo.path()
         .projection(projection);
@@ -64,30 +92,32 @@
         .attr("class", "background")
         .attr("width", width)
         .attr("height", height)
-        .on("click", country_clicked);
+        .on("click", state_clicked);
 
     var g = svg.append("g");
-
-    d3.json("/json/countries.topo.json", function(error, us) {
-      g.append("g")
-        .attr("id", "countries")
-        .selectAll("path")
-        .data(topojson.feature(us, us.objects.countries).features)
-        .enter()
-        .append("path")
-        .attr("id", function(d) { return d.id; })
-        .attr("d", path)
-        .on("click", country_clicked);
+    
+    d3.json("json/states_usa.topo.json", function(error, us) {
+    g.append("g")
+      .attr("id", "states")
+      .selectAll("path")
+      .data(topojson.feature(us, us.objects.states).features)
+      .enter()
+      .append("path")
+      .attr("id", function(d) { return d.id; })
+      .attr("class", "active")
+      .attr("d", path)
+      .on("click", state_clicked);
     });
 
+    
     function zoom(xyz) {
       g.transition()
         .duration(750)
         .attr("transform", "translate(" + projection.translate() + ")scale(" + xyz[2] + ")translate(-" + xyz[0] + ",-" + xyz[1] + ")")
-        .selectAll(["#countries", "#states", "#cities"])
-        .style("stroke-width", 1.0 / xyz[2] + "px")
-        .selectAll(".city")
-        .attr("d", path.pointRadius(20.0 / xyz[2]));
+        .selectAll(["#states", "#districts"])
+        .style("stroke-width", 0.5 / xyz[2] + "px")
+        .selectAll(".district")
+        .attr("d", path.pointRadius(1./xyz[2]));
     }
 
     function get_xyz(d) {
@@ -96,74 +126,74 @@
       var h_scale = (bounds[1][1] - bounds[0][1]) / height;
       var z = .96 / Math.max(w_scale, h_scale);
       var x = (bounds[1][0] + bounds[0][0]) / 2;
-      var y = (bounds[1][1] + bounds[0][1]) / 2 + (height / z / 6);
+      var y = (bounds[1][1] + bounds[0][1]) / 2;
       return [x, y, z];
     }
 
-    function country_clicked(d) {
-      g.selectAll(["#states", "#cities"]).remove();
-      state = null;
-
-      if (country) {
-        g.selectAll("#" + country.id).style('display', null);
-      }
-
-      if (d && country !== d) {
-        var xyz = get_xyz(d);
-        country = d;
-
-        if (d.id  == 'USA' || d.id == 'JPN') {
-          d3.json("/json/states_" + d.id.toLowerCase() + ".topo.json", function(error, us) {
-            g.append("g")
-              .attr("id", "states")
-              .selectAll("path")
-              .data(topojson.feature(us, us.objects.states).features)
-              .enter()
-              .append("path")
-              .attr("id", function(d) { return d.id; })
-              .attr("class", "active")
-              .attr("d", path)
-              .on("click", state_clicked);
-
-            zoom(xyz);
-            g.selectAll("#" + d.id).style('display', 'none');
-          });      
-        } else {
-          zoom(xyz);
-        }
-      } else {
-        var xyz = [width / 2, height / 1.5, 1];
-        country = null;
-        zoom(xyz);
-      }
-    }
-
     function state_clicked(d) {
-      g.selectAll("#cities").remove();
+      d3.selectAll("#district").remove();
+      d3.select("#table").selectAll("tr").remove();
+      d3.select("#table").selectAll("th").remove();
 
       if (d && state !== d) {
         var xyz = get_xyz(d);
         state = d;
 
-        country_code = state.id.substring(0, 3).toLowerCase();
         state_name = state.properties.name;
 
-        d3.json("/json/cities_" + country_code + ".topo.json", function(error, us) {
+        var distarr = new Array();
+
+        console.log(state_name)
+        d3.json("json/districts.topo.json", function(error, us) {
           g.append("g")
-            .attr("id", "cities")
             .selectAll("path")
-            .data(topojson.feature(us, us.objects.cities).features.filter(function(d) { return state_name == d.properties.state; }))
+            .data(topojson.feature(us, us.objects.districts).features.filter(function(d) { 
+//                     console.log(d);
+                    return state_name == d.properties.state; }))
             .enter()
             .append("path")
-            .attr("id", function(d) { return d.properties.name; })
-            .attr("class", "city")
-            .attr("d", path.pointRadius(20 / xyz[2]));
+            .attr("id", "district")
+            .attr("class", function(d) { distarr.push(d.properties); return d.properties.name.replace(/\s/g, "") })
+            .attr("d", path.pointRadius(1./xyz[2]))
+            .on("mouseover", function(d){ 
+//               console.log(d.properties.name);
+              d3.select(this).style("fill", "orange");
+              console.log(d3.selectAll("d.properties.leaid"));
+              d3.selectAll("."+d.properties.name.replace(/\s/g, "")).style("background-color", "lightblue")})  
+            .on("mouseout", function(d) { 
+              d3.select(this).style("fill", "#345");
+              d3.selectAll("."+d.properties.name.replace(/\s/g, "")).style("background-color", "white");
+          });
+
+      console.log(distarr);
+
+      // create table header
+      d3.select("#table").selectAll("th")
+        .data(d3.keys(distarr[0]))
+        .enter().append("th").text(function(d){return d});
+        // create rows
+       var tr = d3.select("#table").selectAll("tr")
+        .data(distarr).enter().append("tr").attr("class", function(d){ return d.name.replace(/s/g, ""); })
+        .on("mouseover", function(d){
+                d3.select(this).style("background-color", "lightblue");
+                d3.selectAll("."+d.name.replace(/\s/g, "")).style("fill", "orange");
+                }) 
+        .on("mouseout", function(d){
+                console.log(d.name.replace(/\s/g, ""));
+          d3.select(this).style("background-color", "white");
+          d3.selectAll("."+d.name.replace(/\s/g, "")).style("fill", "#345")});
+        // create cells
+        var td = tr.selectAll("td")
+          .data(function(d){return d3.values(d)})
+          .enter().append("td")
+          .text(function(d) {return d})
 
           zoom(xyz);
         });      
       } else {
+        var xyz = [width / 2, height / 2, 1];
         state = null;
-        country_clicked(country);
+        zoom(xyz);
       }
     }
 
@@ -172,6 +202,37 @@
       svg.attr("width", w);
       svg.attr("height", w * height / width);
     });
+
+    // template table
+//     var dataset = [],
+//     tmpDataset = [],
+//     i, j;
+// 
+//     for (i = 0; i < 5; i++) {
+//         for (j = 0, tmpDataset = []; j < 3; j++) {
+//             tmpDataset.push("Row:"+i+",Col:"+j);
+//         }
+//         dataset.push(tmpDataset);
+//     }
+//         
+//     d3.select("#table")
+//         .append("table")
+//         .style("border-collapse", "collapse")
+//         .style("border", "2px black solid")
+//         
+//         .selectAll("tr")
+//         .data(dataset)
+//         .enter().append("tr")
+//         .on("mouseover", function(){d3.select(this).style("background-color", "aliceblue")}) 
+//         .on("mouseout", function(){d3.select(this).style("background-color", "white")}) 
+//         
+//         .selectAll("td")
+//         .data(function(d){return d;})
+//         .enter().append("td")
+//         .style("border", "1px black solid")
+//         .style("padding", "10px")
+//         .text(function(d){return d;})
+//         .style("font-size", "12px");
     </script>
   </body>
 </html>
