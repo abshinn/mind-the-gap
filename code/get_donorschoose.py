@@ -45,6 +45,7 @@ def schools(state="", year=None):
 
     # sort df by schools, custom aggregate on projects
     schools = df.groupby("_NCESid").agg({"_projectid": pd.Series.nunique,
+                                         "year_posted": np.min,
                                          "total_donations": np.sum,
                                          "students_reached": np.sum,
                                          "funding_status": lambda S: np.sum(S != "expired")/np.float(len(S)),
@@ -58,11 +59,14 @@ def schools(state="", year=None):
     # free from memory 
     del df
 
-#     pdb.set_trace()
-
     # rename columns
-#     schools.columns = ["students_reached", "projects", "percent_funded", "total_donations", "poverty_level", "latitude", "longitude"]
-    schools.columns = ["total_donations", "students_reached", "poverty_level", "longitude", "projects", "latitude", "percent_funded"]
+    schools.columns = ["projects", "total_donations", "latitude", "percent_funded", "students_reached", "start_year", "poverty_level", "longitude"]
+
+    # leave out 2014
+    schools = schools[schools.start_year <= 2013]
+
+    schools["years_active"] = 2014 - schools.start_year
+    schools["activity"] = schools.projects.astype(np.float) / schools.years_active
 
     # binarize poverty level
     binary_poverty = pd.get_dummies(schools.poverty_level)
@@ -83,6 +87,8 @@ def districts(year=None):
 
     dc_districts = dc_schools.groupby("LEAID").agg({"students_reached": np.sum,
                                                     "projects": np.sum,
+                                                    "years_active": np.min,
+                                                    "activity": np.mean,
                                                     "percent_funded": np.mean,
                                                     "total_donations": np.sum,
                                                     "high poverty": np.sum,

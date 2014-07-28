@@ -9,12 +9,12 @@ import similarity
 import get_donorschoose
 import get_nces
 import get_census
-import pickle
 import geojson
 import subprocess
 
 
 def bash(command):
+    """bash wrapper for running topojson"""
     print "$ " + command
     p = subprocess.Popen(command.split(), stderr=subprocess.PIPE, stdout=subprocess.PIPE)
     output, errors = p.communicate()
@@ -24,7 +24,7 @@ def bash(command):
         print errors
 
 
-def district_similarity(pkle=False):
+def district_similarity():
     """Compute district similarity matrix using census, NCES, and census district data.
 
     OUTPUT: Similarity object
@@ -40,42 +40,37 @@ def district_similarity(pkle=False):
 
     sim = similarity.Similarity(ddf, ref_columns=["District Name", "State", "STNAME", "LATCOD", "LONCOD"])
 
-    if pkle:
-        with open("district_similarity.pkle", "wb") as p:
-            pickle.dump(sim, p)
-
     return sim
 
 
 def potential_districts(sim):
     """Find potentially active districts outside of DonorsChoose network.
 
-    OUTPUT:
+    OUTPUT: topojson with recommended school districts 
     """
 
-#     dc_districts = get_donorschoose.districts(year=2011)
     dc_districts = get_donorschoose.districts()
 
     all_dc = dc_districts.index
-    most_active = set(dc_districts[dc_districts.projects >= 10].index.values.astype(np.int))
+    most_active = set(dc_districts[dc_districts.activity > 3].index.values.astype(np.int))
+
     all_districts = set(sim.data.index.values.astype(np.int))
     potential = all_districts - (most_active & all_districts)
 
     rms = sim.rms_score(potential, most_active)
-    
+    norm_rms = (100*rms/rms.max()).astype(np.int)
+      
     # list of sorted potential districts
-    p = sorted(zip(potential, rms), key=lambda (x, y): y, reverse=True)
+    p = sorted(zip(potential, norm_rms), key=lambda (x, y): y, reverse=True)
     pdf = pd.DataFrame(p)
     pdf.columns = ["leaid", "score"]
     pdf.index = pdf.pop("leaid")
     recommend = pdf.index[:550]
 
-    # warning: renaming of df
-#     most_active = sim.data[["District Name", "STNAME", "LATCOD", "LONCOD"]].loc[most_active.index]
+    # 10 simliar active DonorsChoose schools revieved $x in donations with an average of y projects
+    # take 10 schools for each state 
+
     rec = sim.data[["District Name", "STNAME", "LATCOD", "LONCOD"]].loc[recommend]
-#     lenma = len(most_active)
-#     most_active.dropna(inplace=True)
-#     print "NaNs: dropped {} districts".format(lenma - len(most_active))
     lenrec = len(rec)
     rec.dropna(inplace=True)
     print "NaNs: dropped {} districts".format(lenrec - len(rec))
@@ -86,7 +81,7 @@ def potential_districts(sim):
         properties = {"name" : rec["District Name"].loc[leaid], 
                       "state": rec["STNAME"].loc[leaid],
                       "leaid": leaid,
-                      "score": str(pdf.score.loc[leaid]),
+                      "score": pdf.score.loc[leaid],
                       }
         features.append(geojson.Feature(geometry=point, properties=properties))
 
@@ -104,4 +99,5 @@ def potential_districts(sim):
        
 
 if __name__ == "__main__":
-    pass
+    sim = district_similarity()
+    rec = potential_districts(sim)
