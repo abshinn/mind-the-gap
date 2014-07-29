@@ -98,6 +98,7 @@ class Similarity(object):
         diff = diff.dropna()
         close = sorted(zip(diff.index, diff), key=lambda (col, sim): sim)
         close = filter(lambda (col, sim): sim, close)
+        close = [feature for feature, sim in close]
         return same, close
 
     def _lookup_index(self, nces_id):
