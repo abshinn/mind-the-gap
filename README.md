@@ -5,11 +5,7 @@ Mind the Supply Gap
 
 #### [abshinn.github.io/mind-the-gap](abshinn.github.io/mind-the-gap)
 
-- [x] Do data science
-- [x] ?
-- [ ] Profit
-
-#### _current project direction_
+#### _project direction_
 Determine which schools, districts, and US regions that can most benefit from DonorsChoose by comparing their financial and demographic similarity to the most active DonorsChoose schools.
 
 ## Project Checklist
@@ -138,45 +134,19 @@ Determine which schools, districts, and US regions that can most benefit from Do
 - [x] Deploy on abshinn.github.io/mind-the-gap
 
 #### Monday
+- [x] Work on slides
+- [x] District activity pie plot
+- [x] Practice talk
+- [x] Add tooltip to describe district-potential
+
+#### Tuesday
 - [ ] Include potential-metrics in visualization
 - [ ] District similarity feature importances
-- [ ] District activity plot
-- [ ] Work on slides
-- [ ] Practice talk
 - [ ] Choose order of table columns
 - [ ] Provide information about data sources in module doc-string
+- [ ] Mind-the-gap dataViz write-up
 - [ ] Clean code
+- [ ] Prepare final version of slides
+
 - [ ] Project recommendations
 - [ ] 3rd level -- show successful schools which are most similar
-
-
-- [ ] Final Analysis: **On Hold**
-  * Choose most successful (active) schools/districts by project activity
-  * Compile list of similar districts to active districts
-  * Find similar schools within candidate districts who are not yet active on DonorsChoose
-  * In what ways are the suggested schools most similar? (Quantitatively)
-  * Which features are most important for school success and project activity?
-
-
-###### school recommendation based on similarity _brainstorm_
-- similarity can be used to recommend new schools that are most similar to schools/areas with the highest activity
-- start with district level, leveraging census demographic data, then find similar schools within candidate districts
-- if time permits, recommend projects as well
-- analysis goals:
-  * overall: recommend schools that would be most successful on DonorsChoose
-  * filter by schools who are already active
-  * filter by schools that need the most help
-  * LDA on project essays for a given set of similar schools -or- list common project types?
-
-###### _possible methods_
-- [ ] Find a NCES poverty level metric - if helpful
-- [ ] K-means clustering of schools within candidate districts
-- [ ] NCES data -- change datatype to integer when appropriate
-- [ ] Look into NCES district CCDNF field and how that affects merging with NCES school data
-
-###### _state-level exploratory analysis: potential D3-gold_ **On Hold**
-- [ ] State-level exploratory data analysis:
-  * rank DonorsChoose success by state
-  * run classification and feature importance using wide range of financial data available
-  * most financially similar states
-  * are most successful DonorsChoose states financially similar?
