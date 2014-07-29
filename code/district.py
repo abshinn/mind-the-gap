@@ -11,6 +11,7 @@ import get_nces
 import get_census
 import geojson
 import subprocess
+import feature_importance
 
 
 def bash(command):
@@ -51,11 +52,35 @@ def to_geojson(rec_df, basename="districts"):
     bash("topojson -p -o {0}.topo.json {0}.json".format(basename))
 
 
+def feature_selection(activity_threshold=3):
+    """Train classifier on DonorsChoose set given a label to choose most important features.
+
+    INPUT:
+    OUTPUT: list of most important columns
+    """
+
+    dc_districts = get_donorschoose.districts()
+    dc_index = dc_districts.index
+
+    census = get_census.all_states()
+    census = census.loc[dc_index].copy()
+
+    columns = ["STNAME", "LATCOD", "LONCOD", "TOTALREV", "TFEDREV", "TSTREV", "TLOCREV", "TOTALEXP", "TCURSSVC", "TCAPOUT", "HR1", "HE1", "HE2"]
+    nces = get_nces.districts(columns=columns, nonneg=True)
+
+    data = pd.concat([census, nces.loc[census.index]], axis=1)
+
+    label = dc_districts.activity > activity_threshold
+#     feature_importance.importance()
+
+    return ddf
+
+
+
 def district_similarity():
     """Compute district similarity matrix using census, NCES, and census district data.
 
     OUTPUT: Similarity object
-            pickled Similarity object (optional)
     """
 
     census = get_census.all_states()
