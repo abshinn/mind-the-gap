@@ -85,6 +85,7 @@ class Similarity(object):
 
     def closest_features(self, nces_ids):
         """Given two school ids, determine the features that are most similar.
+
         INPUT: list of two nces_ids of schools to compare closeness
         OUTPUT: tuple (same, close)
                  same -- list of columns which are the same
@@ -102,8 +103,9 @@ class Similarity(object):
     def _lookup_index(self, nces_id):
         return self.data.loc[nces_id].ref
 
-    def rms_score(self, group1, group2):
+    def rms_score(self, group1, group2, normalize=False):
         """Metric with which to compare one group of items to another.
+
         INPUT: group1 -- pandas series of nces_ids
                group2 -- pandas series of nces_ids
         OUTPUT: rms score
@@ -111,7 +113,11 @@ class Similarity(object):
         v = self.sim[self._lookup_index(group1).dropna(), :]
         v = v[:, self._lookup_index(group2).dropna()]
         rms = np.sqrt(np.multiply(v,v).mean(axis=1))
-        return rms
+
+        if normalize:
+            return (100*rms/rms.max()).astype(np.int)
+        else:
+            return rms
 
     def most_similar(self, nces_id, n=None):
         most_sim_index = np.argsort(self.sim[self._lookup_index(nces_id),:])[0:n]
