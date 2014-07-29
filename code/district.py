@@ -14,7 +14,7 @@ import subprocess
 
 
 def bash(command):
-    """bash wrapper for running topojson"""
+    """bash wrapper for calling topojson"""
     print "$ " + command
     p = subprocess.Popen(command.split(), stderr=subprocess.PIPE, stdout=subprocess.PIPE)
     output, errors = p.communicate()
@@ -43,7 +43,7 @@ def district_similarity():
     return sim
 
 
-def potential_districts(sim):
+def potential_districts(sim, n_potential=15, activity_threshold=3):
     """Find potentially active districts outside of DonorsChoose network.
 
     OUTPUT: topojson with recommended school districts 
@@ -51,26 +51,23 @@ def potential_districts(sim):
 
     dc_districts = get_donorschoose.districts()
 
-    all_dc = dc_districts.index
-    most_active = set(dc_districts[dc_districts.activity > 3].index.values.astype(np.int))
-
+    active_districts = set(dc_districts[dc_districts.activity > activity_threshold].index.values.astype(np.int))
     all_districts = set(sim.data.index.values.astype(np.int))
-    potential = all_districts - (most_active & all_districts)
 
-    rms = sim.rms_score(potential, most_active)
-    norm_rms = (100*rms/rms.max()).astype(np.int)
+    potential = all_districts - (active_districts & all_districts)
+
+    rms = sim.rms_score(potential, active_districts, normalize=True)
      
-    # list of sorted potential districts
-    p = sorted(zip(potential, norm_rms), key=lambda (x, y): y, reverse=True)
-    pdf = pd.DataFrame(p)
-    pdf.columns = ["leaid", "score"]
-    pdf.index = pdf.pop("leaid")
-    pdf["State"] = sim.data["State"].loc[pdf.index]
+    # sorted potential districts
+    potential_df = pd.DataFrame(sorted(zip(potential, norm_rms), key=lambda (x, y): y, reverse=True))
+    potential_df.columns = ["leaid", "score"]
+    potential_df.index = potential_df.pop("leaid")
+    potential_df["State"] = sim.data["State"].loc[potential_df.index]
 
-    # pick at most 15 recommendations for each state
+    # pick at most n_potential recommendations for each state
     recommend = []
     for state in sim.data.State.value_counts().index:
-        recommend.extend(pdf[pdf.State == state].head(15).index.values)
+        recommend.extend(potential_df[potential_df.State == state].head(n_potential).index.values)
 
     # active DonorsChoose schools recieved $x in donations with an average of y projects
 #     for r in recommend:
@@ -82,34 +79,44 @@ def potential_districts(sim):
 #         return r, most_sim_nces, most_sim, most_active
     # sim.data where the rows are the most similar schools in decreasing order
 
-    rec = sim.data[["District Name", "STNAME", "State", "LATCOD", "LONCOD"]].loc[recommend]
-    rec["score"] = pdf.score.loc[recommend]
-    lenrec = len(rec)
-    rec.dropna(inplace=True)
-    print "NaNs: dropped {} districts".format(lenrec - len(rec))
+    rec_df = sim.data[["District Name", "STNAME", "State", "LATCOD", "LONCOD"]].loc[recommend]
+    rec_df["score"] = potential_df.score.loc[recommend]
+
+    N_rec = len(rec_df)
+    rec_df.dropna(inplace=True)
+    print "NaNs: drop {} districts".format(N_rec- len(rec_df))
+   
+    to_geojson(rec_df)
+
+    return rec_df
+       
+
+def to_geojson(rec_df, basename="districts"):
+    """Write recommendation dataframe to geojson.
+
+    INPUT: pandas dataframe
+    OUTPUT: written to pwd: basename.topo.json, basename.json
+    """
 
     features = []
-    for leaid in rec.index.values:
-        point = geojson.Point((rec["LONCOD"].loc[leaid], rec["LATCOD"].loc[leaid]))
-        properties = { "name": rec["District Name"].loc[leaid], 
-                      "state": rec.STNAME.loc[leaid],
-                         "ST": rec.State.loc[leaid],
+    for leaid in rec_df.index.values:
+        point = geojson.Point((rec["LONCOD"].loc[leaid], rec_df["LATCOD"].loc[leaid]))
+        properties = { "name": rec_df["District Name"].loc[leaid], 
+                      "state": rec_df.STNAME.loc[leaid],
+                         "ST": rec_df.State.loc[leaid],
                       "leaid": leaid,
-                      "score": pdf.score.loc[leaid],
+                      "score": ref_df.score.loc[leaid],
                       }
         features.append(geojson.Feature(geometry=point, properties=properties, id=leaid))
 
     collection = geojson.FeatureCollection(features) 
 
-    basename = "districts"
     with open(basename+".json", "w") as geo:
         geo.write(geojson.dumps(collection))
 
-    bash("topojson -p -o {}.topo.json {}.json".format(basename, basename))
+    bash("topojson -p -o {0}.topo.json {0}.json".format(basename))
 
-    return rec
-       
 
 if __name__ == "__main__":
     sim = district_similarity()
-    rec = potential_districts(sim)
+    rec_df = potential_districts(sim)
