@@ -7,7 +7,11 @@ from numpy import nan
 
 
 def from_address(address):
-    """Get the lat-long co-ordinate of an address."""
+    """Get the latitude and longitude of an address or location.
+
+    INPUT: str -- address or location
+    OUTPUT: tupled (lat, lon) -- top result of google map api search 
+    """
 
     baseurl = "http://maps.googleapis.com/maps/api/geocode/json?address={}&sensor=false"
     url = baseurl.format(urllib2.quote(address))
