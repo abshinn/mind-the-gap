@@ -119,11 +119,11 @@ def potential_districts(sim, n_potential=15, activity_threshold=3):
         most_sim = most_sim.loc[filter(lambda leaid: True if leaid in active_districts else False, most_sim.index)]
         closest = most_sim.head(1).index[0]
         
-        same, close = sim.closest_features([leaid, closest])
-        closest_features = list(same) + list(close)
+#         same, close = sim.closest_features([leaid, closest])
+#         closest_features = list(same) + list(close)
         
         tooltip.append( "Most similar to {}, {}".format(most_sim.loc[closest, "District Name"], most_sim.loc[closest, "State"]) )
-        tooltip.append( "(based on: {}, {})".format(closest_features[0], closest_features[1]) )
+#         tooltip.append( "(based on: {}, {})".format(closest_features[0], closest_features[1]) )
         
         tooltip.append( "students: {}".format(sim.data.loc[closest, "Total Students"].astype(np.int)) )
         tooltip.append( "projects: {}".format(dc_districts.loc[closest, "projects"].astype(np.int)) )
