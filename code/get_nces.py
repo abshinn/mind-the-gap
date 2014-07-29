@@ -3,10 +3,10 @@
 
 import pandas as pd
 import numpy as np
-import pdb
 
 
 def NCES_boolean(x):
+    """convert nces non-standard boolean to True/False"""
     if x == 1:
         return True
     elif x == 2:
@@ -24,12 +24,6 @@ def schools(_schoolids=None, columns=[], nonneg=False):
     step through NCES CCD school data and grab school stats for given Donors Choose NCES school id
     """
 
-    # hard-code boolean columns
-#     boolcolumns = ["BIES", "RECONSTF", "ISMEMPUP", "ISFTEPUP", "ISFTEPUP", "ISPFEMALE", "ISPWHITE", "ISPELM",
-#                    "PKOFFRD", "KGOFFRD", "G01OFFRD", "G02OFFRD", "G03OFFRD", "G04OFFRD", "G05OFFRD", "G06OFFRD", 
-#                    "G07OFFRD", "G08OFFRD", "G09OFFRD", "G10OFFRD", "G11OFFRD", "G12OFFRD", "UGOFFRD",
-#                    "CHARTR", "MAGNET", "TITLEI", "STITLI"]
-
     na_values = ['M', 'N', 'R']
 
     if nonneg:
@@ -46,9 +40,6 @@ def schools(_schoolids=None, columns=[], nonneg=False):
     # student-teacher ratio
     schooldf["ST_ratio"] = schooldf.MEMBER/schooldf.FTE
 
-#     for column in boolcolumns:
-#         schooldf[column] = schooldf[column].apply(NCES_boolean)
-
     if _schoolids != None:
         if columns:
             outdf = schooldf[columns].loc[_schoolids].copy()
@@ -63,7 +54,7 @@ def schools(_schoolids=None, columns=[], nonneg=False):
     return outdf
 
 
-def districts(lea_ids=[], columns=[], state="", dropna=False, nonneg=False):
+def districts(lea_ids=[], columns=[], state="", dropna=False, nonneg=False, binarize=[]):
     """
     INPUT: pandas series of local education agency ids indexed by NCES school ids (optional)
            specific column names to include (optional)
@@ -93,28 +84,21 @@ def districts(lea_ids=[], columns=[], state="", dropna=False, nonneg=False):
     if state:
         districtdf = districtdf[districtdf.STABBR == state] 
 
+    for column in binarize:
+       outdf = pd.concat([outdf, pd.get_dummies(districtdf[column], prefix=column)], axis=1)
+
     if type(lea_ids) == pd.core.series.Series:
         if columns:
             outdf = districtdf[columns].loc[lea_ids].copy()
         else:
             outdf = districtdf.loc[lea_ids].copy()
 
-        # index by school_ids instead of lea_ids
         outdf.index = lea_ids.index
     else:
         if columns:
             outdf = districtdf[columns].copy()
         else:
             outdf = districtdf.copy()
-
-    # binarize GSLO and GSHI with pd.get_dummies
-    # (add even if not specified on columns kwarg)
-#     if type(lea_ids) == pd.core.series.Series:
-#         outdf = pd.concat([outdf, pd.get_dummies(districtdf.loc[lea_ids].GSLO, prefix="GSLO")], axis=1)
-#         outdf = pd.concat([outdf, pd.get_dummies(districtdf.loc[lea_ids].GSHI, prefix="GSHI")], axis=1)
-#     else:
-#         outdf = pd.concat([outdf, pd.get_dummies(districtdf.GSLO, prefix="GSLO")], axis=1)
-#         outdf = pd.concat([outdf, pd.get_dummies(districtdf.GSHI, prefix="GSHI")], axis=1)
 
     if dropna:
         outdf = outdf.dropna()
@@ -140,8 +124,3 @@ def schools_and_districts(school_ids, nonneg=False):
     NCESdf = pd.concat([NCES_schools, NCES_districts], axis=1)
 
     return NCESdf
-
-
-if __name__ == "__main__":
-    districts()
-
