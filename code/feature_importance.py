@@ -4,12 +4,6 @@
 import pandas as pd
 import numpy as np
 
-import california
-
-# validation
-# from sklearn.cross_validation import train_test_split
-
-# feature importance
 from sklearn.ensemble import ExtraTreesClassifier
 
 
@@ -66,8 +60,3 @@ def importance(data, label):
 
     for imp, col in sorted( zip(clf.feature_importances_, data.columns), key=lambda (imp, col): imp, reverse=True ):
         print "[{:.5f}] {}".format(imp, col)
-
-
-if __name__ == "__main__":
-    data = califonria.data_prep()
-    data, label = define_label(data)
