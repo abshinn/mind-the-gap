@@ -24,6 +24,33 @@ def bash(command):
         print errors
 
 
+def to_geojson(rec_df, basename="districts"):
+    """Write recommendation dataframe to geojson.
+
+    INPUT: pandas dataframe
+    OUTPUT: written to pwd: basename.topo.json, basename.json
+    """
+
+    features = []
+    for leaid in rec_df.index.values:
+        point = geojson.Point((rec_df["LONCOD"].loc[leaid], rec_df["LATCOD"].loc[leaid]))
+        properties = { "name": rec_df["District Name"].loc[leaid], 
+                      "state": rec_df.STNAME.loc[leaid],
+                         "ST": rec_df.State.loc[leaid],
+                      "leaid": leaid,
+                      "score": rec_df.score.loc[leaid],
+                       "info": rec_df["info"].loc[leaid],
+                      }
+        features.append(geojson.Feature(geometry=point, properties=properties, id=leaid))
+
+    collection = geojson.FeatureCollection(features) 
+
+    with open(basename+".json", "w") as geo:
+        geo.write(geojson.dumps(collection))
+
+    bash("topojson -p -o {0}.topo.json {0}.json".format(basename))
+
+
 def district_similarity():
     """Compute district similarity matrix using census, NCES, and census district data.
 
@@ -46,7 +73,9 @@ def district_similarity():
 def potential_districts(sim, n_potential=15, activity_threshold=3):
     """Find potentially active districts outside of DonorsChoose network.
 
-    OUTPUT: topojson with recommended school districts 
+    OUTPUT: pandas dataframe of recommended distrcits
+            districts.topo.json
+            district.json
     """
 
     dc_districts = get_donorschoose.districts()
@@ -58,8 +87,8 @@ def potential_districts(sim, n_potential=15, activity_threshold=3):
 
     rms = sim.rms_score(potential, active_districts, normalize=True)
      
-    # sorted potential districts
-    potential_df = pd.DataFrame(sorted(zip(potential, norm_rms), key=lambda (x, y): y, reverse=True))
+    # potential districts most similar to active districts in descending order
+    potential_df = pd.DataFrame(sorted(zip(potential, rms), key=lambda (x, y): y, reverse=True))
     potential_df.columns = ["leaid", "score"]
     potential_df.index = potential_df.pop("leaid")
     potential_df["State"] = sim.data["State"].loc[potential_df.index]
@@ -69,53 +98,48 @@ def potential_districts(sim, n_potential=15, activity_threshold=3):
     for state in sim.data.State.value_counts().index:
         recommend.extend(potential_df[potential_df.State == state].head(n_potential).index.values)
 
-    # active DonorsChoose schools recieved $x in donations with an average of y projects
-#     for r in recommend:
-#         most_sim_nces = sim.most_similar(r, in_group=most_active, n=10)
-#         most_sim = dc_districts.loc[most_sim_nces.index]
-#         break
-# 
-#     if True:
-#         return r, most_sim_nces, most_sim, most_active
-    # sim.data where the rows are the most similar schools in decreasing order
 
     rec_df = sim.data[["District Name", "STNAME", "State", "LATCOD", "LONCOD"]].loc[recommend]
     rec_df["score"] = potential_df.score.loc[recommend]
 
     N_rec = len(rec_df)
     rec_df.dropna(inplace=True)
-    print "NaNs: drop {} districts".format(N_rec- len(rec_df))
-   
+    print "NaNs: drop {} districts".format(N_rec - len(rec_df))
+ 
+    # build tooltip
+    district_info = []
+    for leaid in rec_df.index:
+        tooltip = []
+        tooltip.append( "{}".format(rec_df.loc[leaid, "District Name"]) )
+        tooltip.append( "students: {}".format(sim.data.loc[leaid, "Total Students"].astype(np.int)) )
+        tooltip.append("")
+        
+        most_sim = sim.most_similar(leaid)
+        most_sim.drop(leaid)
+        most_sim = most_sim.loc[filter(lambda leaid: True if leaid in active_districts else False, most_sim.index)]
+        closest = most_sim.head(1).index[0]
+        
+        same, close = sim.closest_features([leaid, closest])
+        closest_features = list(same) + list(close)
+        
+        tooltip.append( "Most similar to {}, {}".format(most_sim.loc[closest, "District Name"], most_sim.loc[closest, "State"]) )
+        tooltip.append( "(based on: {}, {})".format(closest_features[0], closest_features[1]) )
+        
+        tooltip.append( "students: {}".format(sim.data.loc[closest, "Total Students"].astype(np.int)) )
+        tooltip.append( "projects: {}".format(dc_districts.loc[closest, "projects"].astype(np.int)) )
+        donation_per_project = dc_districts.loc[closest, "total_donations"] / dc_districts.loc[closest, "projects"]
+        tooltip.append( "received donations/project: ${:.2f}".format(donation_per_project) )
+        htmltooltip = "<br/>".join(tooltip) 
+        district_info.append(htmltooltip)
+
+    info_series = pd.Series(district_info)
+    info_series.index = rec_df.index
+    rec_df["info"] = info_series
+
     to_geojson(rec_df)
 
     return rec_df
        
-
-def to_geojson(rec_df, basename="districts"):
-    """Write recommendation dataframe to geojson.
-
-    INPUT: pandas dataframe
-    OUTPUT: written to pwd: basename.topo.json, basename.json
-    """
-
-    features = []
-    for leaid in rec_df.index.values:
-        point = geojson.Point((rec["LONCOD"].loc[leaid], rec_df["LATCOD"].loc[leaid]))
-        properties = { "name": rec_df["District Name"].loc[leaid], 
-                      "state": rec_df.STNAME.loc[leaid],
-                         "ST": rec_df.State.loc[leaid],
-                      "leaid": leaid,
-                      "score": ref_df.score.loc[leaid],
-                      }
-        features.append(geojson.Feature(geometry=point, properties=properties, id=leaid))
-
-    collection = geojson.FeatureCollection(features) 
-
-    with open(basename+".json", "w") as geo:
-        geo.write(geojson.dumps(collection))
-
-    bash("topojson -p -o {0}.topo.json {0}.json".format(basename))
-
 
 if __name__ == "__main__":
     sim = district_similarity()
