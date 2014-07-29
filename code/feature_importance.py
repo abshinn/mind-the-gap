@@ -49,7 +49,7 @@ def define_label(data, n_projects=3):
 def importance(data, label):
     """Compute feature importance using decision trees classifier.
 
-    INPUT: data  -- numeric pandas dataframe with non-missing values
+    INPUT: data  -- numeric pandas dataframe with non-negative, non-missing values
            label -- boolean pandas series with which to predict on
 
     OUTPUT: results sent to stdout
