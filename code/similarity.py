@@ -80,14 +80,13 @@ class Similarity(object):
         self.data = data
       
         calcdata = data.drop(ref_columns, axis=1)._get_numeric_data()
-#         calcdata[np.isnan(calcdata)] = -1
         self.numeric_data = calcdata
         self.sim = matmultcos( calcdata )
 
     def closest_features(self, nces_ids):
         """Given two school ids, determine the features that are most similar.
         INPUT: list of two nces_ids of schools to compare closeness
-        OUTPUT: tuple
+        OUTPUT: tuple (same, close)
                  same -- list of columns which are the same
                 close -- list of tuples of columns and their respective arbitrary column-similarity metric
         """
@@ -114,12 +113,13 @@ class Similarity(object):
         rms = np.sqrt(np.multiply(v,v).mean(axis=1))
         return rms
 
-    def most_similar(self, nces_id, in_group=None, n=None):
-        if group:
-            most_sim_index = np.argsort(self.sim[self._lookup_index(nces_id),self._lookup_index(in_group)])[0:n]
-        else:
-            most_sim_index = np.argsort(self.sim[self._lookup_index(nces_id),:])[0:n]
+    def most_similar(self, nces_id, n=None):
+        most_sim_index = np.argsort(self.sim[self._lookup_index(nces_id),:])[0:n]
         return self.data.iloc[most_sim_index]
+
+    def most_similar_in_group(self, nces_id, in_group, n=None):
+        s = self.sim[self._lookup_index(nces_id), :]
+        s = s[self._lookup_index(in_group).dropna()]
 
     def __str__(self):
         return "Similarity object of shape: {}".format(self.sim.shape)

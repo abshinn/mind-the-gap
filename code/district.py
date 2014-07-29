@@ -73,12 +73,13 @@ def potential_districts(sim):
         recommend.extend(pdf[pdf.State == state].head(15).index.values)
 
     # active DonorsChoose schools recieved $x in donations with an average of y projects
-    for r in recommend:
-        most_sim = sim.most_smilar(r, in_group=most_active, n=10)
-        break
-
-    if True:
-        return r, most_sim
+#     for r in recommend:
+#         most_sim_nces = sim.most_similar(r, in_group=most_active, n=10)
+#         most_sim = dc_districts.loc[most_sim_nces.index]
+#         break
+# 
+#     if True:
+#         return r, most_sim_nces, most_sim, most_active
     # sim.data where the rows are the most similar schools in decreasing order
 
     rec = sim.data[["District Name", "STNAME", "State", "LATCOD", "LONCOD"]].loc[recommend]
@@ -90,9 +91,9 @@ def potential_districts(sim):
     features = []
     for leaid in rec.index.values:
         point = geojson.Point((rec["LONCOD"].loc[leaid], rec["LATCOD"].loc[leaid]))
-        properties = {"name" : rec["District Name"].loc[leaid], 
+        properties = { "name": rec["District Name"].loc[leaid], 
                       "state": rec.STNAME.loc[leaid],
-                      "stabb": rec.State.loc[leaid],
+                         "ST": rec.State.loc[leaid],
                       "leaid": leaid,
                       "score": pdf.score.loc[leaid],
                       }
