@@ -35,16 +35,7 @@ def data_prep():
    
     data = pd.concat([data, census], axis=1)
 
-    # note: non-numeric columns are automatically dropped before any calculation within simSchools
-#     data.drop(["SURVYEAR", "LEAID"], axis=1, inplace=True)
-
-#    data[np.isnan(data)] = -1
-
     return data 
-
-
-def potential():
-    pass
 
 
 if __name__ == "__main__":
