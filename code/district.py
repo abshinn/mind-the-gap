@@ -1,5 +1,25 @@
 #!/usr/bin/env python2.7 -B
-"""compute district similarity for all schools in US"""
+"""District Module
+
+Compute school district cosine-similarity for all schools in US and recommend potential
+districts based off of their similarity to active DonorsChoose districts.
+
+FUNCTIONS
+-- .potential_districts(sim [, n_potential][, threshold])
+   main function
+
+-- .district_similarity
+   compute cosine-similarity for all districts 
+
+-- .feature_selection([threshold])
+   train classifier to observe relative feature importance
+
+-- .bash(command)
+   system pipe for running topojson
+
+-- .to_geojson(rec_df [, basename])
+   write to geojson
+"""
 
 import pandas as pd
 import numpy as np
@@ -134,7 +154,7 @@ def potential_districts(sim, n_potential=15, activity_threshold=3):
     rec_df.dropna(inplace=True)
     print "NaNs: drop {} districts".format(N_rec - len(rec_df))
  
-    # build tooltip
+    # build tooltip text
     district_info = []
     for leaid in rec_df.index:
         tooltip = []
