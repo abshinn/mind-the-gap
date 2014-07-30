@@ -2,7 +2,6 @@
 
 import pandas as pd
 import numpy as np
-import pdb
 
 from scipy.spatial.distance import cosine
 
@@ -123,10 +122,6 @@ class Similarity(object):
     def most_similar(self, nces_id, n=None):
         most_sim_index = np.argsort(self.sim[self._lookup_index(nces_id),:])[0:n]
         return self.data.iloc[most_sim_index]
-
-    def most_similar_in_group(self, nces_id, in_group, n=None):
-        s = self.sim[self._lookup_index(nces_id), :]
-        s = s[self._lookup_index(in_group).dropna()]
 
     def __str__(self):
         return "Similarity object of shape: {}".format(self.sim.shape)
