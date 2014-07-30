@@ -8,7 +8,6 @@ eda/
 *.pckle
 *.pk
 *.sw[po]
-*.png
 .DS_Store
 .ipynb_checkpoints/
 data/
