@@ -41,6 +41,6 @@ My first approach was to train classifiers to predict active DonorsChoose school
 
 ### End Product 
 
-[Interactive Visualization](http://abshinn.github.io/mind-the-gap)
+####[_Interactive Visualization_](http://abshinn.github.io/mind-the-gap)
 
 ![alt text](https://github.com/abshinn/mind-the-gap/blob/master/mind-the-gap.png "Mind the Supply Gap Interactive Visualization")
