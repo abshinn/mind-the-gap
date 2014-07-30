@@ -5,6 +5,13 @@ import pandas as pd
 import numpy as np
 
 from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn import metrics
+from sklearn import cross_validation
+from sklearn.linear_model import LogisticRegression
+from sklearn.cross_validation import train_test_split
+from sklearn.metrics import classification_report
 
 
 def correlation(data, columns=[]):
@@ -55,8 +62,11 @@ def importance(data, label):
     OUTPUT: results sent to stdout
     """
 
-    clf = ExtraTreesClassifier()
+    clf = RandomForestClassifier()
     clf.fit(data.values, label.values)
+
+    scores = cross_validation.cross_val_score(clf, data, label, cv=3, scoring="roc_auc")
+    print "\ncv scores: {}\n".format(scores)
 
     for imp, col in sorted( zip(clf.feature_importances_, data.columns), key=lambda (imp, col): imp, reverse=True ):
         print "[{:.5f}] {}".format(imp, col)
