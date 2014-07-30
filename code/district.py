@@ -3,15 +3,14 @@
 
 import pandas as pd
 import numpy as np
-import pdb
+import geojson
+import subprocess
 
-import similarity
 import get_donorschoose
 import get_nces
 import get_census
-import geojson
-import subprocess
 import feature_importance
+import similarity
 
 
 def bash(command):
@@ -65,16 +64,20 @@ def feature_selection(activity_threshold=3):
     census = get_census.all_states()
     census = census.loc[dc_index].copy()
 
-    columns = ["STNAME", "LATCOD", "LONCOD", "TOTALREV", "TFEDREV", "TSTREV", "TLOCREV", "TOTALEXP", "TCURSSVC", "TCAPOUT", "HR1", "HE1", "HE2"]
+    columns = ["STNAME", "LATCOD", "LONCOD", 
+               "TOTALREV", "TFEDREV", "TSTREV", "TLOCREV", "TOTALEXP", "TCURSSVC", "TCAPOUT", 
+               "Z32", "Z34", "Z35", "HR1", "HE1", "HE2"]
     nces = get_nces.districts(columns=columns, nonneg=True)
 
     data = pd.concat([census, nces.loc[census.index]], axis=1)
+    data.dropna(inplace=True)
 
     label = dc_districts.activity > activity_threshold
-#     feature_importance.importance()
+    label = label.loc[data.index]
 
-    return ddf
+    print label.value_counts()
 
+    feature_importance.importance(data._get_numeric_data(), label)
 
 
 def district_similarity():
