@@ -1,10 +1,9 @@
-#!/usr/bin/env python2.7 
+#!/usr/bin/env python2.7 -B
 """get DonorsChoose project data""" 
 
 import pandas as pd
 import numpy as np
 import get_nces
-import pdb
 
 def schools(state="", year=None):
     """
