@@ -3,7 +3,7 @@ mind-the-gap
 
 ### Zipfian Capstone Project: _Mind the Supply Gap_ on [DonorsChoose.org](http://donorschoose.org)
 
-#### [abshinn.github.io/mind-the-gap](abshinn.github.io/mind-the-gap)
+#### Interactive Visualization: [abshinn.github.io/mind-the-gap](http://abshinn.github.io/mind-the-gap)
 
 ## Project Checklist
 
@@ -145,7 +145,7 @@ mind-the-gap
 - [x] Mind-the-gap dataViz write-up
 - [x] Clean code
 
-
+#### Wednesday
 - [ ] Prepare final version of slides
 - [ ] Provide information about data sources in module doc-string
 - [ ] Write script which pulls down all the necessary data
