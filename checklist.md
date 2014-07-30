@@ -1,12 +1,9 @@
-Mind the Supply Gap
+mind-the-gap
 ===
 
 ### Zipfian Capstone Project: _Mind the Supply Gap_ on [DonorsChoose.org](http://donorschoose.org)
 
 #### [abshinn.github.io/mind-the-gap](abshinn.github.io/mind-the-gap)
-
-#### _project direction_
-Determine which schools, districts, and US regions that can most benefit from DonorsChoose by comparing their financial and demographic similarity to the most active DonorsChoose schools.
 
 ## Project Checklist
 
@@ -133,6 +130,8 @@ Determine which schools, districts, and US regions that can most benefit from Do
 - [x] Style-formatting and re-arranging
 - [x] Deploy on abshinn.github.io/mind-the-gap
 
+### _Week 3_
+
 #### Monday
 - [x] Work on slides
 - [x] District activity pie plot
@@ -140,12 +139,15 @@ Determine which schools, districts, and US regions that can most benefit from Do
 - [x] Add tooltip to describe district-potential
 
 #### Tuesday
+- [x] Deploy viz as a blog page
 - [x] Include potential-metrics in visualization
 - [x] District similarity feature importances
-- [ ] Provide information about data sources in module doc-string
-- [ ] Mind-the-gap dataViz write-up
+- [x] Mind-the-gap dataViz write-up
 - [x] Clean code
-- [ ] Prepare final version of slides
 
+
+- [ ] Prepare final version of slides
+- [ ] Provide information about data sources in module doc-string
+- [ ] Write script which pulls down all the necessary data
 - [ ] Project recommendations
 - [ ] 3rd level -- show successful schools which are most similar
