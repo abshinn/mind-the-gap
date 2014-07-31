@@ -146,8 +146,10 @@ mind-the-gap
 - [x] Clean code
 
 #### Wednesday
-- [ ] Prepare final version of slides
+- [x] Prepare final version of slides
+
+#### Future...
 - [ ] Provide information about data sources in module doc-string
-- [ ] Write script which pulls down all the necessary data
+- [ ] Write script that pulls down all necessary data
 - [ ] Project recommendations
 - [ ] 3rd level -- show successful schools which are most similar
