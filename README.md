@@ -11,7 +11,7 @@ The purpose of this project is to help increase the supply of projects to Donors
 
 ### Data
 
-Data sources used include DonorsChoose project data from their thirteen year history, education revenue data the National Center for Education Statistics (NCES), and district-level demographic and economic census data. 
+Data sources used include DonorsChoose.org project data from their thirteen year history, education revenue data the National Center for Education Statistics (NCES), and district-level demographic and economic census data. 
 
 - [DonorsChoose Hacking Education](http://data.donorschoose.org/open-data/overview/)
 - [National Center for Education Statistics](http://nces.ed.gov/ccd/ccddata.asp)
@@ -26,7 +26,7 @@ Data sources used include DonorsChoose project data from their thirteen year his
  * `get_latlon.py`
 - EDA on California schools alone
  * `california.py`
-- Train classifiers to predict DonorsChoose activity
+- Train classifiers to predict DonorsChoose.org activity
  * `feature_importance.py`
 - Explore feature-importances with the aggregated data
 - Develop a fast cosine-similarity calculation using matrix multiplication
@@ -37,10 +37,12 @@ Data sources used include DonorsChoose project data from their thirteen year his
  * [hosted on abshinn.github.io](http://abshinn.github.io/mind-the-gap)
  * [the code lives here](https://github.com/abshinn/abshinn.github.io/tree/master/projects/mind-the-gap)
 
-My first approach was to train classifiers to predict active DonorsChoose schools. Due to the complicated nature of the learning objective, it was difficult to predict activity with meaningful accuracy. As an alternative, I used the classifiers to whittle down the large feature set for a cosine-similarity calculation. The objective for the cosine-similarity calculation is to leverage the district-level aggregated data to find districts that are *economically* similar to the most active DonorsChoose schools. 
+My first approach was to train classifiers to predict active DonorsChoose.org schools. Due to the complicated nature of the data, it was difficult to predict activity with meaningful accuracy. As an alternative, I used the classifiers to whittle down the large feature set for a cosine-similarity calculation. The objective for the cosine-similarity calculation is to leverage the district-level aggregated data to find districts that are *economically similar* to the most *active* DonorsChoose.org schools. 
+
+I define *economic similarity* with district revenue on the local, state, and federal levels, as well as the average income and housing prices of their local communities. I label a district to be *active* if it has an average of 3 or more projects per year since its first project with DonorsChoose.org.
 
 ### End Product 
 
 ####[_Interactive Visualization_](http://abshinn.github.io/mind-the-gap)
 
-![alt text](https://github.com/abshinn/mind-the-gap/blob/master/mind-the-gap.png "Mind the Supply Gap Interactive Visualization")
+![alt text](https://github.com/abshinn/mind-the-gap/blob/master/mind-the-gap.png "Mind the Supply Gap - Interactive Visualization")
