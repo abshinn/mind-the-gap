@@ -149,7 +149,12 @@ mind-the-gap
 - [x] Prepare final version of slides
 
 #### Future...
+- [x] Download district shapefiles
+- [x] Simply boundary lines and reduce size of district arcs
+- [ ] Use district shapefiles instead of plotting dots
+- [ ] Figure out how to make districts obvious on hover-over
 - [ ] Provide information about data sources in module doc-string
-- [ ] Write script that pulls down all necessary data
+- [x] Write script that pulls down NCES data
+- [ ] Write script that pulls down census data
 - [ ] Project recommendations
 - [ ] 3rd level -- show successful schools which are most similar
