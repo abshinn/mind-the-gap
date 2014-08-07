@@ -51,4 +51,4 @@ I define *economic similarity* with district revenue on the local, state, and fe
 
 ####[_Interactive Visualization_](http://abshinn.github.io/mind-the-gap)
 
-![alt text](https://github.com/abshinn/mind-the-gap/blob/master/mind-the-gap.png "Mind the Supply Gap - Interactive Visualization")
+![alt text](https://github.com/abshinn/mind-the-gap/blob/master/mtg_screenshot.png "Mind the Supply Gap - Interactive Visualization")

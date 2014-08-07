@@ -8,7 +8,7 @@
 #    data/district -- district level
 #    data/school   -- school level
 
-read -r -p "Download 2011 NCES district finance data? [y/N] " response
+read -r -p "Download 2011 NCES district finance data? [y/n] " response
 case $response in
     [yY][eE][sS]|[yY]) 
         echo
@@ -22,7 +22,7 @@ case $response in
         ;;
 esac
 
-read -r -p "Download 2011 NCES state finance data? [y/N] " response
+read -r -p "Download 2011 NCES state finance data? [y/n] " response
 case $response in
     [yY][eE][sS]|[yY]) 
         echo
@@ -36,7 +36,7 @@ case $response in
         ;;
 esac
 
-read -r -p "Download 2011 NCES district survery data? [y/N] " response
+read -r -p "Download 2011 NCES district survery data? [y/n] " response
 case $response in
     [yY][eE][sS]|[yY]) 
         echo
@@ -50,7 +50,7 @@ case $response in
         ;;
 esac
 
-read -r -p "Download 2011 NCES school survery data? [y/N] " response
+read -r -p "Download 2011 NCES school survery data? [y/n] " response
 case $response in
     [yY][eE][sS]|[yY]) 
         echo
