@@ -5,7 +5,7 @@ mind-the-gap
 
 ### Gap in the Supply of Projects
 
-[DonorsChoose](http://donorschoose.org) is an organization that enables educators to crowd-source funds for classroom projects, helping to provide essential and enriching classroom projects for students all over the country.
+[DonorsChoose.org](http://donorschoose.org) is an organization that enables educators to crowd-source funds for classroom projects, helping to provide essential and enriching classroom projects for students all over the country.
 
 The purpose of this project is to help increase the supply of projects to DonorsChoose.org by seeking out school districts which are most economically and similar to the most active DonorsChoose districts.
 
@@ -13,9 +13,15 @@ The purpose of this project is to help increase the supply of projects to Donors
 
 Data sources used include DonorsChoose.org project data from their thirteen year history, education revenue data the National Center for Education Statistics (NCES), and district-level demographic and economic census data. 
 
-- [DonorsChoose Hacking Education](http://data.donorschoose.org/open-data/overview/)
+- [DonorsChoose.org Open Data - Hacking Education](http://data.donorschoose.org/open-data/overview/)
 - [National Center for Education Statistics](http://nces.ed.gov/ccd/ccddata.asp)
 - [2010 US Census school districts](http://nces.ed.gov/surveys/sdds/ed/)
+
+The NCES data can be downloaded by executing the shell script `download_nces.sh`:
+
+```bash
+$ ./download_nces.sh
+```
 
 ### Process
 
