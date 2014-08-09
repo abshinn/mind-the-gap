@@ -1,5 +1,15 @@
 #!/usr/bin/env python2.7 -B
-"""get DonorsChoose project data""" 
+"""get_donorschoose.py
+
+   Obtain DonorsChoose project data from their Looker tool:
+      ../data/looker_completed_projects_7_14_14.csv
+
+   Access is available upon request from:
+      http://data.donorschoose.org/open-data-unleashed/
+
+   DonorsChoose.org data is licensed under a Creative Commons Attribution-NonCommercial license:
+      http://creativecommons.org/licenses/by-nc/3.0/
+""" 
 
 import pandas as pd
 import numpy as np
