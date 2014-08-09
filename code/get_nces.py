@@ -1,5 +1,13 @@
 #!/usr/bin/env python2.7  -B
-"""pull pertinent data from NCES tab delimited files""" 
+"""get_nces.py
+
+   pull pertinent NCES data from the following tab delimited files:
+       ../data/school/sc111a_supp.txt   -- common core data CCD: univeral school survey
+       ../data/district/sdf11_1a.txt    -- CCD: school district finances
+       ../data/district/ag111a_supp.txt -- CCD: school district survey
+   
+   all data can be downloaded using ../download_data.sh     
+""" 
 
 import pandas as pd
 import numpy as np
